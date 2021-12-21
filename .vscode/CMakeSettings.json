@@ -1,0 +1,8 @@
+{
+    "name": "x86-Debug",
+    "generator": "Ninja",
+    "installRoot": "../CaTS-install",
+    "cmakeCommandArgs": "",
+    "buildCommandArgs": "-v",
+    "ctestCommandArgs": ""
+}

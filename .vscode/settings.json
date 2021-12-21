@@ -1,0 +1,5 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled"
+    "cmake.configureArgs" : ["-DCMAKE_BUILD_TYPE=Debug","-DWITH_G4OPTICKS=OFF","-DCTEST_OUTPUT_ON_FAILURE=ON","-DCMAKE_EXPORT_COMPILE_COMMANDS=ON","-DCMAKE_MODULE_PATH=../CaTS/cmake/Modules","-DCMAKE_INSTALL_PREFIX=../CaTS-install"],
+    "cmake.buildDirectory": "../CaTS-build"
+}

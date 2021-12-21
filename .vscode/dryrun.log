@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/data2/wenzel/CaTS_11_0/CaTS'
+make: Leaving directory '/data2/wenzel/CaTS_11_0/CaTS'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+ 

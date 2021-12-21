@@ -217,7 +217,6 @@ int main(int argc, char** argv)
     // batch mode
     G4String command = "/control/execute ";
     UImanager->ApplyCommand(command + macrofile);
-    
     delete ui;
   }
   eventTimer->Stop();

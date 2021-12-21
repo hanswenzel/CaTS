@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/data2/wenzel/root624/include",
+                "/data2/wenzel/geant4-v11.0.0-install/include/Geant4/"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": false,
+                "path": [
+                "${workspaceFolder}/**",
+                "/data2/wenzel/root624/include",
+                "/data2/wenzel/geant4-v11.0.0-install/include/Geant4/"
+                ]
+              },
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

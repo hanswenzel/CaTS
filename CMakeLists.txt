@@ -5,7 +5,8 @@ project(${name} VERSION 0.1.0)
 option(WITH_ROOT "Build example with ROOT" ON)
 option(WITH_G4OPTICKS "Build example with OPTICKS" OFF)
 option(G4ANALYSIS_USE "Build example with Analysis" ON)
-
+#enable_testing()
+include(CTest)
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -91,6 +92,7 @@ else()
   add_executable(${name} ${name}.cc ${sources} ${headers})  
   target_compile_definitions( ${name} PRIVATE  WITH_ROOT)
   target_link_libraries(${name}  CaTSClassesDict ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} )
+  add_test(${name}Test ${name} -g simpleLArTPC.gdml -m test_G4.mac)
 endif()
 if(WITH_ROOT)
    add_executable(readPhotonHits readPhotonHits.cc  ${sources} ${headers})
@@ -120,4 +122,4 @@ endif()
 
 message(STATUS "G4ANALYSIS_USE: ${G4ANALYSIS_USE}")
 message(STATUS "WITH_G4OPTICKS: ${WITH_G4OPTICKS}")
-message(STATUS "WITH_ROOT:  ${WITH_ROOT}")
+message(STATUS "WITH_ROOT:      ${WITH_ROOT}")
