@@ -40,64 +40,62 @@
 /// \brief Implementation of the CaTS::PrimaryGeneratorAction class
 
 // Geant4 headers:
-#include "G4SystemOfUnits.hh"
-#include "G4ParticleTable.hh"
-#include "G4ParticleGun.hh"
 #include "G4GeneralParticleSource.hh"
-#include "G4HEPEvtInterface.hh"
-#include "G4Version.hh"
 #include "G4GenericMessenger.hh"
+#include "G4HEPEvtInterface.hh"
+#include "G4ParticleGun.hh"
+#include "G4ParticleTable.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4Version.hh"
 // project headers:
 #include "PrimaryGeneratorAction.hh"
 // c++ headers:
 #include <cstring>
 
-PrimaryGeneratorAction::PrimaryGeneratorAction()
-{
+PrimaryGeneratorAction::PrimaryGeneratorAction() {
   DefineCommands();
-  G4int n_particle            = 1;
-  G4ParticleGun* fParticleGun = new G4ParticleGun(n_particle);
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4int n_particle = 1;
+  G4ParticleGun *fParticleGun = new G4ParticleGun(n_particle);
+  G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
-  G4ParticleDefinition* particle =
-    particleTable->FindParticle(particleName = "mu+");
+  G4ParticleDefinition *particle =
+      particleTable->FindParticle(particleName = "mu+");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
   fParticleGun->SetParticleEnergy(10. * CLHEP::GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., 0.));
   gentypeMap["particleGun"] = fParticleGun;
-  gentypeMap["GPS"]         = new G4GeneralParticleSource;
-  fcurrentGenerator         = gentypeMap["particleGun"];
-  fcurrentGeneratorName     = "particleGun";
+  gentypeMap["GPS"] = new G4GeneralParticleSource;
+  fcurrentGenerator = gentypeMap["particleGun"];
+  fcurrentGeneratorName = "particleGun";
 }
 
-PrimaryGeneratorAction::~PrimaryGeneratorAction()
-{
+PrimaryGeneratorAction::~PrimaryGeneratorAction() {
   delete fMessenger;
-  for( auto& gentype : gentypeMap )
-  {
-    delete gentype.second;
+  for (auto &[genType, generator] : gentypeMap) {
+    delete generator;
   }
+  //  for (auto &gentype : gentypeMap) {
+  //    delete gentype.second;
+  //  }
 }
 
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
-{
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
   fcurrentGenerator->GeneratePrimaryVertex(anEvent);
 }
 
-void PrimaryGeneratorAction::DefineCommands()
-{
+void PrimaryGeneratorAction::DefineCommands() {
   fMessenger = new G4GenericMessenger(this, "/CaTS/primaryGenerator/",
                                       "select primary Generator");
   // command to select primary Generator
   fMessenger
-    ->DeclareMethod("setGenerator", &PrimaryGeneratorAction::SetGenerator)
-    .SetGuidance("Select the primary Generator (Available generators : "
-                 "particleGun,GPS")
-    .SetParameterName("generator", true)
-    .SetDefaultValue("particleGun")
-    .SetCandidates("particleGun GPS");
+      ->DeclareMethod("setGenerator", &PrimaryGeneratorAction::SetGenerator)
+      .SetGuidance("Select the primary Generator (Available generators : "
+                   "particleGun,GPS")
+      .SetParameterName("generator", true)
+      .SetDefaultValue("particleGun")
+      .SetCandidates("particleGun GPS");
   fMessenger->DeclareMethod("Print", &PrimaryGeneratorAction::Print)
-    .SetGuidance("Print name of primary generator")
-    .SetStates(G4State_PreInit, G4State_Idle);
+      .SetGuidance("Print name of primary generator")
+      .SetStates(G4State_PreInit, G4State_Idle);
 }

@@ -49,21 +49,20 @@ class G4VPhysicalVolume;
 class ColorReader;
 class G4GDMLParser;
 
-class DetectorConstruction : public G4VUserDetectorConstruction
-{
- public:
+class DetectorConstruction : public G4VUserDetectorConstruction {
+public:
   DetectorConstruction(G4String fname);
   ~DetectorConstruction() final;
-  DetectorConstruction& operator=(const DetectorConstruction& right) = delete;
-  DetectorConstruction(const DetectorConstruction&)                  = delete;
+  DetectorConstruction &operator=(const DetectorConstruction &right) = delete;
+  DetectorConstruction(const DetectorConstruction &) = delete;
   void ReadGDML();
-  G4VPhysicalVolume* Construct() final;
+  G4VPhysicalVolume *Construct() final;
   void ConstructSDandField() final;
   void UpdateGeometry();
 
- private:
+private:
   G4String gdmlFile;
-  G4GDMLParser* parser{ nullptr };
-  ColorReader* fReader{ nullptr };
-  G4bool verbose{ false };
+  G4GDMLParser *parser{nullptr};
+  ColorReader *fReader{nullptr};
+  G4bool verbose{false};
 };
