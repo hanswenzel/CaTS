@@ -121,10 +121,6 @@ void DetectorConstruction::ConstructSDandField() {
     G4cout << "Found " << auxmap->size()
            << " volume(s) with auxiliary information." << G4endl << G4endl;
   }
-  std::vector<G4String> SensDetNames = {
-      "PhotonDetector", "Target",   "Tracker",     "Msc",
-      "lArTPC",         "Radiator", "Calorimeter", "DRCalorimeter"};
-
   std::map<std::string, int> mapofSensedets = {
       {"PhotonDetector", 0}, {"Target", 1},
       {"Tracker", 2},        {"Msc", 3},
