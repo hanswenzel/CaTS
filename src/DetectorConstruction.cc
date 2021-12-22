@@ -225,7 +225,6 @@ void DetectorConstruction::ConstructSDandField() {
     }
   }
 }
-
 void DetectorConstruction::ReadGDML() {
   fReader = new ColorReader;
   parser = new G4GDMLParser(fReader);
@@ -238,19 +237,14 @@ void DetectorConstruction::ReadGDML() {
   if (verbose) {
     G4cout << "Found World:  " << World->GetName() << G4endl;
     G4cout << "World LV:  " << World->GetLogicalVolume()->GetName() << G4endl;
-  }
-  G4LogicalVolumeStore *pLVStore = G4LogicalVolumeStore::GetInstance();
-  if (verbose) {
+    G4LogicalVolumeStore *pLVStore = G4LogicalVolumeStore::GetInstance();
     G4cout << "Found " << pLVStore->size() << " logical volumes." << G4endl
            << G4endl;
-  }
-  G4PhysicalVolumeStore *pPVStore = G4PhysicalVolumeStore::GetInstance();
-  if (verbose) {
+    G4PhysicalVolumeStore *pPVStore = G4PhysicalVolumeStore::GetInstance();
     G4cout << "Found " << pPVStore->size() << " physical volumes." << G4endl
            << G4endl;
   }
 }
-
 void DetectorConstruction::UpdateGeometry() {
   G4RunManager::GetRunManager()->DefineWorldVolume(Construct());
 }
