@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+                       xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
+    <extension>
+        <color name="test_color"  R="0.1"  G="0.2"  B="0.3"  A="1.0" />
+        <color name="magenta"     R="1.0"  G="0.0"  B="1.0"  A="1.0" />
+        <color name="green"       R="0.0"  G="1.0"  B="0.0"  A="1.0" />
+        <color name="red"         R="1.0"  G="0.0"  B="0.0"  A="1.0" />
+        <color name="blue"        R="0.0"  G="0.0"  B="1.0"  A="1.0" />
+        <color name="yellow"      R="1.0"  G="1.0"  B="0.0"  A="1.0" />
+        <color name="purple"      R="0.5"  G="0.0"  B="0.5"  A="1.0" />
+    </extension>
+    <!-- A "generic" LAr TPC detector.
+
+    This is the version of `MinimalLArTPCdetector.gdml` without TPC wires.
+
+    This incarnation is extracted from `larcore/gdml/LArTPCdetector.gdml` of
+    LArSoft v08_14_00.
+    With respect to that version, it has been purged from most of the volumes
+    unessential for LArSoft standard geometry builder to work.
+    It is not strictly minimal for at least the following known reasons:
+     * PMT volumes host a "sensitive" detector; this is not necessary since
+       the standard geometry builder refers to that part directly (the name of
+       the PMT volume to use can be specified) and therefore the "volPMT"
+       enclosure is not necessary.
+
+
+    It includes a single cryostat with a single TPC, some auxiliary detectors
+    and some optical ones.
+
+
+    Table of contents
+    - - - - - - - - - -
+
+    [1]      Geometry definitions
+    [2]      Material definitions
+    [2.1]       element definitions
+    [2.2]       material definitions
+    [3]      Solid definitions
+    [3.1]      Wire solid definitions [omitted]
+    [3.2]      Wire plane solid definitions
+    [3.3]      TPC solid definitions
+    [3.4]      Optical detector solid definitions
+    [3.5]      Cryostat solid definition
+    [3.6]      Auxiliary detector solids definition
+    [3.7]      Detector enclosure solid definition
+    [3.8]      World volume solid definition
+    [4]      Placement of volumes in space
+    [4.1]      Wire volume definition for wires on first and second plane [omitted]
+    [4.2]      First and second wire plane volume definition
+    [4.2.1]      Wire placement inside the first wire plane [omitted]
+    [4.3]      Vertical wire volume definition [omitted]
+    [4.4]      Third wire plane definition
+    [4.4.1]      Wire placement inside the third wire plane [omitted]
+    [4.5]      Active TPC volume definition
+    [4.6]      TPC volume definition
+    [4.6.1]      active volume inside the TPC
+    [4.6.2]      wire planes inside the TPC
+    [4.7]      Optical detector volume definition
+    [4.8]      Cryostat volume definition
+    [4.8.1]      TPC definition inside the cryostat
+    [4.8.2]      Optical detector elements definition inside the cryostat
+    [4.9]      Auxiliary detector volume definitions
+    [4.10]     Detector enclosure volume definition
+    [4.10.1]     Cryostat volumes inside the detector enclosure
+    [4.10.2]     Auxiliary detector volumes inside the detector enclosure
+    [4.11]     World volume definition
+    [5]      Selection of the default starting volume
+    -->
+    <!-- [1] Geometry definitions  - - - - - - - - - - - - - - - - - - - - - - - -->
+    <define>
+        <rotation name="rPlus90AboutX"       unit="deg" x="90"    y="0"   z="0"/>
+        <rotation name="rPlusUVAngleAboutX"  unit="deg" x="150.0" y="0"   z="0"/>
+        <rotation name="rPlus180AboutY"      unit="deg" x="0"     y="180" z="0"/>
+        <rotation name="rPMTRotation1"       unit="deg" x="90"    y="270" z="0"/>
+        <!-- Cryostat dimensions:-->
+        <constant name="Cryox"   value="400."/>
+        <constant name="Cryoy"   value="350."/>
+        <constant name="Cryoz"   value="1100."/>
+        <!-- dimensions of active TPC: -->
+        <constant name="volactivex"   value="256.35"/>
+        <constant name="volactivey"   value="233.0"/>
+        <constant name="volactivez"   value="1036.8"/>
+        <!-- dimensions of TPC wire planes: -->
+        <!-- thickness: -->
+        <constant name="volplanex"  value="0.15"/>
+        <!-- radius of sense wires: -->
+        <constant name="wireradius" value="0.0075"/>
+        <!-- spacing of sense wires: -->
+        <constant name="wirespacing" value="0.4"/>
+        <!-- number of wires and offset parallel to z -->
+        <constant name="wireoffsetpar" value="0.5"/>
+        <constant name="numwirepar" value="580"/>
+        <!-- number of wires and offset perpendicular to z -->
+        <constant name="wireoffsetperp" value=".4"/>
+        <constant name="numwireperp" value="2590"/>
+        <!-- dimension of Auxdet detectors -->
+        <constant name="auxdetx" value="19."/>
+        <constant name="auxdety" value="150."/>
+        <constant name="auxdetz" value="0.5"/>
+        <!-- Parameterization of Auxdet placements:-->
+        <variable name="ii" value="0"/>
+        <variable name="jj" value="0"/>
+        <variable name="icol" value="0"/>
+        <variable name="irow" value="0"/>
+        <variable name="ilay" value="0"/>
+        <constant name="numcols" value="36"/>
+        <constant name="numrows" value="3"/>
+        <constant name="numlays" value="3"/>
+        <constant name="spacingy" value="20.0"/>
+        <!-- dimension of Photodetectors -->
+        <constant name="pmtradius" value="15.24"/>
+        <constant name="siliconz" value="0.03"/>
+        <constant name="polystz" value="0.5"/>
+        <!-- Parameterization of PMT placements:-->
+        <variable name="ilong"     value="0"/>
+        <variable name="ishort"    value="0"/>
+        <constant name="longstep"  value="144"/>
+        <constant name="shortstep" value="56"/>
+        <constant name="numlong"   value="5"/>
+        <constant name="numshort"  value="2"/>
+        <constant name="xpos"      value="-144.265"/>
+        <constant name="yposm"     value="3.2"/>
+        <constant name="zposm"     value="-472"/>
+    </define>
+    <!-- [2] Material definitions  - - - - - - - - - - - - - - - - - - - - - - - -->
+    <materials>
+        <!--
+        Here we are using only one of the more than 300 predefined materials known to Geant 4 see: 
+        http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html
+        -->
+        <!-- [2.1] element definitions - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- [2.2] material definitions  - - - - - - - - - - - - - - - - - - - - - -->
+    </materials>
+    <!-- [3] Solid definitions - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <solids>
+        <!-- [3.1] Wire solid definitions  - - - - - - - - - - - - - - - - - - - - -->
+        <!-- first the wires parallel to the z-axis -->
+        <tube name="TPCWirepar"  rmax="wireradius" z="volactivez"  deltaphi="360" aunit="deg" lunit="cm"/>
+        <!-- the wires perpendicular to the z-axis -->
+	<tube name="TPCWireperp" rmax="wireradius" z="volactivey" deltaphi="360" aunit="deg" lunit="cm"/>
+	<!-- [3.2] Wire plane solid definitions  - - - - - - - - - - - - - - - - - -->
+        <box name="TPCPlane"     lunit="cm" x="volplanex" y="volactivey" z="volactivez"/>
+        <!-- [3.3] TPC solid definitions - - - - - - - - - - - - - - - - - - - - - -->
+        <box name="TPCActive"    lunit="cm" x="volactivex" y="volactivey" z="volactivez"/>
+        <!-- [3.4] Optical detector solid definitions  - - - - - - - - - - - - - - -->
+        <tube name="PMTVolume"        rmax="pmtradius" z="siliconz" deltaphi="360" aunit="deg" lunit="cm" />
+        <tube name="PMT_AcrylicPlate" rmax="pmtradius" z="polystz"  deltaphi="360" aunit="deg" lunit="cm" />
+        <!-- [3.5] Cryostat solid definition - - - - - - - - - - - - - - - - - - - -->
+        <box name="Cryostat"     lunit="cm" x="Cryox"    y="Cryoy"    z="Cryoz"/>
+        <box name="TPC"          lunit="cm" x="Cryox-1." y="Cryoy-1." z="Cryoz-1."/>
+        <!-- [3.6] Auxiliary detector solids definition  - - - - - - - - - - - - - -->
+        <box name="AuxDetBox"    lunit="cm" x="auxdetx"  y="auxdety"  z="auxdetz"/>
+        <!-- [3.7] Detector enclosure solid definition - - - - - - - - - - - - - - -->
+        <box name="DetEnclosure" lunit="cm" x="900" y="900" z="1800"/>
+        <!-- [3.8] World volume solid definition - - - - - - - - - - - - - - - - - -->
+        <box name="World"        lunit="cm" x="100000" y="106000" z="207300"/>
+    </solids>
+    <!-- [4] Placement of volumes in space - - - - - - - - - - - - - - - - - - - -->
+    <structure>
+        <!-- [4.1] Wire volume definition for wires on first and second plane  - - -->
+        <volume name="volTPCWirepar">
+            <materialref ref="G4_Ti"/>
+            <solidref ref="TPCWirepar"/>
+            <auxiliary auxtype="Solid" auxvalue="True"/>
+            <colorref ref="blue"/>
+        </volume>
+        <volume name="volTPCWireperp">
+            <materialref ref="G4_Ti"/>
+            <solidref ref="TPCWireperp"/>
+            <auxiliary auxtype="Solid" auxvalue="True"/>
+            <colorref ref="red"/>
+        </volume>
+        <volume name="volTPCActive">
+            <materialref ref="G4_lAr"/>
+            <solidref ref="TPCActive"/>
+            <auxiliary auxtype="SensDet" auxvalue="SimEnergyDeposit"/>
+            <colorref ref="green"/>
+        </volume> <!-- "volTPCActive" -->
+        <!-- [4.1] Wire volume definition for wires on first and second plane  - - -->
+        <!-- omitted -->
+        <!-- [4.2] First and second wire plane volume definition - - - - - - - - - -->
+        <volume name="volTPCPlane">
+            <materialref ref="G4_lAr"/>
+            <solidref ref="TPCPlane"/>
+            <auxiliary auxtype="SensDet" auxvalue="SimEnergyDeposit"/>
+            <colorref ref="magenta"/>
+            <loop for="ii" from="0" to="numwirepar" step="1">
+                <physvol name="volTPCWireVolumepar" copynumber="ii">
+                    <volumeref ref="volTPCWirepar"/>
+                    <position name="posijk"  unit="cm" x="0.0" y="-0.5*volactivey+wireoffsetpar+ii*wirespacing" z="0"/>
+                </physvol>
+            </loop>
+        </volume> <!-- "volTPCPlane" -->
+        <!-- [4.3] Third wire plane definition - - - - - - - - - - - - - - - - - - -->
+        <!-- omitted -->
+        <!-- [4.4] Third wire plane definition - - - - - - - - - - - - - - - - - - -->
+        <!-- [4.4.1] Wire placement inside the third wire plane  - - - - - - - - -->
+        <volume name="volTPCPlaneVert">
+            <materialref ref="G4_lAr"/>
+            <solidref ref="TPCPlane"/>
+            <auxiliary auxtype="SensDet" auxvalue="SimEnergyDeposit"/>
+            <colorref ref="magenta"/>
+            <loop for="jj" from="0" to="numwireperp" step="1">
+                <physvol name="volTPCWireVolumeperp" copynumber="jj">
+                    <volumeref ref="volTPCWireperp"/>
+                    <position name="posijk"  unit="cm" x="0.0" y="0." z="-0.5*volactivez+wireoffsetperp+jj*wirespacing"/>
+                    <rotationref ref="rPlus90AboutX"/>
+                </physvol>
+            </loop>
+        </volume>
+        <!-- "volTPCPlaneVert" -->
+        <volume name="volOpDetSensitive">
+            <materialref ref="G4_Si"/>
+            <solidref ref="PMTVolume"/>
+            <auxiliary auxtype="SensDet" auxvalue="PhotonDetector"/>
+            <auxiliary auxtype="Solid" auxvalue="True"/>
+            <colorref ref="red"/>       
+        </volume>
+        <volume name="volPMT">
+            <materialref ref="G4_POLYSTYRENE"/>
+            <solidref ref="PMT_AcrylicPlate"/>
+            <auxiliary auxtype="Solid" auxvalue="True"/>
+            <colorref ref="blue"/>
+            <physvol>
+                <volumeref ref="volOpDetSensitive"/>
+                <position name="posOpDetSensitive" unit="cm" x="0" y="0" z="-0.5*siliconz+0.5*polystz"/>
+            </physvol>
+        </volume> <!-- "volPMT" -->
+        <!-- [4.5] Active TPC volume definition  - - - - - - - - - - - - - - - - - -->
+        <volume name="volTPC">
+            <materialref ref="G4_lAr "/>
+            <solidref ref="TPC"/>
+            <auxiliary auxtype="SensDet" auxvalue="SimEnergyDeposit"/>
+            <colorref ref="red"/>
+            <!-- [4.6] TPC volume definition  - - - - - - - - - - - - - - - - - - - - - -->
+            <physvol>
+                <volumeref ref="volTPCActive"/>
+                <position name="posTPCActive" unit="cm" x="0" y="0" z="0"/>
+            </physvol>
+            <!-- [4.6.2] wire planes inside the TPC  - - - - - - - - - - - - - - - - -->
+            <physvol>
+                <volumeref ref="volTPCPlaneVert"/>
+                <position name="posTPCPlaneVert" unit="cm" x="-0.5*volactivex-0.5*volplanex" y="0" z="0"/>
+            </physvol> 
+            <physvol>
+                <volumeref ref="volTPCPlane"/>
+                <position name="posTPCPlane" unit="cm" x="-0.5*volactivex-1.5*volplanex" y="0" z="0"/>
+            </physvol>
+            <!-- [4.8.2] Optical detector elements definition inside the cryostat  - -->
+            <loop for="ilong" from="0" to="4" step="1">
+                <physvol name="pvolPMT" copynumber="10+ilong" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="yposm" z="zposm+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+                <physvol name="pvolPMT" copynumber="10+ilong+1" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="yposm" z="zposm+longstep+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+            </loop>
+            <loop for="ilong" from="0" to="4" step="1">
+                <physvol name="pvolPMT" copynumber="ilong" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="-52" z="-420+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+                <physvol name="pvolPMT" copynumber="ilong+1" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="-52" z="-420+shortstep+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+                <physvol name="pvolPMT" copynumber="20+ilong" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="59" z="-420+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+                <physvol name="pvolPMT" copynumber="20+ilong+1" >
+                    <volumeref ref="volPMT"/>
+                    <position name="pospmt" unit="cm" x="xpos" y="59" z="-420+shortstep+200*ilong"/>
+                    <rotationref ref="rPMTRotation1"/>
+                </physvol>
+            </loop>
+        </volume> <!-- "volTPC" -->
+        <!-- [4.8] Cryostat volume definition  - - - - - - - - - - - - - - - - - - -->
+        <volume name="volCryostat">
+            <materialref ref="G4_STAINLESS-STEEL"/>
+            <solidref ref="Cryostat"/>
+            <colorref ref="yellow"/>
+            <!-- [4.8.1] TPC definition inside the cryostat  - - - - - - - - - - - - -->
+            <physvol>
+                <volumeref ref="volTPC"/>
+                <position name="posTPC" unit="cm" x="0.0" y="0.0" z="0"/>
+            </physvol>
+        </volume> <!-- "volCryostat" -->
+        <!-- [4.9] Auxiliary detector volume definitions - - - - - - - - - - - - - -->
+        <volume name="volAuxDet">
+            <materialref ref="G4_POLYSTYRENE"/>
+            <solidref ref="AuxDetBox"/>
+            <auxiliary auxtype="SensDet" auxvalue="Tracker"/>
+            <auxiliary auxtype="Solid" auxvalue="True"/>
+            <colorref ref="blue"/>
+        </volume>
+        <!-- [4.10] Detector enclosure volume definition - - - - - - - - - - - - - -->
+        <volume name="volDetEnclosure">
+            <materialref ref="G4_AIR"/>
+            <solidref ref="DetEnclosure"/>
+            <!-- [4.10.1] Cryostat volumes inside the detector enclosure - - - - - - -->
+            <physvol>
+                <volumeref ref="volCryostat"/>
+                <position name="posCryostat" unit="cm" x="0" y="0" z="0"/>
+            </physvol>
+            <!-- [4.10.2] Auxiliary detector volumes inside the detector enclosure - -->
+            <loop for="irow" from="0" to="numrows-1" step="1">
+                <loop for="icol" from="0" to="numcols-1" step="1">
+                    <physvol name="AuxDetpaddle" copynumber="icol+numrows*irow" >
+                        <volumeref ref="volAuxDet"/>
+                        <position name="posijk" unit="cm" x="360.0-spacingy*icol" y="-142.0+151.*irow" z="-600"/>
+                    </physvol>
+                </loop>
+            </loop>
+            <loop for="irow" from="0" to="numrows-1" step="1">
+                <loop for="icol" from="0" to="numcols-1" step="1">
+                    <physvol name="AuxDetpaddle" copynumber="icol+numrows*irow+numcols*numrows" >
+                        <volumeref ref="volAuxDet"/>
+                        <position name="posijk" unit="cm" x="362.0-spacingy*icol" y="-143.0+151.*irow" z="-605"/>
+                    </physvol>
+                </loop>
+            </loop>
+            <loop for="irow" from="0" to="numrows-1" step="1">
+                <loop for="icol" from="0" to="numcols-1" step="1">
+                    <physvol name="AuxDetpaddle" copynumber="icol+numrows*irow+2*numcols*numrows" >
+                        <volumeref ref="volAuxDet"/>
+                        <position name="posijk" unit="cm" x="360.0-spacingy*icol" y="-142.0+151.*irow" z="-610"/>
+                    </physvol>
+                </loop>
+            </loop>
+        </volume> <!-- "volDetEnclosure" -->
+        <!-- [4.11] World volume definition  - - - - - - - - - - - - - - - - - - - -->
+        <volume name="volWorld" >
+            <materialref ref="G4_AIR"/>
+            <solidref ref="World"/>
+            <physvol>
+                <volumeref ref="volDetEnclosure"/>
+                <position name="posDetEnclosure" unit="cm" x="volactivex*0.5+volplanex" y="0" z="0.5*volactivez"/>
+            </physvol>
+        </volume> <!-- "volWorld" -->
+    </structure>
+    <!-- [5] Selection of the default starting volume  - - - - - - - - - - - - - -->
+    <setup name="Default" version="1.0">
+        <world ref="volWorld" />
+    </setup>
+</gdml_simple_extension>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
+    <extension>
+        <color name="magenta" R="0.0" G="1.0" B="0.0" A="1.0" />
+        <color name="green" R="0.0" G="1.0" B="0.0" A="1.0" />
+        <color name="red" R="1.0" G="0.0" B="0.0" A="1.0" />
+        <color name="blue" R="0.0" G="0.0" B="1.0" A="1.0" />
+        <color name="yellow" R="1.0" G="1.0" B="0.0" A="1.0" />
+    </extension>
+    <!--
+    for values see:
+    http://www-geant4.kek.jp/lxr/source/examples/extended/optical/wls/src/WLSMaterials.cc
+    -->
+    <define>
+        <matrix name="wlstc"  coldim="1" values="0.5*ns" />
+        <matrix name="RINDEXAIR" coldim="2" values="2.00*eV 1. 
+						    2.03*eV 1. 
+						    2.06*eV 1. 
+						    2.09*eV 1. 
+						    2.12*eV 1. 
+						    2.15*eV 1. 
+						    2.18*eV 1. 
+						    2.21*eV 1. 
+						    2.24*eV 1. 
+						    2.27*eV 1. 
+						    2.30*eV 1. 
+						    2.33*eV 1. 
+						    2.36*eV 1. 
+						    2.39*eV 1. 
+						    2.42*eV 1. 
+						    2.45*eV 1. 
+						    2.48*eV 1. 
+						    2.51*eV 1. 
+						    2.54*eV 1. 
+						    2.57*eV 1. 
+						    2.60*eV 1. 
+						    2.63*eV 1. 
+						    2.66*eV 1. 
+						    2.69*eV 1. 
+						    2.72*eV 1. 
+						    2.75*eV 1. 
+						    2.78*eV 1. 
+						    2.81*eV 1. 
+						    2.84*eV 1. 
+						    2.87*eV 1. 
+						    2.90*eV 1. 
+						    2.93*eV 1. 
+						    2.96*eV 1. 
+						    2.99*eV 1. 
+						    3.02*eV 1. 
+						    3.05*eV 1. 
+						    3.08*eV 1. 
+						    3.11*eV 1. 
+						    3.14*eV 1. 
+						    3.17*eV 1. 
+						    3.20*eV 1. 
+						    3.23*eV 1. 
+						    3.26*eV 1. 
+						    3.29*eV 1. 
+						    3.32*eV 1. 
+						    3.35*eV 1. 
+						    3.38*eV 1. 
+						    3.41*eV 1. 
+						    3.44*eV 1. 
+						    3.47*eV 1."/>
+        <matrix name="RINDEXWLS" coldim="2" values="2.00*eV 1.60 
+						    2.03*eV 1.60 
+						    2.06*eV 1.60 
+						    2.09*eV 1.60 
+						    2.12*eV 1.60 
+						    2.15*eV 1.60 
+						    2.18*eV 1.60 
+						    2.21*eV 1.60 
+						    2.24*eV 1.60 
+						    2.27*eV 1.60 
+						    2.30*eV 1.60 
+						    2.33*eV 1.60 
+						    2.36*eV 1.60 
+						    2.39*eV 1.60 
+						    2.42*eV 1.60 
+						    2.45*eV 1.60 
+						    2.48*eV 1.60 
+						    2.51*eV 1.60 
+						    2.54*eV 1.60 
+						    2.57*eV 1.60 
+						    2.60*eV 1.60 
+						    2.63*eV 1.60 
+						    2.66*eV 1.60 
+						    2.69*eV 1.60 
+						    2.72*eV 1.60 
+						    2.75*eV 1.60 
+						    2.78*eV 1.60 
+						    2.81*eV 1.60 
+						    2.84*eV 1.60 
+						    2.87*eV 1.60 
+						    2.90*eV 1.60 
+						    2.93*eV 1.60 
+						    2.96*eV 1.60 
+						    2.99*eV 1.60 
+						    3.02*eV 1.60 
+						    3.05*eV 1.60 
+						    3.08*eV 1.60 
+						    3.11*eV 1.60 
+						    3.14*eV 1.60 
+						    3.17*eV 1.60 
+						    3.20*eV 1.60 
+						    3.23*eV 1.60 
+						    3.26*eV 1.60 
+						    3.29*eV 1.60 
+						    3.32*eV 1.60 
+						    3.35*eV 1.60 
+						    3.38*eV 1.60 
+						    3.41*eV 1.60 
+						    3.44*eV 1.60 
+						    3.47*eV 1.60"/>
+        <matrix name="Absorption" coldim="2" values="2.00*eV 5.40*m 
+						    2.03*eV 5.40*m 
+						    2.06*eV 5.40*m 
+						    2.09*eV 5.40*m 
+						    2.12*eV 5.40*m 
+						    2.15*eV 5.40*m 
+						    2.18*eV 5.40*m 
+						    2.21*eV 5.40*m 
+						    2.24*eV 5.40*m 
+						    2.27*eV 5.40*m 
+						    2.30*eV 5.40*m 
+						    2.33*eV 5.40*m 
+						    2.36*eV 5.40*m 
+						    2.39*eV 5.40*m 
+						    2.42*eV 5.40*m 
+						    2.45*eV 5.40*m 
+						    2.48*eV 5.40*m 
+						    2.51*eV 5.40*m 
+						    2.54*eV 5.40*m 
+						    2.57*eV 5.40*m 
+						    2.60*eV 5.40*m 
+						    2.63*eV 5.40*m 
+						    2.66*eV 5.40*m 
+						    2.69*eV 5.40*m 
+						    2.72*eV 5.40*m 
+						    2.75*eV 5.40*m 
+						    2.78*eV 5.40*m 
+						    2.81*eV 5.40*m 
+						    2.84*eV 5.40*m 
+						    2.87*eV 1.10*m 
+						    2.90*eV 1.10*m 
+						    2.93*eV 1.10*m 
+						    2.96*eV 1.10*m 
+						    2.99*eV 1.10*m 
+						    3.02*eV 1.10*m 
+						    3.05*eV 1.10*m 
+						    3.08*eV 1.*mm 
+						    3.11*eV 1.*mm 
+						    3.14*eV 1.*mm 
+						    3.17*eV 1.*mm 
+						    3.20*eV 1.*mm 
+						    3.23*eV 1.*mm 
+						    3.26*eV 1.*mm 
+						    3.29*eV 1.*mm 
+						    3.32*eV 1.*mm 
+						    3.35*eV 1.*mm 
+						    3.38*eV 1.*mm 
+						    3.41*eV 1.*mm 
+						    3.44*eV 1.*mm 
+						    3.47*eV 1.*mm"/>
+
+        <matrix name="EMISSION" coldim="2" values="2.00*eV 0.05
+						    2.03*eV 0.10 
+						    2.06*eV 0.30 
+						    2.09*eV 0.50
+						    2.12*eV 0.75 
+						    2.15*eV 1.00 
+						    2.18*eV 1.50 
+						    2.21*eV 1.85 
+						    2.24*eV 2.30 
+						    2.27*eV 2.75 
+						    2.30*eV 3.25 
+						    2.33*eV 3.80 
+						    2.36*eV 4.50 
+						    2.39*eV 5.20 
+						    2.42*eV 6.00 
+						    2.45*eV 7.00 
+						    2.48*eV 8.50 
+						    2.51*eV 9.50 
+						    2.54*eV 11.1 
+						    2.57*eV 12.4 
+						    2.60*eV 12.9 
+						    2.63*eV 13.0 
+						    2.66*eV 12.8 
+						    2.69*eV 12.3 
+						    2.72*eV 11.1 
+						    2.75*eV 11.0 
+						    2.78*eV 12.0 
+						    2.81*eV 11.0
+						    2.84*eV 17.0 
+						    2.87*eV 16.9 
+						    2.90*eV 15.0 
+						    2.93*eV 9.00 
+						    2.96*eV 2.50 
+						    2.99*eV 1.00 
+						    3.02*eV 0.05 
+						    3.05*eV 0.00 
+						    3.08*eV 0.00 
+						    3.11*eV 0.00 
+						    3.14*eV 0.00 
+						    3.17*eV 0.00 
+						    3.20*eV 0.00 
+						    3.23*eV 0.00 
+						    3.26*eV 0.00 
+						    3.29*eV 0.00 
+						    3.32*eV 0.00 
+						    3.35*eV 0.00 
+						    3.38*eV 0.00 
+						    3.41*eV 0.00 
+						    3.44*eV 0.00 
+						    3.47*eV 0.00"/>
+    </define>
+    <materials>
+        <element name="Hydrogen" formula="H"  Z="1.">  
+            <atom value="1.01"/>   
+        </element>
+        <element name="Oxygen"   formula="O"  Z="8.">  
+            <atom value="16.0"/>   
+        </element>
+        <element name="Nitrogen" formula="N"  Z="7.">  
+            <atom value="14.01"/>  
+        </element>
+        <material name="Water" formula="H20">
+            <property name="RINDEX" ref="RINDEXWLS"/>
+            <property name="WLSABSLENGTH" ref="Absorption"/>
+            <property name="WLSCOMPONENT" ref="EMISSION"/>
+            <property name="WLSTIMECONSTANT" ref="wlstc"/>
+            <D value="1.0"/>
+            <composite n="2" ref="Hydrogen"/>
+            <composite n="1" ref="Oxygen"/>
+        </material>
+        <material name="Air">
+            <property name="RINDEX" ref="RINDEXAIR"/>
+            <D value="1.290" unit="mg/cm3"/>
+            <fraction n="0.7" ref="Nitrogen"/>
+            <fraction n="0.3" ref="Oxygen"/>
+        </material>
+		<material name="Silicon">
+			<property name="RINDEX" ref="RINDEXWLS"/>   
+            <D value="1.40" unit="g/cm3"/>
+            <fraction n="1.0000" ref="Nitrogen"/>
+        </material>
+    </materials>
+    <solids>
+        <box name="WorldBox" lunit="cm" x="100" y="100" z="410"/>
+        <box name="PaddleBox"  lunit="cm" x="1.0" y="1." z=".01"/>
+		<box name="PhotodetectorbxBox"  lunit="cm" x=".9" y=".9" z=".01"/>
+    </solids>
+    <structure>
+        <volume name="Paddle">
+            <materialref ref="Water"/>
+            <solidref ref="PaddleBox"/>
+			<colorref ref="blue" />	
+        </volume> 
+		<volume name="PhotoDetector">
+            <materialref ref="Silicon"/>
+            <solidref ref="PhotodetectorbxBox"/>
+			<colorref ref="red" />
+			<auxiliary auxtype="Solid" auxvalue="True" />
+            <auxiliary auxtype="SensDet" auxvalue="PhotonDetector" />	
+        </volume> 
+        <volume name="TOP">
+            <materialref ref="Air"/>
+            <solidref ref="WorldBox"/>
+            <physvol name="pPaddle" copynumber="1">
+                <volumeref ref="Paddle"/>
+                <position name="Paddlepos1" unit="cm" x="0" y="0" z="0."/>
+            </physvol>
+			<physvol name="pPhotoDetector" copynumber="1">
+                <volumeref ref="PhotoDetector"/>
+                <position name="PhotoDetectorpos1" unit="cm" x="0" y="0" z="0.005"/>
+            </physvol>
+        </volume> 
+    </structure>
+    <setup version="1.0" name="Default">
+        <world ref="TOP"/>
+    </setup>
+</gdml_simple_extension>
