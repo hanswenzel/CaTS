@@ -20,7 +20,7 @@ Input modules:
 
     GPS
     Particle Gun
-    HEPMC (Pythia)
+
 
 
 Physics Lists:                  choice of all Reference Physics Lists
@@ -59,7 +59,7 @@ cd ../
 mkdir CaTS-build
 cd CaTS-build
 
-cmake -DCMAKE_BUILD_TYPE=Debug \
+cmake -GNInja -DCMAKE_BUILD_TYPE=Release \
   -DWITH_G4OPTICKS=ON \
   -DCMAKE_PREFIX_PATH="${LOCAL_BASE}/opticks/externals;${LOCAL_BASE}/opticks" \
   -DOPTICKS_PREFIX=${LOCAL_BASE}/opticks \
@@ -69,9 +69,15 @@ cmake -DCMAKE_BUILD_TYPE=Debug \
 
 make install
 cd ../CaTS-install/bin
-time ./CaTS -g  simpleLArTPC.gdml -pl 'FTFP_BERT+OPTICAL+STEPLIMIT'  -m time.mac
+time ./CaTS -g  simpleLArTPC.gdml -pl 'FTFP_BERT+OPTICAL+STEPLIMIT'  -t 1 -m time.mac >& time.log
+The command line variables are 
+-g 'name of gdml file defining the geometry'
+-pl 'name of the Physics list and physiscs constructors'
+-m 'name of the Geant4 macro'
+-t 'n number of Geant4 threads'
 
-Only the -g command line variable is mandatory! If you don't specify the macro file interactive mode is assumed:
+Note! Only the -g command line variable is mandatory! If you don't specify the macro file interactive mode is assumed:
+Note! For the moment one can use only 1 Geant4 thread when using G4Opticks'
 
 ./CaTS -g simpleLArTPC.gdml -pl 'FTFP_BERT+OPTICAL+STEPLIMIT'
 
