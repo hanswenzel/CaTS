@@ -1,34 +1,34 @@
 # Prerequisites
-Opticks requires Geant4 (10.7.p02), nvidia cuda (11.3)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
+Opticks requires Geant4 (10.7.p02geant4-v11.0.0 nvidia cuda (11.3)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
-The current version of Geant4 10.07.p02 is build on clhep 2.4.4.0. 
+The current version of Geant4  geant4-v11.0.0 is build on CLHEP version 2.4.5.1
 CLHEP can be found at:
 https://proj-clhep.web.cern.ch/proj-clhep/clhep23.html
 
-to build it from scratch using cmake (used cmake version 3.20.5) 
+to build it from scratch using cmake (used cmake version 3.22.0) 
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.4.0.tgz
-    tar xzvf clhep-2.4.4.0.tgz
-    cd 2.4.4.0/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
+    tar xzvf clhep-2.4.5.1.tgz
+    cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -DCMAKE_INSTALL_PREFIX=../CLHEP-install DCLHEP_BUILD_CXXSTD=-std=c++11 ../CLHEP
-    make -j 8
-    make install
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    ninja
+    ninja install
 
 **Note** the default install directory is /usr/local but one needs root privileges to install it there:
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.4.0.tgz
-    tar xzvf clhep-2.4.4.0.tgz
-    cd 2.4.4.0/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
+    tar xzvf clhep-2.4.5.1.tgz
+    cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -DCLHEP_BUILD_CXXSTD=-std=c++11 ../CLHEP
-    make -j 8
-    sudo make install
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    ninja
+    sudo ninja install
 
 # Building Geant4
 
