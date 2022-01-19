@@ -1,34 +1,34 @@
 # Prerequisites
-Opticks requires Geant4 (10.7.p02), nvidia cuda (11.3)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
+Opticks requires Geant4 (10.7.p02geant4-v11.0.0 nvidia cuda (11.3)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
-The current version of Geant4 10.07.p02 is build on clhep 2.4.4.0. 
+The current version of Geant4  geant4-v11.0.0 is build on CLHEP version 2.4.5.1
 CLHEP can be found at:
 https://proj-clhep.web.cern.ch/proj-clhep/clhep23.html
 
-to build it from scratch using cmake (used cmake version 3.20.5) 
+to build it from scratch using cmake (used cmake version 3.22.0) 
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.4.0.tgz
-    tar xzvf clhep-2.4.4.0.tgz
-    cd 2.4.4.0/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
+    tar xzvf clhep-2.4.5.1.tgz
+    cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -DCMAKE_INSTALL_PREFIX=../CLHEP-install DCLHEP_BUILD_CXXSTD=-std=c++11 ../CLHEP
-    make -j 8
-    make install
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    ninja
+    ninja install
 
 **Note** the default install directory is /usr/local but one needs root privileges to install it there:
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.4.0.tgz
-    tar xzvf clhep-2.4.4.0.tgz
-    cd 2.4.4.0/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
+    tar xzvf clhep-2.4.5.1.tgz
+    cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -DCLHEP_BUILD_CXXSTD=-std=c++11 ../CLHEP
-    make -j 8
-    sudo make install
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    ninja
+    sudo ninja install
 
 # Building Geant4
 
@@ -37,13 +37,16 @@ https://geant4.web.cern.ch/support/download
 
 
     cd to the directory where you want to install Geant4
-    wget https://geant4-data.web.cern.ch/releases/geant4.10.07.p02.tar.gz
-    mkdir geant4.10.07.p02-build
-    cd  geant4.10.07.p02-build
-    cmake -DCMAKE_INSTALL_PREFIX=../geant4.10.07.p02-install -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4.10.07.p02
-    make -j 8
-    make install
-    . ../geant4.10.07.p02-install/bin/geant4.sh
+    wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.0.tar.gz
+    tar xzvf geant4-v11.0.0.tar.gz
+    mkdir geant4-v11.0.0-build
+    cd  geant4-v11.0.0-build
+    
+    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-v11.0.0-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-v11.0.0 
+
+    ninja
+    ninja install
+    . ../geant4-v11.0.0/bin/geant4.sh
 
 
 check the output for any error, install any development packages that might be necessary. 
@@ -59,16 +62,20 @@ https://root.cern/install/build_from_source/
     git clone --branch latest-stable https://github.com/root-project/root.git root_src
     mkdir root-build
     cd root-build
-    cmake -DCMAKE_INSTALL_PREFIX=../root-install  ../root
+    
+    cmake -GNinja -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=../root-install  -Droot7=ON   -Dxrootd=OFF ../root_src/ 
+    cmake --build . --target install
+    
+    or if you use make instead of ninja:
+    cmake  -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=../root-install  -Droot7=ON   -Dxrootd=OFF ../root_src/ 
     # speed up the make process
     new=" -j$(($(grep -c ^processor /proc/cpuinfo) - 1))" 
     case ":${MAKEFLAGS:=$new}:" in
         *:"$new":*)  ;;
         *) MAKEFLAGS="$MAKEFLAGS:$new"  ;;
     esac
-    cmake -DCMAKE_INSTALL_PREFIX=../root-install  ../root_src/
     cmake --build . --target install
-
+    
 check the output for any error, install any development packages that might be necessary. 
 
 
