@@ -37,13 +37,16 @@ https://geant4.web.cern.ch/support/download
 
 
     cd to the directory where you want to install Geant4
-    wget https://geant4-data.web.cern.ch/releases/geant4.10.07.p02.tar.gz
-    mkdir geant4.10.07.p02-build
-    cd  geant4.10.07.p02-build
-    cmake -DCMAKE_INSTALL_PREFIX=../geant4.10.07.p02-install -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4.10.07.p02
-    make -j 8
-    make install
-    . ../geant4.10.07.p02-install/bin/geant4.sh
+    wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.0.tar.gz
+    tar xzvf geant4-v11.0.0.tar.gz
+    mkdir geant4-v11.0.0-build
+    cd  geant4-v11.0.0-build
+    
+    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-v11.0.0-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-v11.0.0 
+
+    ninja
+    ninja install
+    . ../geant4-v11.0.0/bin/geant4.sh
 
 
 check the output for any error, install any development packages that might be necessary. 
