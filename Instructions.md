@@ -62,16 +62,20 @@ https://root.cern/install/build_from_source/
     git clone --branch latest-stable https://github.com/root-project/root.git root_src
     mkdir root-build
     cd root-build
-    cmake -DCMAKE_INSTALL_PREFIX=../root-install  ../root
+    
+    cmake -GNinja -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=../root-install  -Droot7=ON   -Dxrootd=OFF ../root_src/ 
+    cmake --build . --target install
+    
+    or if you use make instead of ninja:
+    cmake  -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=../root-install  -Droot7=ON   -Dxrootd=OFF ../root_src/ 
     # speed up the make process
     new=" -j$(($(grep -c ^processor /proc/cpuinfo) - 1))" 
     case ":${MAKEFLAGS:=$new}:" in
         *:"$new":*)  ;;
         *) MAKEFLAGS="$MAKEFLAGS:$new"  ;;
     esac
-    cmake -DCMAKE_INSTALL_PREFIX=../root-install  ../root_src/
     cmake --build . --target install
-
+    
 check the output for any error, install any development packages that might be necessary. 
 
 
