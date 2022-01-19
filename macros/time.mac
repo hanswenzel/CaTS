@@ -1,6 +1,6 @@
 /CaTS/verbose false
 /CaTS/dumpgdml true
-/CaTS/writeHits true
+/CaTS/writeHits false
 /CaTS/fname NewHits_point
 /run/initialize 
 #

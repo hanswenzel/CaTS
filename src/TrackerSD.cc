@@ -41,31 +41,27 @@
 
 // Geant4 headers
 #include "G4HCofThisEvent.hh"
-#include "G4Step.hh"
 #include "G4SDManager.hh"
+#include "G4Step.hh"
 #include "G4SystemOfUnits.hh"
-// project headers 
-#include "TrackerSD.hh"
+// project headers
 #include "ConfigurationManager.hh"
+#include "TrackerSD.hh"
 
-TrackerSD::TrackerSD(G4String name)
-  : G4VSensitiveDetector(name)
-{
+TrackerSD::TrackerSD(G4String name) : G4VSensitiveDetector(name) {
   G4String HCname = name + "_HC";
   collectionName.insert(HCname);
   G4cout << collectionName.size() << "   TrackerSD name:  " << name
          << " collection Name: " << HCname << G4endl;
-  fHCID   = -1;
+  fHCID = -1;
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
 }
 
-void TrackerSD::Initialize(G4HCofThisEvent* hce)
-{
+void TrackerSD::Initialize(G4HCofThisEvent *hce) {
   fTrackerHitsCollection =
-    new TrackerHitsCollection(SensitiveDetectorName, collectionName[0]);
-  if(fHCID < 0)
-  {
-    if(verbose)
+      new TrackerHitsCollection(SensitiveDetectorName, collectionName[0]);
+  if (fHCID < 0) {
+    if (verbose)
       G4cout << "TrackerSD::Initialize:  " << SensitiveDetectorName << "   "
              << collectionName[0] << G4endl;
     fHCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
@@ -73,23 +69,20 @@ void TrackerSD::Initialize(G4HCofThisEvent* hce)
   hce->AddHitsCollection(fHCID, fTrackerHitsCollection);
 }
 
-G4bool TrackerSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
-{
+G4bool TrackerSD::ProcessHits(G4Step *aStep, G4TouchableHistory *) {
   G4double edep = aStep->GetTotalEnergyDeposit();
-  if(edep == 0. || aStep->GetTrack()->GetDynamicParticle()->GetCharge() == 0)
-  {
+  if (edep == 0. || aStep->GetTrack()->GetDynamicParticle()->GetCharge() == 0) {
     return false;
   }
-  TrackerHit* newHit =
-    new TrackerHit(edep, aStep->GetPostStepPoint()->GetPosition(),
-                   aStep->GetPostStepPoint()->GetGlobalTime() / ns);
+  TrackerHit *newHit =
+      new TrackerHit(edep, aStep->GetPostStepPoint()->GetPosition(),
+                     aStep->GetPostStepPoint()->GetGlobalTime() / ns);
   fTrackerHitsCollection->insert(newHit);
   return true;
 }
 
-void TrackerSD::EndOfEvent(G4HCofThisEvent*)
-{
+void TrackerSD::EndOfEvent(G4HCofThisEvent *) {
   G4int NbHits = fTrackerHitsCollection->entries();
-  if(verbose)
+  if (verbose)
     G4cout << " Number of TrackerHits:  " << NbHits << G4endl;
 }

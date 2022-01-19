@@ -40,12 +40,10 @@
             <property name="RESOLUTIONSCALE" ref="RS" />
             <property name="SCINTILLATIONTIMECONSTANT1" ref="FTC" />
             <property name="SCINTILLATIONTIMECONSTANT2" ref="STC" />
+            <property name="REEMISSIONPROB" ref="SCINTLAR" />
+            <property name="FASTCOMPONENT" ref="SCINTLAR" />
+            <property name="SLOWCOMPONENT" ref="SCINTLAR" />
             <!--
-    	    <property name="REEMISSIONPROB" ref="SCINTLAR"/>
-            -->
-	    <!--
-            <property name="FASTCOMPONENT" ref="SCINTLAR"/>
-            <property name="SLOWCOMPONENT" ref="SCINTLAR"/>
             <property name="REEMISSIONPROB" ref="SCINTLAR"/>
             <property name="SCINTILLATIONYIELD" ref="SY" />
             <property name="RESOLUTIONSCALE" ref="RS" />

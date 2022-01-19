@@ -131,7 +131,7 @@ void PhotonSD::AddOpticksHits() {
         new PhotonHit(i, 0, hit.wavelength, hit.time, hit.global_position,
                       hit.global_direction, hit.global_polarization);
     fPhotonHitsCollection->insert(newHit);
-    G4cout << "hit.wavelength" << hit.wavelength << G4endl;
+    // G4cout << "hit.wavelength" << hit.wavelength << G4endl;
   }
   if (verbose)
     G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries()
