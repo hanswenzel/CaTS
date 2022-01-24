@@ -46,7 +46,7 @@ https://geant4.web.cern.ch/support/download
 
     ninja
     ninja install
-    . ../geant4-v11.0.0/bin/geant4.sh
+    . ../geant4-v11.0.0-install/bin/geant4.sh
 
 
 check the output for any error, install any development packages that might be necessary. 
