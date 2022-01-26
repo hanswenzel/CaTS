@@ -14,7 +14,7 @@ to build it from scratch using cmake (used cmake version 3.22.0)
     cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
     ninja
     ninja install
 
@@ -26,7 +26,7 @@ to build it from scratch using cmake (used cmake version 3.22.0)
     cd 2.4.5.1/
     mkdir CLHEP-build
     cd  CLHEP-build
-    cmake -GNinja -DCMAKE_BUILD_TYPE=Release DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
+    cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
     ninja
     sudo ninja install
 
