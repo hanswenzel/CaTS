@@ -43,6 +43,7 @@
             <property name="REEMISSIONPROB" ref="SCINTLAR" />
             <property name="FASTCOMPONENT" ref="SCINTLAR" />
             <property name="SLOWCOMPONENT" ref="SCINTLAR" />
+	    <property name="YIELDRATIO" ref="YR" />
             <!--
             <property name="REEMISSIONPROB" ref="SCINTLAR"/>
             <property name="SCINTILLATIONYIELD" ref="SY" />
