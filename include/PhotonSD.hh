@@ -44,6 +44,7 @@
 #pragma once
 
 #include "G4VSensitiveDetector.hh"
+#include "G4VPhysicalVolume.hh"
 #include "G4PhysicalConstants.hh"
 #include "PhotonHit.hh"
 #include <G4String.hh>
@@ -51,14 +52,13 @@
 class G4Step;
 class G4HCofThisEvent;
 class G4TouchableHistory;
-
 class PhotonSD : public G4VSensitiveDetector
 {
  public:
   PhotonSD(G4String);
   ~PhotonSD() = default;
   void Initialize(G4HCofThisEvent*) final;
-  G4bool ProcessHits(G4Step*, G4TouchableHistory*) final;
+  G4bool ProcessHits(G4Step*, G4TouchableHistory* ROhist) final;
 #ifdef WITH_G4OPTICKS
   void AddOpticksHits();
 #endif
@@ -77,4 +77,5 @@ class PhotonSD : public G4VSensitiveDetector
     //
     return hc / E;
   }
+  inline G4int DetectorID(G4VPhysicalVolume* pV) { return pV->GetCopyNo(); }
 };

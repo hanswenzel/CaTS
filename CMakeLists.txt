@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16...3.21)
 set(name CaTS)
 project(${name} VERSION 0.1.0)
-
+set(CMAKE_CXX_STANDARD 17)
 option(WITH_ROOT "Build example with ROOT" ON)
 option(WITH_G4OPTICKS "Build example with OPTICKS" OFF)
 option(G4ANALYSIS_USE "Build example with Analysis" ON)

@@ -46,8 +46,10 @@
 #include "G4Opticks.hh"
 #endif
 #ifdef WITH_ROOT
-#include "G4AnalysisManager.hh"
 #include "RootIO.hh"
+#endif
+#ifdef G4ANALYSIS_USE
+#include "G4AnalysisManager.hh"
 #endif
 // project headers
 #include "RunAction.hh"
@@ -58,11 +60,13 @@ RunAction::RunAction()
 }
 
 void RunAction::BeginOfRunAction(const G4Run* aRun) {
-#ifdef WITH_ROOT
+#ifdef G4ANALYSIS_USE
     if (ConfigurationManager::getInstance()->isdoAnalysis()) {
         // Create the generic analysis manager
         auto analysisManager = G4AnalysisManager::Instance();
+#ifdef WITH_ROOT
         analysisManager->SetDefaultFileType("root");
+#endif	
         G4cout << "Using " << analysisManager->GetType() << G4endl;
         analysisManager->SetVerboseLevel(1);
         G4String HistoFileName =
@@ -140,10 +144,12 @@ void RunAction::EndOfRunAction(const G4Run*) {
             RootIO::GetInstance()->Close();
         }
     }
+#ifdef G4ANALYSIS_USE
     if (ConfigurationManager::getInstance()->isdoAnalysis()) {
         auto analysisManager = G4AnalysisManager::Instance();
         analysisManager->Write();
         analysisManager->CloseFile();
     }
+#endif    
 #endif
 }
