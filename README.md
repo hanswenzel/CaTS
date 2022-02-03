@@ -86,7 +86,7 @@ Note! For the moment one can use only 1 Geant4 thread when using G4Opticks'
 to compile CaTS without Opticks do:
 
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Debug   -DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
+cmake  -GNInja -DCMAKE_BUILD_TYPE=Release  -DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
 ```
 if you don't provide the -pl argument the default physics list configuration:
 'FTFP_BERT+OPTICAL+STEPLIMIT'
