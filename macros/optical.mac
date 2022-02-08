@@ -1,0 +1,13 @@
+/CaTS/verbose false
+/process/had/verbose 0
+/run/initialize 
+#
+/run/initialize 
+/random/setSeeds 7 38 
+/CaTS/writeHits true 
+/CaTS/enable_opticks false
+/gun/particle opticalphoton
+/gun/energy 3.3 eV
+/gun/position 0. 0. 20. mm 
+/gun/direction 0. 0. -1.
+/run/beamOn 10000
