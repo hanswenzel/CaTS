@@ -8,7 +8,7 @@
         <color name="yellow" R="1.0" G="1.0" B="0.0" A="1.0" />
     </extension>
     <define>
-        <matrix name="SY" coldim="1" values="50000/MeV" />
+        <matrix name="SY" coldim="1" values="500/MeV" />
         <matrix name="RS" coldim="1" values="1.0" />
         <matrix name="FTC" coldim="1" values="7.*ns" />
         <matrix name="STC" coldim="1" values="1400.*ns" />
@@ -31,7 +31,6 @@
             <property name="RINDEX" ref="RINDEXLAR" />
             <property name="ABSLENGTH" ref="ABSLENGTHLAR" />
             <property name="RAYLEIGH" ref="RAYLEIGHLAR" />
-
             <property name="SCINTILLATIONYIELD" ref="SY" />
             <property name="SCINTILLATIONYIELD1" ref="RY1" />
             <property name="SCINTILLATIONYIELD2" ref="RY2" />
@@ -41,11 +40,11 @@
             <property name="SCINTILLATIONTIMECONSTANT1" ref="FTC" />
             <property name="SCINTILLATIONTIMECONSTANT2" ref="STC" />
             <property name="REEMISSIONPROB" ref="SCINTLAR" />
-	    <property name="SLOWTIMECONSTANT" ref="STC" />
+            <property name="SLOWTIMECONSTANT" ref="STC" />
             <property name="FASTTIMECONSTANT" ref="FTC" />
             <property name="FASTCOMPONENT" ref="SCINTLAR" />
             <property name="SLOWCOMPONENT" ref="SCINTLAR" />
-	    <property name="YIELDRATIO" ref="YR" />
+            <property name="YIELDRATIO" ref="YR" />
             <!--
             <property name="REEMISSIONPROB" ref="SCINTLAR"/>
             <property name="SCINTILLATIONYIELD" ref="SY" />
@@ -89,27 +88,27 @@
             <colorref ref="blue" />
             <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
             <auxiliary auxtype="SensDet" auxvalue="Radiator" />
-            <physvol name="Det1">
+            <physvol name="Det1" copynumber="0">
                 <volumeref ref="Det" />
                 <position name="Det1" unit="mm" x="497.5" y="0" z="0" />
-                <rotationref ref="rPMTRotation1" />
+                <rotatcopynumber="ii"ionref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det2">
+            <physvol name="Det2" copynumber="1">
                 <volumeref ref="Det" />
                 <position name="Det2" unit="mm" x="497.5" y="450" z="950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det3">
+            <physvol name="Det3" copynumber="2">
                 <volumeref ref="Det" />
                 <position name="Det3" unit="mm" x="497.5" y="450" z="-950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det4">
+            <physvol name="Det4" copynumber="3">
                 <volumeref ref="Det" />
                 <position name="Det4" unit="mm" x="497.5" y="-450" z="950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det5">
+            <physvol name="Det5" copynumber="4">
                 <volumeref ref="Det" />
                 <position name="Det5" unit="mm" x="497.5" y="-450" z="-950" />
                 <rotationref ref="rPMTRotation1" />

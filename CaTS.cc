@@ -31,7 +31,7 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	      \       /    systems                                    *
+//*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
 //*	         ( (                                                  *
 //*	          ) )                                                 *
