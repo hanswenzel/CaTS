@@ -1,5 +1,5 @@
 # CaTS
-![Cats logo](https://github.com/hanswenzel/CaTS/blob/main/images/CaTSlogo.png)
+![Cats logo](https://github.com/hanswenzel/CaTS/blob/main/images/medium.CaTSlogo.png)
 
 # CaTS: Calorimeter and Tracker Simulation
 
