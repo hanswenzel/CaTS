@@ -1,5 +1,5 @@
 # CaTS
-![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/CaTS.png)
+![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/CaTSlogo.png)
 # CaTS: Calorimeter and Tracker Simulation
 
 CaTS is a flexible and extend-able framework (based on geant4 and ROOT)
