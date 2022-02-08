@@ -1,6 +1,6 @@
 # CaTS
-![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/CaTSlogo.png)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+![Cats logo](https://github.com/hanswenzel/CaTS/blob/main/images/CaTSlogo.png)
+
 # CaTS: Calorimeter and Tracker Simulation
 
 CaTS is a flexible and extend-able framework (based on geant4 and ROOT)
