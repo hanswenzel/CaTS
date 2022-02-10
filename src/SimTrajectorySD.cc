@@ -95,9 +95,25 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   if(edep == 0.)
     return false;
   G4Track* aTrack = aStep->GetTrack();
-  float xpos      = (float) aStep->GetPostStepPoint()->GetPosition().getX();
-  float ypos      = (float) aStep->GetPostStepPoint()->GetPosition().getY();
-  float zpos      = (float) aStep->GetPostStepPoint()->GetPosition().getZ();
+  G4int TrackID   = aTrack->GetTrackID();
+  //
+  //  check if this is a new track
+  for(unsigned int j = 0; j < fCalorimeterHitsCollection->entries(); j++)
+  {
+    CalorimeterHit* aPreviousHit = (*fCalorimeterHitsCollection)[j];
+    if(ID == aPreviousHit->GetId())
+    {
+      aPreviousHit->SetEdep(aStep->GetTotalEnergyDeposit() + aPreviousHit->GetEdep());
+      if((particleType == "e+") || (particleType == "gamma") || (particleType == "e-"))
+      {
+        aPreviousHit->Setem_Edep(edep + aPreviousHit->Getem_Edep());
+      }
+      return true;
+    }
+  }
+  float xpos = (float) aStep->GetPostStepPoint()->GetPosition().getX();
+  float ypos = (float) aStep->GetPostStepPoint()->GetPosition().getY();
+  float zpos = (float) aStep->GetPostStepPoint()->GetPosition().getZ();
   //  std::cout << "SimTrajectorySD::ProcessHits: size of vector:  " << scVector.size() <<
   //  std::endl;
   /*
