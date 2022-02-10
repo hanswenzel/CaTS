@@ -52,7 +52,7 @@ class SimTrajectory : public G4VHit
 {
  public:
   SimTrajectory();
-  SimTrajectory(G4int id);
+  SimTrajectory(G4int id, G4int pdg, G4int parent);
   ~SimTrajectory();
   SimTrajectory(const SimTrajectory&);
   const SimTrajectory& operator=(const SimTrajectory&);
@@ -66,11 +66,8 @@ class SimTrajectory : public G4VHit
   G4int getPDGcode() const { return fPDGcode; }
   void setPDGcode(const G4int& fPDGcode_) { fPDGcode = fPDGcode_; }
 
-  G4int getFirstMother() const { return fMother[0]; }
-  void setFirstMother(const G4int& fMother_) { fMother[0] = fMother_; }
-
-  G4int getLastMother() const { return fMother[1]; }
-  void setLastMother(const G4int& fMother_) { fMother[1] = fMother_; }
+  G4int getParentID() const { return fParentID; }
+  void setParentID(const G4int& fParentID_) { fParentID = fParentID_; }
 
   G4int getFirstDaughter() const { return fDaughter[0]; }
   void setFirstDaughter(const G4int& fDaughter_) { fDaughter[0] = fDaughter_; }
@@ -86,7 +83,7 @@ class SimTrajectory : public G4VHit
  private:
   G4int fTrackID;
   G4int fPDGcode;
-  G4int fMother[2];
+  G4int fParentID;
   G4int fDaughter[2];
   std::vector<SimStep*>* fTrajectory;
 };

@@ -61,6 +61,7 @@
 #include "SimStep.hh"
 #include "SimTrajectory.hh"
 #include "RootIO.hh"
+#include "ConfigurationManager.hh"
 #define UNUSED(expr)                                                                               \
   do                                                                                               \
   {                                                                                                \
@@ -72,19 +73,26 @@ using namespace std;
 SimTrajectorySD::SimTrajectorySD(G4String name)
   : G4VSensitiveDetector(name)
 {
-  std::cout << "SimTrajectorySD: constructor" << std::endl;
+  G4String HCname = name + "_HC";
+  collectionName.insert(HCname);
+  G4cout << collectionName.size() << "   SimTrajectorySD name:  " << name
+         << " collection Name: " << HCname << G4endl;
+  fHCID   = -1;
+  verbose = ConfigurationManager::getInstance()->isEnable_verbose();
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SimTrajectorySD::Initialize(G4HCofThisEvent*)
+void SimTrajectorySD::Initialize(G4HCofThisEvent* hce)
 {
-  //  UNUSED(hce); // avoiding unused parameter ‘HCE’ compiler message
-
-  //  for(auto itr = scVector.begin(); itr != scVector.end(); itr++)
-  //  {
-  //    delete(*itr);
-  //  }
-  //  scVector.clear();
+  fSimTrajectoryCollection = new SimTrajectoryCollection(SensitiveDetectorName, collectionName[0]);
+  if(fHCID < 0)
+  {
+    if(verbose)
+      G4cout << "SimTrajectorySD::Initialize:  " << SensitiveDetectorName << "   "
+             << collectionName[0] << G4endl;
+    fHCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+  }
+  hce->AddHitsCollection(fHCID, fSimTrajectoryCollection);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -95,7 +103,11 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   if(edep == 0.)
     return false;
   G4Track* aTrack = aStep->GetTrack();
-  G4int TrackID   = aTrack->GetTrackID();
+  /*
+  const G4bool isfirst = aStep->IsFirstStepInVolume();
+  const G4bool islast  = aStep->IsLastStepInVolume();
+ */
+  G4int TrackID = aTrack->GetTrackID();
   //
   //  check if this is a new track
   for(unsigned int j = 0; j < fSimTrajectoryCollection->entries(); j++)
@@ -107,18 +119,21 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       SimStep* newstep =
         new SimStep((float) (aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm),
                     (float) (aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm),
-                    (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm), 0.0,
+                    (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm),
+                    (float) (aStep->GetStepLength() / CLHEP::cm),
                     (float) (aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns), (float) edep);
       aPreviousTrajectory->AddSimStep(newstep);
       return true;
     }
   }
   // if tack doesn't exist yet
-  SimTrajectory* newTrajectory = new SimTrajectory(TrackID);
+  SimTrajectory* newTrajectory = new SimTrajectory(
+    TrackID, aTrack->GetParticleDefinition()->GetPDGEncoding(), aTrack->GetParentID());
   SimStep* newstep =
     new SimStep((float) (aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm),
                 (float) (aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm),
-                (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm), 0.0,
+                (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm),
+                (float) (aStep->GetStepLength() / CLHEP::cm),
                 (float) (aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns), (float) edep);
   newTrajectory->AddSimStep(newstep);
   fSimTrajectoryCollection->insert(newTrajectory);

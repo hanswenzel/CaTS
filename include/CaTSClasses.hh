@@ -49,6 +49,8 @@
 #include "DRCalorimeterHit.hh"
 #include "TrackerHit.hh"
 #include "MscHit.hh"
+#include "SimTrajectory.hh"
+#include "SimStep.hh"
 #include "Event.hh"
 Event e;
 std::vector<PhotonHit*> p;
@@ -58,6 +60,8 @@ std::vector<CalorimeterHit*> c;
 std::vector<DRCalorimeterHit*> d;
 std::vector<TrackerHit*> t;
 std::vector<MscHit*> m;
+std::vector<SimStep*> sst;
+std::vector<SimTrajectory*> st;
 std::vector<G4VHit*> vh;
 std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
 #undef __G4String

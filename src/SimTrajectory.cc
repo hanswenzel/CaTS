@@ -50,9 +50,11 @@ SimTrajectory::SimTrajectory()
   fTrajectory = new std::vector<SimStep*>();
 }
 
-SimTrajectory::SimTrajectory(G4int id)
+SimTrajectory::SimTrajectory(G4int id, G4int pdg, G4int parentID)
 {
   fTrackID    = id;
+  fPDGcode    = pdg;
+  fParentID   = parentID;
   fTrajectory = new std::vector<SimStep*>();
 }
 

@@ -20,7 +20,7 @@
     <class name="SimEnergyDeposit" />
     <class name="std::vector<SimEnergyDeposit*>" />
     <class name="SimTrajectory" />
-    <class name="std::map<int,SimTrajectory*>" />
+    <class name="std::vector<SimTrajectory*>" />
     <class name="SimStep" />
     <class name="std::vector<SimStep*>" />
     <class name="G4ThreeVector" />
