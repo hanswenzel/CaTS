@@ -10,5 +10,22 @@
         "-DCMAKE_MODULE_PATH=../CaTS/cmake/Modules",
         "-DCMAKE_INSTALL_PREFIX=../CaTS-install"
     ],
-    "cmake.buildDirectory": "../CaTS-build"
+    "cmake.buildDirectory": "../CaTS-build",
+    "files.associations": {
+        "*.icc": "cpp",
+        "array": "cpp",
+        "axis": "cpp",
+        "img": "cpp",
+        "qrot": "cpp",
+        "vec2": "cpp",
+        "vec3": "cpp",
+        "vec4": "cpp",
+        "bmf": "cpp",
+        "bsf": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "system_error": "cpp",
+        "typeinfo": "cpp",
+        "ifile": "cpp"
+    }
 }

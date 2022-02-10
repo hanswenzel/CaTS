@@ -59,163 +59,191 @@
 #include "PhotonSD.hh"
 #include "RadiatorSD.hh"
 #include "TrackerSD.hh"
+#include "SimTrajectorySD.hh"
 #include "lArTPCSD.hh"
 // c++ headers
 #include <iostream>
 DetectorConstruction::DetectorConstruction(G4String fname)
-    : G4VUserDetectorConstruction(), gdmlFile(fname) {}
+  : G4VUserDetectorConstruction()
+  , gdmlFile(fname)
+{}
 
 DetectorConstruction::~DetectorConstruction() {}
-G4VPhysicalVolume *DetectorConstruction::Construct() {
+G4VPhysicalVolume* DetectorConstruction::Construct()
+{
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
   ReadGDML();
-  const G4GDMLAuxMapType *auxmap = parser->GetAuxMap();
-  if (verbose) {
-    G4cout << "Found " << auxmap->size()
-           << " volume(s) with auxiliary information." << G4endl << G4endl;
+  const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
+  if(verbose)
+  {
+    G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
+           << G4endl;
   }
-  for (G4GDMLAuxMapType::const_iterator iter = auxmap->begin();
-       iter != auxmap->end(); iter++) {
-    if (verbose) {
+  for(G4GDMLAuxMapType::const_iterator iter = auxmap->begin(); iter != auxmap->end(); iter++)
+  {
+    if(verbose)
+    {
       G4cout << "Volume " << ((*iter).first)->GetName()
              << " has the following list of auxiliary information: " << G4endl;
     }
-    for (G4GDMLAuxListType::const_iterator vit = (*iter).second.begin();
-         vit != (*iter).second.end(); vit++) {
-      if (verbose) {
-        G4cout << "--> Type: " << (*vit).type << " Value: " << (*vit).value
-               << G4endl;
+    for(G4GDMLAuxListType::const_iterator vit = (*iter).second.begin(); vit != (*iter).second.end();
+        vit++)
+    {
+      if(verbose)
+      {
+        G4cout << "--> Type: " << (*vit).type << " Value: " << (*vit).value << G4endl;
       }
-      if ((*vit).type == "StepLimit") {
-        G4UserLimits *fStepLimit = new G4UserLimits(atof((*vit).value));
+      if((*vit).type == "StepLimit")
+      {
+        G4UserLimits* fStepLimit = new G4UserLimits(atof((*vit).value));
         ((*iter).first)->SetUserLimits(fStepLimit);
       }
     }
   }
-  G4VPhysicalVolume *worldPhysVol = parser->GetWorldVolume();
-  if (ConfigurationManager::getInstance()->isDumpgdml()) {
+  G4VPhysicalVolume* worldPhysVol = parser->GetWorldVolume();
+  if(ConfigurationManager::getInstance()->isDumpgdml())
+  {
     std::ifstream ifile;
     ifile.open(ConfigurationManager::getInstance()->getGDMLFileName());
-    if (ifile) {
-      G4cout << "****************************************************"
+    if(ifile)
+    {
+      G4cout << "****************************************************" << G4endl;
+      G4cout << ConfigurationManager::getInstance()->getGDMLFileName() << " already exists!!!"
              << G4endl;
-      G4cout << ConfigurationManager::getInstance()->getGDMLFileName()
-             << " already exists!!!" << G4endl;
       G4cout << "No new gdml dump created!!!" << G4endl;
-      G4cout << "****************************************************"
-             << G4endl;
-    } else {
-      G4cout << "Writing: "
-             << ConfigurationManager::getInstance()->getGDMLFileName()
-             << G4endl;
-      parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(),
-                    worldPhysVol);
+      G4cout << "****************************************************" << G4endl;
+    }
+    else
+    {
+      G4cout << "Writing: " << ConfigurationManager::getInstance()->getGDMLFileName() << G4endl;
+      parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
     }
   }
   return worldPhysVol;
 }
-void DetectorConstruction::ConstructSDandField() {
-  G4SDManager *SDman = G4SDManager::GetSDMpointer();
-  const G4GDMLAuxMapType *auxmap = parser->GetAuxMap();
-  if (verbose) {
-    G4cout << "Found " << auxmap->size()
-           << " volume(s) with auxiliary information." << G4endl << G4endl;
+void DetectorConstruction::ConstructSDandField()
+{
+  G4SDManager* SDman             = G4SDManager::GetSDMpointer();
+  const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
+  if(verbose)
+  {
+    G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
+           << G4endl;
   }
   std::map<std::string, int> mapofSensedets = {
-      {"PhotonDetector", 0}, {"Target", 1},
-      {"Tracker", 2},        {"Msc", 3},
-      {"lArTPC", 4},         {"Radiator", 5},
-      {"Calorimeter", 6},    {"DRCalorimeter", 7}};
-  enum SensDet {
+    { "PhotonDetector", 0 }, { "Target", 1 },      { "Tracker", 2 },
+    { "SimTrajectory", 3 },  { "Msc", 4 },         { "lArTPC", 5 },
+    { "Radiator", 6 },       { "Calorimeter", 7 }, { "DRCalorimeter", 8 }
+  };
+  enum SensDet
+  {
     PhotonDetector,
     Target,
     Tracker,
+    SimTrajectory,
     Msc,
     lArTPC,
     Radiator,
     Calorimeter,
     DRCalorimeter
   };
-  for (auto const &[logVol, listType] : *auxmap) {
-    for (auto const &auxtype : listType) {
-      if (auxtype.type == "SensDet") {
-        if (verbose) {
+  for(auto const& [logVol, listType] : *auxmap)
+  {
+    for(auto const& auxtype : listType)
+    {
+      if(auxtype.type == "SensDet")
+      {
+        if(verbose)
+        {
           G4cout << "Found sensitive Detector: " << auxtype.value << G4endl;
         }
-        if (mapofSensedets.find(auxtype.value) == mapofSensedets.end()) {
-          G4cout << "Unknown type of sensitive Detector: " << auxtype.value
-                 << G4endl;
-        } else {
+        if(mapofSensedets.find(auxtype.value) == mapofSensedets.end())
+        {
+          G4cout << "Unknown type of sensitive Detector: " << auxtype.value << G4endl;
+        }
+        else
+        {
           G4String name;
-          switch (mapofSensedets[auxtype.value]) {
-          case PhotonDetector: {
-            name = logVol->GetName() + "_Photondetector";
-            PhotonSD *aPhotonSD = new PhotonSD(name);
-            SDman->AddNewDetector(aPhotonSD);
-            logVol->SetSensitiveDetector(aPhotonSD);
-            break;
+          switch(mapofSensedets[auxtype.value])
+          {
+            case PhotonDetector: {
+              name                = logVol->GetName() + "_Photondetector";
+              PhotonSD* aPhotonSD = new PhotonSD(name);
+              SDman->AddNewDetector(aPhotonSD);
+              logVol->SetSensitiveDetector(aPhotonSD);
+              break;
+            }
+            case Target: {
+              name                          = logVol->GetName() + "_Target";
+              InteractionSD* aInteractionSD = new InteractionSD(name);
+              SDman->AddNewDetector(aInteractionSD);
+              logVol->SetSensitiveDetector(aInteractionSD);
+              break;
+            }
+            case Tracker: {
+              name                  = logVol->GetName() + "_Tracker";
+              TrackerSD* aTrackerSD = new TrackerSD(name);
+              SDman->AddNewDetector(aTrackerSD);
+              logVol->SetSensitiveDetector(aTrackerSD);
+              break;
+            }
+            case SimTrajectory: {
+              name                              = logVol->GetName() + "_SimTrajectory";
+              SimTrajectorySD* aSimTrajectorySD = new SimTrajectorySD(name);
+              SDman->AddNewDetector(aSimTrajectorySD);
+              logVol->SetSensitiveDetector(aSimTrajectorySD);
+              break;
+            }
+            case Msc: {
+              name          = logVol->GetName() + "_Msc";
+              MscSD* aMscSD = new MscSD(name);
+              SDman->AddNewDetector(aMscSD);
+              logVol->SetSensitiveDetector(aMscSD);
+              break;
+            }
+            case lArTPC: {
+              name                = logVol->GetName() + "_lArTPC";
+              lArTPCSD* alArTPCSD = new lArTPCSD(name);
+              SDman->AddNewDetector(alArTPCSD);
+              logVol->SetSensitiveDetector(alArTPCSD);
+              break;
+            }
+            case Radiator: {
+              name                    = logVol->GetName() + "_Radiator";
+              RadiatorSD* aRadiatorSD = new RadiatorSD(name);
+              SDman->AddNewDetector(aRadiatorSD);
+              logVol->SetSensitiveDetector(aRadiatorSD);
+              break;
+            }
+            case Calorimeter: {
+              name                          = logVol->GetName() + "_Calorimeter";
+              CalorimeterSD* aCalorimeterSD = new CalorimeterSD(name);
+              SDman->AddNewDetector(aCalorimeterSD);
+              logVol->SetSensitiveDetector(aCalorimeterSD);
+              break;
+            }
+            case DRCalorimeter: {
+              name                              = logVol->GetName() + "_DRCalorimeter";
+              DRCalorimeterSD* aDRCalorimeterSD = new DRCalorimeterSD(name);
+              SDman->AddNewDetector(aDRCalorimeterSD);
+              logVol->SetSensitiveDetector(aDRCalorimeterSD);
+              break;
+            }
           }
-          case Target: {
-            name = logVol->GetName() + "_Target";
-            InteractionSD *aInteractionSD = new InteractionSD(name);
-            SDman->AddNewDetector(aInteractionSD);
-            logVol->SetSensitiveDetector(aInteractionSD);
-            break;
-          }
-          case Tracker: {
-            name = logVol->GetName() + "_Tracker";
-            TrackerSD *aTrackerSD = new TrackerSD(name);
-            SDman->AddNewDetector(aTrackerSD);
-            logVol->SetSensitiveDetector(aTrackerSD);
-            break;
-          }
-          case Msc: {
-            name = logVol->GetName() + "_Msc";
-            MscSD *aMscSD = new MscSD(name);
-            SDman->AddNewDetector(aMscSD);
-            logVol->SetSensitiveDetector(aMscSD);
-            break;
-          }
-          case lArTPC: {
-            name = logVol->GetName() + "_lArTPC";
-            lArTPCSD *alArTPCSD = new lArTPCSD(name);
-            SDman->AddNewDetector(alArTPCSD);
-            logVol->SetSensitiveDetector(alArTPCSD);
-            break;
-          }
-          case Radiator: {
-            name = logVol->GetName() + "_Radiator";
-            RadiatorSD *aRadiatorSD = new RadiatorSD(name);
-            SDman->AddNewDetector(aRadiatorSD);
-            logVol->SetSensitiveDetector(aRadiatorSD);
-            break;
-          }
-          case Calorimeter: {
-            name = logVol->GetName() + "_Calorimeter";
-            CalorimeterSD *aCalorimeterSD = new CalorimeterSD(name);
-            SDman->AddNewDetector(aCalorimeterSD);
-            logVol->SetSensitiveDetector(aCalorimeterSD);
-            break;
-          }
-          case DRCalorimeter: {
-            name = logVol->GetName() + "_DRCalorimeter";
-            DRCalorimeterSD *aDRCalorimeterSD = new DRCalorimeterSD(name);
-            SDman->AddNewDetector(aDRCalorimeterSD);
-            logVol->SetSensitiveDetector(aDRCalorimeterSD);
-            break;
-          }
-          }
-          if (verbose) {
+          if(verbose)
+          {
             G4cout << "Attaching sensitive Detector: " << auxtype.value
                    << " to Volume:  " << logVol->GetName() << G4endl;
           }
         }
-      } else if (auxtype.type == "Solid") {
-        if (auxtype.value == "True") {
-          G4VisAttributes *visibility = new G4VisAttributes();
+      }
+      else if(auxtype.type == "Solid")
+      {
+        if(auxtype.value == "True")
+        {
+          G4VisAttributes* visibility = new G4VisAttributes();
           visibility->SetForceSolid(true);
-          G4VisAttributes *visatt =
-              new G4VisAttributes(logVol->GetVisAttributes()->GetColour());
+          G4VisAttributes* visatt = new G4VisAttributes(logVol->GetVisAttributes()->GetColour());
           visatt->SetVisibility(true);
           visatt->SetForceSolid(true);
           visatt->SetForceAuxEdgeVisible(true);
@@ -225,26 +253,27 @@ void DetectorConstruction::ConstructSDandField() {
     }
   }
 }
-void DetectorConstruction::ReadGDML() {
+void DetectorConstruction::ReadGDML()
+{
   fReader = new ColorReader;
-  parser = new G4GDMLParser(fReader);
+  parser  = new G4GDMLParser(fReader);
   parser->Read(gdmlFile, false);
-  G4VPhysicalVolume *World = parser->GetWorldVolume();
+  G4VPhysicalVolume* World = parser->GetWorldVolume();
   //----- GDML parser makes world invisible, this is a hack to make it
   // visible again...
-  G4LogicalVolume *pWorldLogical = World->GetLogicalVolume();
+  G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
   pWorldLogical->SetVisAttributes(0);
-  if (verbose) {
+  if(verbose)
+  {
     G4cout << "Found World:  " << World->GetName() << G4endl;
     G4cout << "World LV:  " << World->GetLogicalVolume()->GetName() << G4endl;
-    G4LogicalVolumeStore *pLVStore = G4LogicalVolumeStore::GetInstance();
-    G4cout << "Found " << pLVStore->size() << " logical volumes." << G4endl
-           << G4endl;
-    G4PhysicalVolumeStore *pPVStore = G4PhysicalVolumeStore::GetInstance();
-    G4cout << "Found " << pPVStore->size() << " physical volumes." << G4endl
-           << G4endl;
+    G4LogicalVolumeStore* pLVStore = G4LogicalVolumeStore::GetInstance();
+    G4cout << "Found " << pLVStore->size() << " logical volumes." << G4endl << G4endl;
+    G4PhysicalVolumeStore* pPVStore = G4PhysicalVolumeStore::GetInstance();
+    G4cout << "Found " << pPVStore->size() << " physical volumes." << G4endl << G4endl;
   }
 }
-void DetectorConstruction::UpdateGeometry() {
+void DetectorConstruction::UpdateGeometry()
+{
   G4RunManager::GetRunManager()->DefineWorldVolume(Construct());
 }
