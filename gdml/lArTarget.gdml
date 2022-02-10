@@ -17,7 +17,6 @@
 
         <volume name="volArgon">
             <materialref ref="G4_lAr" />
-            montecarlo/eg/src/TParticle.cxx:/
             <solidref ref="Target" />
             <auxiliary auxtype="SensDet" auxvalue="SimTrajectory" />
             <colorref ref="blue" />
