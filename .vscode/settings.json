@@ -26,6 +26,7 @@
         "bitset": "cpp",
         "system_error": "cpp",
         "typeinfo": "cpp",
-        "ifile": "cpp"
+        "ifile": "cpp",
+        "random": "cpp"
     }
 }

@@ -77,11 +77,11 @@ class SimTrajectory : public G4VHit
 
   G4int getLastDaughter() const { return fDaughter[1]; }
   void setLastDaughter(const G4int& fDaughter_) { fDaughter[1] = fDaughter_; }
+
   std::vector<SimStep*>* getTrajectory() const { return fTrajectory; }
   void setTrajectory(std::vector<SimStep*>* fTrajectory_) { fTrajectory = fTrajectory_; }
 
-  G4int getFTrackID() const { return fTrackID; }
-  void setFTrackID(const G4int& fTrackID_) { fTrackID = fTrackID_; }
+  void AddSimStep(SimStep*);
 
  private:
   G4int fTrackID;

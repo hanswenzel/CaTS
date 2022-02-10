@@ -67,3 +67,5 @@ SimTrajectory::~SimTrajectory()
   delete fTrajectory;
 }
 void SimTrajectory::Draw() {}
+
+void SimTrajectory::AddSimStep(SimStep* step) { fTrajectory->push_back(step); }
