@@ -69,23 +69,20 @@ class SimTrajectory : public G4VHit
   G4int getParentID() const { return fParentID; }
   void setParentID(const G4int& fParentID_) { fParentID = fParentID_; }
 
-  G4int getFirstDaughter() const { return fDaughter[0]; }
-  void setFirstDaughter(const G4int& fDaughter_) { fDaughter[0] = fDaughter_; }
-
-  G4int getLastDaughter() const { return fDaughter[1]; }
-  void setLastDaughter(const G4int& fDaughter_) { fDaughter[1] = fDaughter_; }
-
   std::vector<SimStep*>* getTrajectory() const { return fTrajectory; }
   void setTrajectory(std::vector<SimStep*>* fTrajectory_) { fTrajectory = fTrajectory_; }
+
+  std::vector<G4int>* getDaughters() const { return fDaughters; }
+  void setDaughters(std::vector<G4int>* fDaughters_) { fDaughters = fDaughters_; }
 
   void AddSimStep(SimStep*);
 
  private:
-  G4int fTrackID;
-  G4int fPDGcode;
-  G4int fParentID;
-  G4int fDaughter[2];
-  std::vector<SimStep*>* fTrajectory;
+  G4int fTrackID{ 0 };
+  G4int fPDGcode{ 0 };
+  G4int fParentID{ 0 };
+  std::vector<G4int>* fDaughters{ nullptr };
+  std::vector<SimStep*>* fTrajectory{ nullptr };
 };
 using SimTrajectoryCollection = G4THitsCollection<SimTrajectory>;
 extern G4ThreadLocal G4Allocator<SimTrajectory>* SimTrajectoryAllocator;

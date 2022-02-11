@@ -70,6 +70,7 @@ int main(int argc, char** argv)
   }
   TFile* outfile = new TFile(argv[2], "RECREATE");
   outfile->cd();
+  /*
   TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
   TH1F* time  = new TH1F("time", "timing of photon hits all detectors", 1000, 0., 250.);
   TH1F* time0 = new TH1F("time0", "timing of photon hits detector 0", 1000, 0., 250.);
@@ -81,6 +82,7 @@ int main(int argc, char** argv)
   TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected scintillation photons", 1000, 0., 1000.);
   TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
   TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
+  */
   TFile fo(argv[1]);
   fo.GetListOfKeys()->Print();
   Event* event = new Event();
@@ -103,47 +105,26 @@ int main(int argc, char** argv)
         auto hits    = ele.second;
         G4int NbHits = hits.size();
         G4cout << "Event: " << i << "  Number of Hits:  " << NbHits << G4endl;
-        np->Fill(NbHits);
+        // np->Fill(NbHits);
         for(G4int ii = 0; ii < NbHits; ii++)
         {
           SimTrajectory* simTrajectory = dynamic_cast<SimTrajectory*>(hits.at(ii));
-          std::cout << "Track ID:  " << simTrajectory->getTrackID() << std::endl;
-          /*
-          time->Fill(simTrajectory->GetTime());
-          wl->Fill(simTrajectory->GetWavelength());
-          switch(simTrajectory->GetId())
+          std::cout << "Track ID:   " << simTrajectory->getTrackID()
+                    << " parent id: " << simTrajectory->getParentID()
+                    << " PDG code:  " << simTrajectory->getPDGcode()
+                    << " Number of steps: " << simTrajectory->getTrajectory()->size();
+          std::cout << " Daughters: ";
+          std::vector<G4int>* vi = simTrajectory->getDaughters();
+          std::cout << vi->size() << std::endl;
+          for(auto& element : *vi)
           {
-            case 0:
-              time0->Fill(simTrajectory->GetTime());
-              break;
-            case 1:
-              time1->Fill(simTrajectory->GetTime());
-              break;
-            case 2:
-              time2->Fill(simTrajectory->GetTime());
-              break;
-            case 3:
-              time3->Fill(simTrajectory->GetTime());
-              break;
-            case 4:
-              time4->Fill(simTrajectory->GetTime());
-              break;
+            std::cout << element << ",";
           }
-          switch(simTrajectory->GetPid())
-          {
-            case 0:
-              wlce->Fill(simTrajectory->GetWavelength());
-              break;
-            case 1:
-              wlsc->Fill(simTrajectory->GetWavelength());
-              break;
-          }
-          pos2->Fill(simTrajectory->GetPosition().getZ(), simTrajectory->GetPosition().getY());
-          */
+          std::cout << std::endl;
         }
       }
+      outfile->cd();
+      outfile->Write();
     }
   }
-  outfile->cd();
-  outfile->Write();
 }

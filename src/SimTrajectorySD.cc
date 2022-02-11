@@ -103,17 +103,13 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   if(edep == 0.)
     return false;
   G4Track* aTrack = aStep->GetTrack();
-  /*
-  const G4bool isfirst = aStep->IsFirstStepInVolume();
-  const G4bool islast  = aStep->IsLastStepInVolume();
- */
-  G4int TrackID = aTrack->GetTrackID();
+  G4int TrackID   = aTrack->GetTrackID();
   //
   //  check if this is a new track
   for(unsigned int j = 0; j < fSimTrajectoryCollection->entries(); j++)
   {
     SimTrajectory* aPreviousTrajectory = (*fSimTrajectoryCollection)[j];
-    // if tack already exists add SimStep:
+    // if track already exists add SimStep:
     if(TrackID == aPreviousTrajectory->getTrackID())
     {
       SimStep* newstep =
@@ -126,9 +122,10 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       return true;
     }
   }
-  // if tack doesn't exist yet
-  SimTrajectory* newTrajectory = new SimTrajectory(
-    TrackID, aTrack->GetParticleDefinition()->GetPDGEncoding(), aTrack->GetParentID());
+  // if track doesn't exist yet
+  G4int parentID = aTrack->GetParentID();
+  SimTrajectory* newTrajectory =
+    new SimTrajectory(TrackID, aTrack->GetParticleDefinition()->GetPDGEncoding(), parentID);
   SimStep* newstep =
     new SimStep((float) (aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm),
                 (float) (aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm),
@@ -137,6 +134,15 @@ G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
                 (float) (aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns), (float) edep);
   newTrajectory->AddSimStep(newstep);
   fSimTrajectoryCollection->insert(newTrajectory);
+  for(unsigned int jj = 0; jj < fSimTrajectoryCollection->entries(); jj++)
+  {
+    SimTrajectory* parentTrajectory = (*fSimTrajectoryCollection)[jj];
+    if(parentTrajectory->getTrackID() == parentID)
+    {
+      parentTrajectory->getDaughters()->push_back(TrackID);
+      return true;
+    }
+  }
   return true;
 }
 //  std::cout << "SimTrajectorySD::ProcessHits: size of vector:  " << scVector.size() <<

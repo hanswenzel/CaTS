@@ -19,6 +19,7 @@
             <materialref ref="G4_lAr" />
             <solidref ref="Target" />
             <auxiliary auxtype="SensDet" auxvalue="SimTrajectory" />
+            <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
             <colorref ref="blue" />
         </volume>
 

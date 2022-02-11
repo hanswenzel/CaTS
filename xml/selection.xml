@@ -3,6 +3,7 @@
     <class name="G4String" />
     <class name="G4VHit" />
     <class name="Event" />
+    <class name="std::vector<G4int>" />
     <class name="lArTPCHit" />
     <class name="std::vector<lArTPCHit*>" />
     <class name="PhotonHit" />
@@ -17,8 +18,6 @@
     <class name="std::vector<TrackerHit*>" />
     <class name="MscHit" />
     <class name="std::vector<MscHit*>" />
-    <class name="SimEnergyDeposit" />
-    <class name="std::vector<SimEnergyDeposit*>" />
     <class name="SimTrajectory" />
     <class name="std::vector<SimTrajectory*>" />
     <class name="SimStep" />

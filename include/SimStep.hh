@@ -65,10 +65,10 @@ class SimStep
   void setEdep(float edep_) { edep = edep_; }
 
  private:
-  float x;
-  float y;
-  float z;
-  float len;
-  float t;
-  float edep;
+  float x{ 0.0 };
+  float y{ 0.0 };
+  float z{ 0.0 };
+  float len{ 0.0 };
+  float t{ 0.0 };
+  float edep{ 0.0 };
 };

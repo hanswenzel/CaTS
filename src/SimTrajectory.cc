@@ -43,10 +43,8 @@
 #include "SimStep.hh"
 G4ThreadLocal G4Allocator<SimTrajectory>* SimTrajectoryAllocator = nullptr;
 SimTrajectory::SimTrajectory()
-  : G4VHit()
-  , fTrackID(0)
-  , fTrajectory(0)
 {
+  fDaughters  = new std::vector<G4int>();
   fTrajectory = new std::vector<SimStep*>();
 }
 
@@ -55,6 +53,7 @@ SimTrajectory::SimTrajectory(G4int id, G4int pdg, G4int parentID)
   fTrackID    = id;
   fPDGcode    = pdg;
   fParentID   = parentID;
+  fDaughters  = new std::vector<G4int>();
   fTrajectory = new std::vector<SimStep*>();
 }
 
@@ -62,6 +61,7 @@ SimTrajectory::SimTrajectory(const SimTrajectory& orig) {}
 
 SimTrajectory::~SimTrajectory()
 {
+  delete fDaughters;
   for(auto step = fTrajectory->begin(); step != fTrajectory->end(); ++step)
   {
     delete *step;
