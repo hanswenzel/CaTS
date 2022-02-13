@@ -23,7 +23,6 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -37,28 +36,75 @@
 //
 // ********************************************************************
 //
-/// \file SimTrajectorySD.hh
-/// \brief Definition of the CaTS::SimTrajectorySD class
+/// \file SimEnergyDeposit.cc
+/// \brief Implementation of the CaTS::SimEnergyDeposit class
+// Geant4 headers
+#include "G4VVisManager.hh"
+#include "G4Circle.hh"
+#include "G4Colour.hh"
+#include "G4VisAttributes.hh"
+#include "SimEnergyDeposit.hh"
+G4ThreadLocal G4Allocator<SimEnergyDeposit>* SimEnergyDepositAllocator = nullptr;
+SimEnergyDeposit::SimEnergyDeposit()
+  : G4VHit()
+{}
 
-#pragma once
-#include "G4VSensitiveDetector.hh"
-#include "SimTrajectory.hh"
-class G4Step;
-class G4HCofThisEvent;
+SimEnergyDeposit::SimEnergyDeposit(unsigned int znph, unsigned int znelec, unsigned int ztid,
+                                   float zx, float zy, float zz, float zxe, float zye, float zze,
+                                   double zt, double zte, float zedep)
+  : nph(znph)
+  , nelec(znelec)
+  , tid(ztid)
+  , x(zx)
+  , y(zy)
+  , z(zz)
+  , xe(zxe)
+  , ye(zye)
+  , ze(zze)
+  , t(zt)
+  , te(zte)
+  , edep(zedep)
+{}
 
-class SimTrajectorySD : public G4VSensitiveDetector
+SimEnergyDeposit::SimEnergyDeposit(const SimEnergyDeposit& right)
 {
- public:
-  SimTrajectorySD(G4String name);
-  virtual ~SimTrajectorySD() = default;
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
+}
 
-  // methods from base class
-  virtual void Initialize(G4HCofThisEvent*) final;
-  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*) final;
-  virtual void EndOfEvent(G4HCofThisEvent* hitCollection) final;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
- private:
-  SimTrajectoryCollection* fSimTrajectoryCollection{ nullptr };
-  G4int fHCID{ 0 };
-  G4bool verbose{ false };
-};
+const SimEnergyDeposit& SimEnergyDeposit::operator=(const SimEnergyDeposit& right)
+{
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
+  return *this;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+bool SimEnergyDeposit::operator==(const SimEnergyDeposit& right) const
+{
+  return (this == &right) ? true : false;
+}
+void SimEnergyDeposit::Draw() {}

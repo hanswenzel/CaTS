@@ -37,28 +37,29 @@
 //
 // ********************************************************************
 //
-/// \file SimTrajectorySD.hh
-/// \brief Definition of the CaTS::SimTrajectorySD class
+/// \file SimEnergyDepositSD.hh
+/// \brief Definition of the CaTS::SimEnergyDepositSD class
 
 #pragma once
+
 #include "G4VSensitiveDetector.hh"
-#include "SimTrajectory.hh"
+#include "SimEnergyDeposit.hh"
 class G4Step;
 class G4HCofThisEvent;
 
-class SimTrajectorySD : public G4VSensitiveDetector
+class SimEnergyDepositSD : public G4VSensitiveDetector
 {
  public:
-  SimTrajectorySD(G4String name);
-  virtual ~SimTrajectorySD() = default;
+  SimEnergyDepositSD(G4String name);
+  ~SimEnergyDepositSD() = default;
 
   // methods from base class
   virtual void Initialize(G4HCofThisEvent*) final;
-  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*) final;
-  virtual void EndOfEvent(G4HCofThisEvent* hitCollection) final;
+  virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory*) final;
+  virtual void EndOfEvent(G4HCofThisEvent*) final;
 
  private:
-  SimTrajectoryCollection* fSimTrajectoryCollection{ nullptr };
+  SimEnergyDepositCollection* fSimEnergyDepositCollection{ nullptr };
   G4int fHCID{ 0 };
   G4bool verbose{ false };
 };

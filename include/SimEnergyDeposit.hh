@@ -37,28 +37,69 @@
 //
 // ********************************************************************
 //
-/// \file SimTrajectorySD.hh
-/// \brief Definition of the CaTS::SimTrajectorySD class
+/// \file SimEnergyDeposit.hh
+/// \brief Definition of the CaTS::SimEnergyDeposit class
 
 #pragma once
-#include "G4VSensitiveDetector.hh"
-#include "SimTrajectory.hh"
-class G4Step;
-class G4HCofThisEvent;
-
-class SimTrajectorySD : public G4VSensitiveDetector
+#include "globals.hh"
+#include "G4VHit.hh"
+#include "G4THitsCollection.hh"
+#include "G4Allocator.hh"
+class SimEnergyDeposit : public G4VHit
 {
  public:
-  SimTrajectorySD(G4String name);
-  virtual ~SimTrajectorySD() = default;
-
-  // methods from base class
-  virtual void Initialize(G4HCofThisEvent*) final;
-  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*) final;
-  virtual void EndOfEvent(G4HCofThisEvent* hitCollection) final;
+  const SimEnergyDeposit& operator=(const SimEnergyDeposit&);
+  bool operator==(const SimEnergyDeposit&) const;
+  SimEnergyDeposit();
+  SimEnergyDeposit(unsigned int znph, unsigned int znelec, unsigned int ztid, float zx, float zy,
+                   float zz, float zxe, float zye, float zze, double zt, double zte, float zedep);
+  SimEnergyDeposit(const SimEnergyDeposit&);
+  ~SimEnergyDeposit() = default;
+  inline void* operator new(size_t);
+  inline void operator delete(void*);
+  void Draw() final;
+  void SetEdep(float edep);
+  inline float GetEdep() const { return edep; };
+  void SetT(float t);
+  inline float GetT() const { return t; };
+  void SetZ(float z);
+  inline float GetZ() const { return z; };
+  void SetY(float y);
+  inline float GetY() const { return y; };
+  void SetX(float x);
+  inline float GetX() const { return x; }
+  double GetTe() const { return te; };
+  float GetZe() const { return ze; };
+  float GetYe() const { return ye; };
+  float GetXe() const { return xe; };
 
  private:
-  SimTrajectoryCollection* fSimTrajectoryCollection{ nullptr };
-  G4int fHCID{ 0 };
-  G4bool verbose{ false };
+  unsigned int nph{ 0 };
+  unsigned int nelec{ 0 };
+  unsigned int tid{ 0 };
+  float x{ 0.0 };
+  float y{ 0.0 };
+  float z{ 0.0 };
+  float xe{ 0.0 };
+  float ye{ 0.0 };
+  float ze{ 0.0 };
+  double t{ 0.0 };
+  double te{ 0.0 };
+  float edep{ 0.0 };
 };
+using SimEnergyDepositCollection = G4THitsCollection<SimEnergyDeposit>;
+extern G4ThreadLocal G4Allocator<SimEnergyDeposit>* SimEnergyDepositAllocator;
+
+inline void* SimEnergyDeposit::operator new(size_t)
+{
+  if(!SimEnergyDepositAllocator)
+  {
+    SimEnergyDepositAllocator = new G4Allocator<SimEnergyDeposit>;
+  }
+  return (void*) SimEnergyDepositAllocator->MallocSingle();
+}
+
+inline void SimEnergyDeposit::operator delete(void* aHit)
+{
+  SimEnergyDepositAllocator->FreeSingle((SimEnergyDeposit*) aHit);
+}

@@ -37,8 +37,8 @@
 //
 // ********************************************************************
 //
-/// \file SimTrajectorySD.cc
-/// \brief Implementation of the CaTS::SimTrajectorySD class
+/// \file SimEnergyDepositSD.cc
+/// \brief Implementation of the CaTS::SimEnergyDepositSD class
 
 // Geant4 headers
 #include "G4HCofThisEvent.hh"
@@ -57,10 +57,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 // project headers
-#include "SimTrajectorySD.hh"
-#include "SimStep.hh"
-#include "SimTrajectory.hh"
-//#include "RootIO.hh"
+#include "SimEnergyDeposit.hh"
+#include "SimEnergyDepositSD.hh"
 #include "ConfigurationManager.hh"
 #define UNUSED(expr)                                                                               \
   do                                                                                               \
@@ -68,83 +66,61 @@
     (void) (expr);                                                                                 \
   } while(0)
 using namespace std;
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-SimTrajectorySD::SimTrajectorySD(G4String name)
+SimEnergyDepositSD::SimEnergyDepositSD(G4String name)
   : G4VSensitiveDetector(name)
 {
   G4String HCname = name + "_HC";
   collectionName.insert(HCname);
-  G4cout << collectionName.size() << "   SimTrajectorySD name:  " << name
+  G4cout << collectionName.size() << "   TrackerSD name:  " << name
          << " collection Name: " << HCname << G4endl;
   fHCID   = -1;
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
+  std::cout << "SimEnergyDepositSD: constructor" << std::endl;
 }
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SimTrajectorySD::Initialize(G4HCofThisEvent* hce)
+void SimEnergyDepositSD::Initialize(G4HCofThisEvent* hce)
 {
-  fSimTrajectoryCollection = new SimTrajectoryCollection(SensitiveDetectorName, collectionName[0]);
+  fSimEnergyDepositCollection =
+    new SimEnergyDepositCollection(SensitiveDetectorName, collectionName[0]);
   if(fHCID < 0)
   {
     if(verbose)
-      G4cout << "SimTrajectorySD::Initialize:  " << SensitiveDetectorName << "   "
+      G4cout << "SimEnergyDepositSD::Initialize:  " << SensitiveDetectorName << "   "
              << collectionName[0] << G4endl;
     fHCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   }
-  hce->AddHitsCollection(fHCID, fSimTrajectoryCollection);
+  hce->AddHitsCollection(fHCID, fSimEnergyDepositCollection);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool SimTrajectorySD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
+G4bool SimEnergyDepositSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {
   G4double edep = aStep->GetTotalEnergyDeposit();
   if(edep == 0.)
     return false;
-  G4Track* aTrack = aStep->GetTrack();
-  G4int TrackID   = aTrack->GetTrackID();
-  //
-  //  check if this is a new track
-  for(unsigned int j = 0; j < fSimTrajectoryCollection->entries(); j++)
-  {
-    SimTrajectory* aPreviousTrajectory = (*fSimTrajectoryCollection)[j];
-    // if track already exists add SimStep:
-    if(TrackID == aPreviousTrajectory->getTrackID())
-    {
-      SimStep* newstep =
-        new SimStep((float) (aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm),
-                    (float) (aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm),
-                    (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm),
-                    (float) (aStep->GetStepLength() / CLHEP::cm),
-                    (float) (aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns), (float) edep);
-      aPreviousTrajectory->AddSimStep(newstep);
-      return true;
-    }
-  }
-  // if track doesn't exist yet
-  G4int parentID = aTrack->GetParentID();
-  SimTrajectory* newTrajectory =
-    new SimTrajectory(TrackID, aTrack->GetParticleDefinition()->GetPDGEncoding(), parentID);
-  SimStep* newstep =
-    new SimStep((float) (aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm),
-                (float) (aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm),
-                (float) (aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm),
-                (float) (aStep->GetStepLength() / CLHEP::cm),
-                (float) (aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns), (float) edep);
-  newTrajectory->AddSimStep(newstep);
-  fSimTrajectoryCollection->insert(newTrajectory);
-  for(unsigned int jj = 0; jj < fSimTrajectoryCollection->entries(); jj++)
-  {
-    SimTrajectory* parentTrajectory = (*fSimTrajectoryCollection)[jj];
-    if(parentTrajectory->getTrackID() == parentID)
-    {
-      parentTrajectory->getDaughters()->push_back(TrackID);
-      return true;
-    }
-  }
+  SimEnergyDeposit* sdep = new SimEnergyDeposit(
+    0, 0, 0, (float) aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm,
+    (float) aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm,
+    (float) aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm,
+    (float) aStep->GetPostStepPoint()->GetPosition().getX() / CLHEP::cm,
+    (float) aStep->GetPostStepPoint()->GetPosition().getY() / CLHEP::cm,
+    (float) aStep->GetPostStepPoint()->GetPosition().getZ() / CLHEP::cm,
+    (float) aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns,
+    (float) aStep->GetPostStepPoint()->GetGlobalTime() / CLHEP::ns,
+    (float) aStep->GetTotalEnergyDeposit() / CLHEP::MeV);
+  fSimEnergyDepositCollection->insert(sdep);
   return true;
 }
-void SimTrajectorySD::EndOfEvent(G4HCofThisEvent*) {}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void SimEnergyDepositSD::EndOfEvent(G4HCofThisEvent*)
+{
+  G4int NbHits = fSimEnergyDepositCollection->entries();
+  if(verbose)
+    G4cout << " Number of SimEnergyDeposit:  " << NbHits << G4endl;
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
