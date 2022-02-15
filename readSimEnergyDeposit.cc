@@ -43,8 +43,8 @@
 //* Ascii Art by Joan Stark: https://www.asciiworld.com/-Cats-2-.html *
 //---------------------------------------------------------------------
 //
-/// \file readSimTrajectory.cc
-/// \brief example how to read the  CaTS::SimTrajectory
+/// \file readSimEnergyDeposit.cc
+/// \brief example how to read the  CaTS::SimEnergyDeposit
 //
 // Root headers
 #include "TFile.h"
@@ -54,8 +54,7 @@
 #include "TTree.h"
 // Project headers
 #include "Event.hh"
-#include "SimTrajectory.hh"
-#include "SimStep.hh"
+#include "SimEnergyDeposit.hh"
 
 int main(int argc, char** argv)
 {
@@ -71,18 +70,6 @@ int main(int argc, char** argv)
   }
   TFile* outfile = new TFile(argv[2], "RECREATE");
   outfile->cd();
-  /*
-  TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
-  TH1F* time  = new TH1F("time", "timing of photon hits all detectors", 1000, 0., 250.);
-  TH1F* time0 = new TH1F("time0", "timing of photon hits detector 0", 1000, 0., 250.);
-  TH1F* time1 = new TH1F("time1", "timing of photon hits detector 1", 1000, 0., 250.);
-  TH1F* time2 = new TH1F("time2", "timing of photon hits detector 2", 1000, 0., 250.);
-  TH1F* time3 = new TH1F("time3", "timing of photon hits detector 3", 1000, 0., 250.);
-  TH1F* time4 = new TH1F("time4", "timing of photon hits detector 4", 1000, 0., 250.);
-  TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
-  TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected scintillation photons", 1000, 0., 1000.);
-  TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
-  */
   TH1F* energy = new TH1F("energy", "total energy", 100, 0., 2000.);
 
   TFile fo(argv[1]);
@@ -94,7 +81,7 @@ int main(int argc, char** argv)
   Int_t nevent        = fevtbranch->GetEntries();
   G4cout << "Nr. of Events:  " << nevent << G4endl;
   std::string CollectionName = argv[3];
-  CollectionName             = CollectionName + "_SimTrajectory_HC";
+  CollectionName             = CollectionName + "_SimEnergyDeposit_HC";
   for(Int_t i = 0; i < nevent; i++)
   {
     fevtbranch->GetEntry(i);
@@ -111,30 +98,8 @@ int main(int argc, char** argv)
         double tote = 0.0;
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          SimTrajectory* simTrajectory = dynamic_cast<SimTrajectory*>(hits.at(ii));
-          /*
-          std::cout << "Track ID:   " << simTrajectory->getTrackID()
-                    << " parent id: " << simTrajectory->getParentID()
-                    << " PDG code:  " << simTrajectory->getPDGcode()
-                    << " Number of steps: " << simTrajectory->getTrajectory()->size();
-          std::cout << " Daughters: ";
-          std::vector<G4int>* vi = simTrajectory->getDaughters();
-          std::cout << vi->size() << std::endl;
-          for(auto& element : *vi)
-          {
-            std::cout << element << ",";
-          }
-          std::cout << std::endl;
-          */
-          std::vector<SimStep*>* track = simTrajectory->getTrajectory();
-          for(auto& st : *track)
-          {
-            tote = tote + st->getEdep();
-            //            std::cout << " Edep:  " << st->getEdep() << "  Len:  " << st->getLen()
-            //                      << "  Time: " << st->getT() << "  X:    " << st->getX()
-            //                      << "  Y:    " << st->getY() << "  Z:    " << st->getZ() <<
-            //                      std::endl;
-          }
+          SimEnergyDeposit* simEnergyDeposit = dynamic_cast<SimEnergyDeposit*>(hits.at(ii));
+          tote                               = tote + simEnergyDeposit->GetEdep();
         }
         energy->Fill(tote);
       }

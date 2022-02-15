@@ -101,16 +101,17 @@ G4bool SimEnergyDepositSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
   G4double edep = aStep->GetTotalEnergyDeposit();
   if(edep == 0.)
     return false;
+  G4Track* aTrack        = aStep->GetTrack();
+  G4int TrackID          = aTrack->GetTrackID();
   SimEnergyDeposit* sdep = new SimEnergyDeposit(
-    0, 0, 0, (float) aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm,
+    0, 0, TrackID, (float) aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm,
     (float) aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm,
     (float) aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm,
     (float) aStep->GetPostStepPoint()->GetPosition().getX() / CLHEP::cm,
     (float) aStep->GetPostStepPoint()->GetPosition().getY() / CLHEP::cm,
     (float) aStep->GetPostStepPoint()->GetPosition().getZ() / CLHEP::cm,
     (float) aStep->GetPreStepPoint()->GetGlobalTime() / CLHEP::ns,
-    (float) aStep->GetPostStepPoint()->GetGlobalTime() / CLHEP::ns,
-    (float) aStep->GetTotalEnergyDeposit() / CLHEP::MeV);
+    (float) aStep->GetPostStepPoint()->GetGlobalTime() / CLHEP::ns, (float) edep / CLHEP::MeV);
   fSimEnergyDepositCollection->insert(sdep);
   return true;
 }
