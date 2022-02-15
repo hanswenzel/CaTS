@@ -50,6 +50,7 @@
 #include "TrackerHit.hh"
 #include "MscHit.hh"
 #include "SimTrajectory.hh"
+#include "SimEnergyDeposit.hh"
 #include "SimStep.hh"
 #include "Event.hh"
 Event e;
@@ -62,6 +63,7 @@ std::vector<TrackerHit*> t;
 std::vector<MscHit*> m;
 std::vector<SimStep*> sst;
 std::vector<SimTrajectory*> st;
+std::vector<SimEnergyDeposit*> sed;
 std::vector<G4int> vi;
 std::vector<G4VHit*> vh;
 std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections

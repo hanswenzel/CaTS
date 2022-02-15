@@ -33,8 +33,8 @@
 //*           /       \    for the simulation of various detector     *
 //*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	         ( (                                                  *
-//*	          ) )                                                 *
+//*	             ( (                                                  *
+//*	              ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
@@ -55,6 +55,7 @@
 // Project headers
 #include "Event.hh"
 #include "SimTrajectory.hh"
+#include "SimStep.hh"
 
 int main(int argc, char** argv)
 {
@@ -81,8 +82,9 @@ int main(int argc, char** argv)
   TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
   TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected scintillation photons", 1000, 0., 1000.);
   TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
-  TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
   */
+  TH1F* energy = new TH1F("energy", "total energy", 100, 0., 2000.);
+
   TFile fo(argv[1]);
   fo.GetListOfKeys()->Print();
   Event* event = new Event();
@@ -106,9 +108,11 @@ int main(int argc, char** argv)
         G4int NbHits = hits.size();
         G4cout << "Event: " << i << "  Number of Hits:  " << NbHits << G4endl;
         // np->Fill(NbHits);
+        double tote = 0.0;
         for(G4int ii = 0; ii < NbHits; ii++)
         {
           SimTrajectory* simTrajectory = dynamic_cast<SimTrajectory*>(hits.at(ii));
+          /*
           std::cout << "Track ID:   " << simTrajectory->getTrackID()
                     << " parent id: " << simTrajectory->getParentID()
                     << " PDG code:  " << simTrajectory->getPDGcode()
@@ -121,7 +125,18 @@ int main(int argc, char** argv)
             std::cout << element << ",";
           }
           std::cout << std::endl;
+          */
+          std::vector<SimStep*>* track = simTrajectory->getTrajectory();
+          for(auto& st : *track)
+          {
+            tote = tote + st->getEdep();
+            //            std::cout << " Edep:  " << st->getEdep() << "  Len:  " << st->getLen()
+            //                      << "  Time: " << st->getT() << "  X:    " << st->getX()
+            //                      << "  Y:    " << st->getY() << "  Z:    " << st->getZ() <<
+            //                      std::endl;
+          }
         }
+        energy->Fill(tote);
       }
       outfile->cd();
       outfile->Write();

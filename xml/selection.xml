@@ -22,6 +22,8 @@
     <class name="std::vector<SimTrajectory*>" />
     <class name="SimStep" />
     <class name="std::vector<SimStep*>" />
+    <class name="SimEnergyDeposit" />
+    <class name="std::vector<SimEnergyDeposit*>" />
     <class name="G4ThreeVector" />
     <class name="CLHEP::Hep3Vector" />
     <class name="std::map<G4String, std::vector<G4VHit*> >" />

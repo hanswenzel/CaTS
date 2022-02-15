@@ -63,6 +63,7 @@
 #include "CalorimeterHit.hh"
 #include "DRCalorimeterHit.hh"
 #include "SimTrajectory.hh"
+#include "SimEnergyDeposit.hh"
 #ifdef WITH_ROOT
 #  include "RootIO.hh"
 #endif
@@ -235,6 +236,20 @@ void EventAction::EndOfEventAction(const G4Event* event)
           G4VHit* hit          = hc->GetHit(ii);
           SimTrajectory* stHit = dynamic_cast<SimTrajectory*>(hit);
           hitsVector.push_back(stHit);
+        }
+        hcmap->insert(std::make_pair(hcname, hitsVector));
+      }
+      else if(Classname == "SimEnergyDeposit")
+      {
+        std::vector<G4VHit*> hitsVector;
+        G4int NbHits = hc->GetSize();
+        if(verbose)
+          G4cout << "SimEnergyDeposit size: " << hc->GetSize() << G4endl;
+        for(G4int ii = 0; ii < NbHits; ii++)
+        {
+          G4VHit* hit              = hc->GetHit(ii);
+          SimEnergyDeposit* sedHit = dynamic_cast<SimEnergyDeposit*>(hit);
+          hitsVector.push_back(sedHit);
         }
         hcmap->insert(std::make_pair(hcname, hitsVector));
       }

@@ -60,6 +60,7 @@
 #include "RadiatorSD.hh"
 #include "TrackerSD.hh"
 #include "SimTrajectorySD.hh"
+#include "SimEnergyDepositSD.hh"
 #include "lArTPCSD.hh"
 // c++ headers
 #include <iostream>
@@ -130,17 +131,18 @@ void DetectorConstruction::ConstructSDandField()
     G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
            << G4endl;
   }
-  std::map<std::string, int> mapofSensedets = {
-    { "PhotonDetector", 0 }, { "Target", 1 },      { "Tracker", 2 },
-    { "SimTrajectory", 3 },  { "Msc", 4 },         { "lArTPC", 5 },
-    { "Radiator", 6 },       { "Calorimeter", 7 }, { "DRCalorimeter", 8 }
-  };
+  std::map<std::string, int> mapofSensedets = { { "PhotonDetector", 0 },   { "Target", 1 },
+                                                { "Tracker", 2 },          { "SimTrajectory", 3 },
+                                                { "SimEnergyDeposit", 4 }, { "Msc", 5 },
+                                                { "lArTPC", 6 },           { "Radiator", 7 },
+                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 } };
   enum SensDet
   {
     PhotonDetector,
     Target,
     Tracker,
     SimTrajectory,
+    SimEnergyDeposit,
     Msc,
     lArTPC,
     Radiator,
@@ -192,6 +194,13 @@ void DetectorConstruction::ConstructSDandField()
               SimTrajectorySD* aSimTrajectorySD = new SimTrajectorySD(name);
               SDman->AddNewDetector(aSimTrajectorySD);
               logVol->SetSensitiveDetector(aSimTrajectorySD);
+              break;
+            }
+            case SimEnergyDeposit: {
+              name                                    = logVol->GetName() + "_SimEnergyDeposit";
+              SimEnergyDepositSD* aSimEnergyDepositSD = new SimEnergyDepositSD(name);
+              SDman->AddNewDetector(aSimEnergyDepositSD);
+              logVol->SetSensitiveDetector(aSimEnergyDepositSD);
               break;
             }
             case Msc: {
