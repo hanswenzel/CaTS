@@ -1,8 +1,8 @@
-/CaTS/enable_verbose false
+/CaTS/verbose false
 /CaTS/dumpgdml false
 /CaTS/GDMLFileName dump.gdml
 /CaTS/writeHits true
-/CaTS/FileName NewHits_G4_point
+/CaTS/fname NewHits_G4_point
 /process/optical/scintillation/setStackPhotons true
 /process/optical/cerenkov/setStackPhotons true
 /process/optical/rayleigh/verbose 0
