@@ -40,7 +40,7 @@ else()
 endif()
 
 if(WITH_ROOT)
-  find_package(ROOT REQUIRED)
+  find_package(ROOT COMPONENTS EG REQUIRED)
 # ROOT version 6 required
    if(ROOT_FOUND)
      STRING(REGEX MATCH "6.*" VERSION6MATCH ${ROOT_VERSION})
@@ -67,6 +67,8 @@ if(WITH_ROOT)
 #----------------------------------------------------------------------------
 # Generate dictionaries, add ROOT libraries properties
 #
+#message(STATUS "root libraries: " ${ROOT_LIBRARIES})
+
    REFLEX_GENERATE_DICTIONARY(CaTSClasses include/CaTSClasses.hh SELECTION xml/selection.xml)
    add_library(CaTSClassesDict SHARED ${sources} CaTSClasses.cxx)
    set(libsuffix .so)

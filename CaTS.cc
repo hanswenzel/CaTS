@@ -66,7 +66,7 @@
 #include "DetectorConstruction.hh"
 #include "PhysicsConfigurator.hh"
 // Geant4 headers:
-#include "G4RunManager.hh"
+//#include "G4RunManager.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4Timer.hh"
 #include "G4UIExecutive.hh"
@@ -120,40 +120,31 @@ int main(int argc, char** argv)
     G4cout << G4endl;
     return -1;
   }
-  G4cout
-    << G4endl
-    << "---------------------------------------------------------------------"
-    << G4endl
-    << "*            |\\___/|                                                "
-       "*"
-    << G4endl
-    << "*            )     (                                                *"
-    << G4endl
-    << "*           =\\     /=                                               "
-       "*"
-    << G4endl
-    << "*             )===(      Welcome to:                                *"
-    << G4endl
-    << "*            /     \\     CaTS: Calorimeter and Tracker Simulation   "
-       "*"
-    << G4endl
-    << "*            |     |     a flexible and extend-able framework       *"
-    << G4endl
-    << "*           /       \\    for the simulation of various detector     "
-       "*"
-    << G4endl
-    << "*	    \\       /    systems                                    *"
-    << G4endl
-    << "*            \\__  _/     https://github.com/hanswenzel/CaTS         "
-       "*"
-    << G4endl
-    << "*              ( (                                                  *"
-    << G4endl << "*	        ) )      Version: " << CaTSVersion
-    << "                          *" << G4endl
-    << "*              (_(       Date:    " << CaTSDate << "                 *"
-    << G4endl
-    << "---------------------------------------------------------------------"
-    << G4endl << G4endl;
+  G4cout << G4endl << "---------------------------------------------------------------------"
+         << G4endl
+         << "*            |\\___/|                                                "
+            "*"
+         << G4endl << "*            )     (                                                *"
+         << G4endl
+         << "*           =\\     /=                                               "
+            "*"
+         << G4endl << "*             )===(      Welcome to:                                *"
+         << G4endl
+         << "*            /     \\     CaTS: Calorimeter and Tracker Simulation   "
+            "*"
+         << G4endl << "*            |     |     a flexible and extend-able framework       *"
+         << G4endl
+         << "*           /       \\    for the simulation of various detector     "
+            "*"
+         << G4endl << "*	    \\       /    systems                                    *" << G4endl
+         << "*            \\__  _/     https://github.com/hanswenzel/CaTS         "
+            "*"
+         << G4endl << "*              ( (                                                  *"
+         << G4endl << "*	        ) )      Version: " << CaTSVersion
+         << "                          *" << G4endl
+         << "*              (_(       Date:    " << CaTSDate << "                 *" << G4endl
+         << "---------------------------------------------------------------------" << G4endl
+         << G4endl;
   if(physicsconf == "")
   {
     G4cout << "Warning! no physics configuration specified!" << G4endl;
@@ -178,9 +169,8 @@ int main(int argc, char** argv)
 #ifdef WITH_G4OPTICKS
   OPTICKS_LOG(argc, argv);
 #endif
-  G4VModularPhysicsList* phys =
-    PhysicsConfigurator::getInstance()->Construct(physicsconf);
-  G4String DumpFilename = gdmlfile + "_G4";
+  G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
+  G4String DumpFilename       = gdmlfile + "_G4";
   ConfigurationManager::getInstance()->setGDMLFileName(DumpFilename);
   DetectorConstruction* dc = new DetectorConstruction(gdmlfile);
   // Run manager
@@ -220,13 +210,11 @@ int main(int argc, char** argv)
     delete ui;
   }
   eventTimer->Stop();
-  double totalCPUTime =
-    eventTimer->GetUserElapsed() + eventTimer->GetSystemElapsed();
+  double totalCPUTime        = eventTimer->GetUserElapsed() + eventTimer->GetSystemElapsed();
   G4int precision_t          = G4cout.precision(3);
   std::ios::fmtflags flags_t = G4cout.flags();
   G4cout.setf(std::ios::fixed, std::ios::floatfield);
-  G4cout << "TimeTotal> " << eventTimer->GetRealElapsed() << " " << totalCPUTime
-         << G4endl;
+  G4cout << "TimeTotal> " << eventTimer->GetRealElapsed() << " " << totalCPUTime << G4endl;
   G4cout.setf(flags_t);
   G4cout.precision(precision_t);
   delete eventTimer;
