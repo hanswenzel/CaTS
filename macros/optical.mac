@@ -1,0 +1,12 @@
+/CaTS/verbose false
+/run/initialize 
+#/process/optical/wls/setTimeProfile  exponential
+#/process/optical/wls/verbose 1
+/random/setSeeds 7 38 
+/CaTS/writeHits true 
+/CaTS/enable_opticks false
+/gun/particle opticalphoton
+/gun/energy 9.6 eV
+/gun/position 0. 0. -10. mm 
+/gun/direction 0. 0. 1.
+/run/beamOn 10000

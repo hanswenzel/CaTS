@@ -31,10 +31,10 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	      \       /    systems                                    *
+//*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	         ( (                                                  *
-//*	          ) )                                                 *
+//*	             ( (                                                  *
+//*	              ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *

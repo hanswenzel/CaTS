@@ -297,62 +297,45 @@
 	</materials>
 	<solids>
 		<box name="WorldBox" lunit="cm" x="100" y="100" z="410" />
-		<tube name="HousingEnv" rmax="10.3" z="1." deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="HousingRing" rmin="10.0" rmax="10.3" z="0.7" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="HousingBase" rmax="10.3" z="0.3" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="Coating" rmax="10.0" z="0.1" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="PhotoDetector" rmax="10.0" z="0.3" deltaphi="360" aunit="deg" lunit="mm" />
+		<box name="PaddleBox" lunit="cm" x="1.0" y="1." z=".01" />
+		<box name="PhotodetectorbxBox" lunit="cm" x=".9" y=".9" z=".01" />
+		<tube name="Housing" rmax="1.03" z="0.07" deltaphi="360" aunit="deg" lunit="cm" />
+		<tube name="Coating" rmax="1.0" z="0.01" deltaphi="360" aunit="deg" lunit="cm" />
+		<tube name="PhotoDetector" rmax="1.0" z="0.03" deltaphi="360" aunit="deg" lunit="cm" />
 	</solids>
 	<structure>
 		<volume name="lvCoating">
 			<materialref ref="Water" />
 			<solidref ref="Coating" />
-			<colorref ref="red" />
+			<colorref ref="blue" />
 			<auxiliary auxtype="Solid" auxvalue="True" />
 		</volume>
 		<volume name="lvPhotoDetector">
 			<materialref ref="Silicon" />
 			<solidref ref="PhotoDetector" />
-			<colorref ref="blue" />
+			<colorref ref="red" />
 			<auxiliary auxtype="Solid" auxvalue="True" />
 			<auxiliary auxtype="SensDet" auxvalue="PhotonDetector" />
 		</volume>
-		<volume name="lvHousingRing">
-			<solidref ref="HousingRing" />
+		<volume name="lvHousing">
+			<solidref ref="Housing" />
 			<materialref ref="G4_POLYETHYLENE" />
 			<colorref ref="green" />
-		</volume>
-		<volume name="lvHousingBase">
-			<solidref ref="HousingBase" />
-			<materialref ref="G4_POLYETHYLENE" />
-			<colorref ref="green" />
-		</volume>
-		<volume name="lvHousingEnv">
-			<materialref ref="Air" />
-			<solidref ref="HousingEnv" />
-			<physvol name="pHousingBase" copynumber="1">
-				<volumeref ref="lvHousingBase" />
-				<position name="pHousingBasepos" unit="mm" x="0" y="0" z="0.35" />
-			</physvol>
-			<physvol name="pHousingring" copynumber="1">
-				<volumeref ref="lvHousingRing" />
-				<position name="HousingRingpos" unit="mm" x="0" y="0" z="-0.15" />
-			</physvol>
 			<physvol name="pPhotodetector" copynumber="1">
 				<volumeref ref="lvPhotoDetector" />
-				<position name="PhotoDetectorpos" unit="mm" x="0" y="0" z="0.05" />
+				<position name="PhotoDetectorpos" unit="cm" x="0" y="0" z="0.01" />
 			</physvol>
 			<physvol name="pCoating" copynumber="1">
 				<volumeref ref="lvCoating" />
-				<position name="Coatingpos" unit="mm" x="0" y="0" z="-0.15" />
+				<position name="Coatingpos" unit="cm" x="0" y="0" z="0.03" />
 			</physvol>
 		</volume>
 		<volume name="TOP">
 			<materialref ref="Air" />
 			<solidref ref="WorldBox" />
-			<physvol name="pHousingEnv" copynumber="1">
-				<volumeref ref="lvHousingEnv" />
-				<position name="Housingpos" unit="mm" x="0" y="0" z="0." />
+			<physvol name="pHousing" copynumber="1">
+				<volumeref ref="lvHousing" />
+				<position name="Housingpos" unit="cm" x="0" y="0" z="0." />
 			</physvol>
 		</volume>
 	</structure>

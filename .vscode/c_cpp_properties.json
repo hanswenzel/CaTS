@@ -4,17 +4,17 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/data2/wenzel/root624/include",
-                "/data2/wenzel/geant4-v11.0.0-install/include/Geant4/"
+                "/data3/wenzel/root-install/include",
+                "/data3/wenzel/geant4-v11.0.1-install/include/Geant4/"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                "${workspaceFolder}/**",
-                "/data2/wenzel/root624/include",
-                "/data2/wenzel/geant4-v11.0.0-install/include/Geant4/"
+                    "${workspaceFolder}/**",
+                    "/data3/wenzel/root-install/include",
+                    "/data3/wenzel/geant4-v11.0.1-install/include/Geant4/"
                 ]
-              },
+            },
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",

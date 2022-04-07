@@ -40,6 +40,7 @@
 /// \brief Implementation of the CaTS::DetectorConstruction class
 
 // Geant4 headers
+#include "G4AutoDelete.hh"
 #include "G4GDMLParser.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4PhysicalVolumeStore.hh"
@@ -49,8 +50,11 @@
 #include "G4RunManager.hh"
 #include "G4SDManager.hh"
 #include "G4UserLimits.hh"
+#include "G4UnitsTable.hh"
 #include "G4VisAttributes.hh"
 #include "G4ios.hh"
+
+#include "G4MaterialTable.hh"
 
 // project headers
 #include "CalorimeterSD.hh"
@@ -77,6 +81,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
   ReadGDML();
   const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
+  verbose                        = true;
   if(verbose)
   {
     G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
@@ -92,23 +97,53 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     for(auto const& auxtype : listType)
     {
       G4cout << auxtype.type << "   " << auxtype.value << "   " << auxtype.unit << G4endl;
+      G4double value             = atof(auxtype.value);
+      G4double val_unit          = 1;  //--no unit
+      G4String provided_category = "NONE";
+      if((auxtype.unit) && (auxtype.unit != ""))
+      {  // -- if provided and non-NULL
+        val_unit          = G4UnitDefinition::GetValueOf(auxtype.unit);
+        provided_category = G4UnitDefinition::GetCategory(auxtype.unit);
+        G4cout << " Unit parsed = " << auxtype.unit
+               << " from unit category: " << provided_category.c_str() << G4endl;
 
+        value *=
+          val_unit;  //-- Now do something with the value, making sure that the unit is appropriate
+      }
       if(auxtype.type == "StepLimit")
       {
-        G4UserLimits* fStepLimit = new G4UserLimits(atof(auxtype.value));
-        logVol->SetUserLimits(fStepLimit);
+        //-- check that steplimit has valid length unit category
+        G4String steplimit_category = "Length";
+        if(provided_category == steplimit_category)
+        {
+          G4cout << "Valid steplimit unit category obtained: " << provided_category.c_str()
+                 << G4endl;
+          // -- convert length to mm
+          value                    = (value / CLHEP::mm) * CLHEP::mm;
+          G4UserLimits* fStepLimit = new G4UserLimits(value);
+          G4AutoDelete::Register(fStepLimit);
+          logVol->SetUserLimits(fStepLimit);
+          G4cout << "StepLimit for log Volume: " << logVol->GetName() << "  " << value << "  "
+                 << value / CLHEP::cm << " cm" << G4endl;
+        }
+        else if(provided_category == "NONE")
+        {  //--no unit category provided, use the default CLHEP::mm
+          G4cout << "StepLimit in geometry file does not have a unit!"
+                 << " Defaulting to mm..." << G4endl;
+          value *= CLHEP::mm;
+          G4UserLimits* fStepLimit = new G4UserLimits(value);
+          G4AutoDelete::Register(fStepLimit);
+          logVol->SetUserLimits(fStepLimit);
+          G4cout << "StepLimit for log Volume: " << logVol->GetName() << "  " << value << "  "
+                 << value / CLHEP::cm << " cm" << G4endl;
+        }
+        else
+        {  //--wrong unit category provided
+          G4cout << "StepLimit does not have a valid length unit!" << G4endl;
+          G4cout << "Category of unit provided = " << provided_category << G4endl;
+          exit(EXIT_FAILURE);
+        }
       }
-      if(auxtype.type == "SensitiveRegion")
-      {
-        // G4UserLimits* fStepLimit = new G4UserLimits(atof(auxtype.value));
-        G4cout << "********************  found Sensitive region: " << logVol->GetName() << G4endl;
-        G4Region* region = new G4Region(logVol->GetName());
-        G4ProductionCuts* cuts(new G4ProductionCuts);
-        cuts->SetProductionCut(atof(auxtype.value));
-        region->SetProductionCuts(cuts);
-        G4cout << "********************  found Sensitive region: " << auxtype.value << G4endl;
-      }
-
       if(auxtype.type == "Solid")
       {
         if(auxtype.value == "True")
@@ -143,6 +178,23 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
     }
   }
+
+  /*
+  //
+  // dump material properties:
+  //
+
+  const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
+  G4int nMaterials                     = G4Material::GetNumberOfMaterials();
+  for(G4int m = 0; m < nMaterials; m++)
+  {
+    const G4Material* aMaterial = (*materialTable)[m];
+    G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
+    G4MaterialPropertiesTable* aMaterialPropertiesTable = aMaterial->GetMaterialPropertiesTable();
+    if(aMaterialPropertiesTable != nullptr)
+      aMaterialPropertiesTable->DumpTable();
+  }
+  */
   return worldPhysVol;
 }
 void DetectorConstruction::ConstructSDandField()

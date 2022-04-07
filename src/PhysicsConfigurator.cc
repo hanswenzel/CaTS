@@ -54,7 +54,7 @@
 #include "PhysicsConfigurator.hh"
 #include "ConfigurationManager.hh"
 // c++ headers
-#include <stdlib.h> 
+#include <stdlib.h>
 PhysicsConfigurator* PhysicsConfigurator::instance = 0;
 
 G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
@@ -62,20 +62,17 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   //
   // Access to registries and factories
   //
-  G4PhysicsConstructorRegistry* g4pcr =
-    G4PhysicsConstructorRegistry::Instance();
-  G4PhysListRegistry* g4plr = G4PhysListRegistry::Instance();
-  G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
+  G4PhysicsConstructorRegistry* g4pcr = G4PhysicsConstructorRegistry::Instance();
+  G4PhysListRegistry* g4plr           = G4PhysListRegistry::Instance();
+  G4bool verbose                      = ConfigurationManager::getInstance()->isEnable_verbose();
   if(verbose)
   {
-    G4cout << "Available Physics Constructors:  "
-           << g4pcr->AvailablePhysicsConstructors().size() << G4endl;
-    G4cout << "Available Physics Lists:         "
-           << g4plr->AvailablePhysLists().size() << G4endl;
-    G4cout << "Available Physics Extensions:    "
-           << g4plr->AvailablePhysicsExtensions().size() << G4endl;
-    G4cout << "Available Physics Lists Em:      "
-           << g4plr->AvailablePhysListsEM().size() << G4endl;
+    G4cout << "Available Physics Constructors:  " << g4pcr->AvailablePhysicsConstructors().size()
+           << G4endl;
+    G4cout << "Available Physics Lists:         " << g4plr->AvailablePhysLists().size() << G4endl;
+    G4cout << "Available Physics Extensions:    " << g4plr->AvailablePhysicsExtensions().size()
+           << G4endl;
+    G4cout << "Available Physics Lists Em:      " << g4plr->AvailablePhysListsEM().size() << G4endl;
     g4plr->SetVerbose(1);
   }
   else
@@ -121,8 +118,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   G4OpticalParameters::Instance()->SetProcessActivation("OpRayleigh", true);
   G4OpticalParameters::Instance()->SetProcessActivation("OpMieHG", false);
   G4OpticalParameters::Instance()->SetProcessActivation("OpWLS", true);
-  G4OpticalParameters::Instance()->SetProcessActivation("OpWLS2", false);
-
+  G4OpticalParameters::Instance()->SetProcessActivation("OpWLS2", true);
   G4OpticalParameters::Instance()->SetCerenkovStackPhotons(false);
   G4OpticalParameters::Instance()->SetScintStackPhotons(false);
   G4OpticalParameters::Instance()->SetScintTrackSecondariesFirst(
@@ -131,6 +127,8 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
     true);  // only relevant if we actually stack and trace the optical photons
   G4OpticalParameters::Instance()->SetCerenkovMaxPhotonsPerStep(100);
   G4OpticalParameters::Instance()->SetCerenkovMaxBetaChange(10.0);
+  G4OpticalParameters::Instance()->SetWLSTimeProfile("exponential");
+  G4OpticalParameters::Instance()->SetWLS2TimeProfile("exponential");
   if(verbose)
   {
     phys->DumpList();

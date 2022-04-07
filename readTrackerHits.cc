@@ -43,19 +43,19 @@
 //* Ascii Art by Joan Stark: https://www.asciiworld.com/-Cats-2-.html *
 //---------------------------------------------------------------------
 //
-/// \file readPhotonHits.cc
-/// \brief example how to read the  CaTS::PhotonHits
+/// \file readTrackerHits.cc
+/// \brief example how to read the  CaTS::TrackerHits
 //
 // Root headers
 #include "TFile.h"
-#include "TH1.h"
-#include "TH2.h"
 #include "TSystem.h"
 #include "TTree.h"
-// Project headers
+#include "TH1.h"
+#include <string>
+// project headers
 #include "Event.hh"
-#include "PhotonHit.hh"
-#include "lArTPCHit.hh"
+#include "TrackerHit.hh"
+#include "G4ThreeVector.hh"
 
 int main(int argc, char** argv)
 {
@@ -70,53 +70,33 @@ int main(int argc, char** argv)
     exit(1);
   }
   TFile* outfile = new TFile(argv[2], "RECREATE");
-  outfile->cd();
-  TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
-  TH1F* time  = new TH1F("time", "timing of photon hits", 100, 0., 2.);
-  TH1F* time0 = new TH1F("time0", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time1 = new TH1F("time1", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time2 = new TH1F("time2", "timing of photon hits", 1000, 0., 250.);
-  TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
-  TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
   TFile fo(argv[1]);
-  fo.GetListOfKeys()->Print();
   Event* event = new Event();
   TTree* Tevt  = (TTree*) fo.Get("Events");
   Tevt->SetBranchAddress("event.", &event);
   TBranch* fevtbranch = Tevt->GetBranch("event.");
   Int_t nevent        = fevtbranch->GetEntries();
-  G4cout << "Nr. of Events:  " << nevent << G4endl;
+  outfile->cd();
+  TH1F* edep                 = new TH1F("edep", "edep", 100, 0.0, 0.004);
   std::string CollectionName = argv[3];
-  CollectionName             = CollectionName + "_Photondetector_HC";
+  CollectionName             = CollectionName + "_Tracker_HC";
   for(Int_t i = 0; i < nevent; i++)
   {
     fevtbranch->GetEntry(i);
     auto* hcmap = event->GetHCMap();
     for(const auto& ele : *hcmap)
     {
-      auto hits = ele.second;
       if(ele.first.compare(CollectionName) == 0)
       {
         auto hits    = ele.second;
         G4int NbHits = hits.size();
-        G4cout << "Event: " << i << "  Number of Hits:  " << NbHits << G4endl;
-        np->Fill(NbHits);
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          PhotonHit* photonHit = dynamic_cast<PhotonHit*>(hits.at(ii));
-          time->Fill(photonHit->GetTime());
-          wl->Fill(photonHit->GetWavelength());
-          if(photonHit->GetPosition().getZ() < -100.)
-            time0->Fill(photonHit->GetTime());
-          if(photonHit->GetPosition().getZ() > -100. && photonHit->GetPosition().getZ() < 100)
-            time1->Fill(photonHit->GetTime());
-          if(photonHit->GetPosition().getZ() < 100.)
-            time2->Fill(photonHit->GetTime());
-          pos2->Fill(photonHit->GetPosition().getZ(), photonHit->GetPosition().getY());
+          TrackerHit* th = dynamic_cast<TrackerHit*>(hits.at(ii));
+          edep->Fill(th->GetEdep());
         }
       }
     }
   }
-  outfile->cd();
   outfile->Write();
 }

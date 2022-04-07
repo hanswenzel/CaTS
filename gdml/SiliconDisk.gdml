@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
+    <extension>
+        <color name="magenta" R="0.0" G="1.0" B="0.0" A="1.0" />
+        <color name="green" R="0.0" G="1.0" B="0.0" A="1.0" />
+        <color name="red" R="1.0" G="0.0" B="0.0" A="1.0" />
+        <color name="blue" R="0.0" G="0.0" B="1.0" A="1.0" />
+        <color name="yellow" R="1.0" G="1.0" B="0.0" A="1.0" />
+    </extension>
+    <solids>
+        <box name="WorldBox" lunit="cm" x="100" y="100" z="410" />
+        <tube name="Target" lunit="cm" z="0.0005" rmax="30" deltaphi="2.*pi" aunit="rad" />
+    </solids>
+    <structure>
+        <volume name="volTarget">
+            <materialref ref="G4_Si" />
+            <auxiliary auxtype="SensDet" auxvalue="Tracker" />
+            <solidref ref="Target" />
+            <colorref ref="green" />
+        </volume>
+        <volume name="TOP">
+            <materialref ref="G4_Galactic" />
+            <solidref ref="WorldBox" />
+            <physvol name="physTargetVolume" copynumber="0">
+                <volumeref ref="volTarget" />
+                <position name="Targetpos" x="0" y="0" z="0" />
+            </physvol>
+        </volume>
+    </structure>
+    <userinfo>
+        <auxiliary auxtype="Region" auxvalue="myregion1">
+            <auxiliary auxtype="volume" auxvalue="volTarget" />
+            <auxiliary auxtype="ecut" auxvalue=".001" auxunit="mm" />
+            <!-- 
+            <auxiliary auxtype="pcut" auxvalue="1." auxunit="mm" />
+            <auxiliary auxtype="poscut" auxvalue="0.2" auxunit="mm" />
+            <auxiliary auxtype="gamcut" auxvalue="0.8" auxunit="mm" />
+-->
+        </auxiliary>
+    </userinfo>
+    <setup version="1.0" name="Default">
+        <world ref="TOP" />
+    </setup>
+</gdml_simple_extension>
