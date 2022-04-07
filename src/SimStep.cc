@@ -23,8 +23,6 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +32,57 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
-#include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
-#include "SimTrajectory.hh"
-#include "SimEnergyDeposit.hh"
+/// \file SimStep.cc
+/// \brief Implementation of the CaTS::SimStep class
+
 #include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+
+SimStep::SimStep()
+  : x(0.0)
+  , y(0.0)
+  , z(0.0)
+  , len(0.0)
+  , t(0.0)
+  , edep(0.0)
+{}
+
+SimStep::SimStep(float xx = 0.0, float yy = 0.0, float zz = 0.0, float ll = 0.0, float tt = 0.0,
+                 float ed = 0.0)
+  : x(xx)
+  , y(yy)
+  , z(zz)
+  , len(ll)
+  , t(tt)
+  , edep(ed)
+{}
+
+SimStep::SimStep(const SimStep& right)
+{
+  x    = right.x;
+  y    = right.y;
+  z    = right.z;
+  len  = right.len;
+  t    = right.t;
+  edep = right.edep;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+const SimStep& SimStep::operator=(const SimStep& right)
+{
+  x    = right.x;
+  y    = right.y;
+  z    = right.z;
+  len  = right.len;
+  t    = right.t;
+  edep = right.edep;
+  return *this;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+bool SimStep::operator==(const SimStep& right) const { return (this == &right) ? true : false; }

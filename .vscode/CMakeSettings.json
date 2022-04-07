@@ -1,6 +1,9 @@
 {
     "name": "x86-Debug",
     "generator": "Ninja",
+    "configurationType": "Debug",
+    "cmakeCommandArgs": "-DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH='../CaTS/cmake/Modules'",
+    "buildRoot": "../CaTS-build",
     "installRoot": "../CaTS-install",
     "cmakeCommandArgs": "",
     "buildCommandArgs": "-v",

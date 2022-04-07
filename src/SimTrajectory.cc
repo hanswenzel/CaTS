@@ -23,8 +23,6 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +32,42 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
-#include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
+/// \file SimTrajectory.cc
+/// \brief Implementation of the CaTS::SimTrajectory class
+
 #include "SimTrajectory.hh"
-#include "SimEnergyDeposit.hh"
 #include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+G4ThreadLocal G4Allocator<SimTrajectory>* SimTrajectoryAllocator = nullptr;
+SimTrajectory::SimTrajectory()
+{
+  fDaughters  = new std::vector<G4int>();
+  fTrajectory = new std::vector<SimStep*>();
+}
+
+SimTrajectory::SimTrajectory(G4int id, G4int pdg, G4int parentID)
+{
+  fTrackID    = id;
+  fPDGcode    = pdg;
+  fParentID   = parentID;
+  fDaughters  = new std::vector<G4int>();
+  fTrajectory = new std::vector<SimStep*>();
+}
+
+SimTrajectory::SimTrajectory(const SimTrajectory& orig) {}
+
+SimTrajectory::~SimTrajectory()
+{
+  delete fDaughters;
+  for(auto step = fTrajectory->begin(); step != fTrajectory->end(); ++step)
+  {
+    delete *step;
+  }
+  delete fTrajectory;
+}
+void SimTrajectory::Draw() {}
+
+void SimTrajectory::AddSimStep(SimStep* step) { fTrajectory->push_back(step); }

@@ -24,7 +24,6 @@
 // ********************************************************************
 //
 //
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +33,42 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
-#include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
-#include "SimTrajectory.hh"
-#include "SimEnergyDeposit.hh"
-#include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+/// \file SimStep.hh
+/// \brief Definition of the CaTS::SimStep class
+
+#pragma once
+
+class SimStep
+{
+ public:
+  const SimStep& operator=(const SimStep&);
+  bool operator==(const SimStep&) const;
+  SimStep();
+  SimStep(float xx, float yy, float zz, float ll, float tt, float ed);
+  SimStep(const SimStep& orig);
+  ~SimStep() = default;
+  float getX() const { return x; }
+  void setX(float x_) { x = x_; }
+  float getY() const { return y; }
+  void setY(float y_) { y = y_; }
+  float getZ() const { return z; }
+  void setZ(float z_) { z = z_; }
+  float getLen() const { return len; }
+  void setLen(float len_) { len = len_; }
+  float getT() const { return t; }
+  void setT(float t_) { t = t_; }
+  float getEdep() const { return edep; }
+  void setEdep(float edep_) { edep = edep_; }
+
+ private:
+  float x{ 0.0 };
+  float y{ 0.0 };
+  float z{ 0.0 };
+  float len{ 0.0 };
+  float t{ 0.0 };
+  float edep{ 0.0 };
+};

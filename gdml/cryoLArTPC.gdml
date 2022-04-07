@@ -45,14 +45,6 @@
             <property name="FASTCOMPONENT" ref="SCINTLAR" />
             <property name="SLOWCOMPONENT" ref="SCINTLAR" />
             <property name="YIELDRATIO" ref="YR" />
-            <!--
-            <property name="REEMISSIONPROB" ref="SCINTLAR"/>
-            <property name="SCINTILLATIONYIELD" ref="SY" />
-            <property name="RESOLUTIONSCALE" ref="RS" />
-            <property name="SLOWTIMECONSTANT" ref="STC" />
-            <property name="FASTTIMECONSTANT" ref="FTC" />
-            <property name="YIELDRATIO" ref="YR" />
-	    -->
         </material>
         <material name="Air">
             <D value="1.290" unit="mg/cm3" />
@@ -67,7 +59,8 @@
     </materials>
     <solids>
         <tube name="GlassPlate" rmax="3" z="0.5" deltaphi="360" aunit="deg" lunit="cm" />
-        <box lunit="mm" name="Obj" x="1000" y="1000" z="2000" />
+        <box lunit="mm" name="lArgonBox" x="1000" y="1000" z="2000" />
+        <box lunit="mm" name="CryoBox" x="1010" y="1010" z="2010" />
         <opticalsurface finish="0" model="0" name="ScintWrap" type="0" value="1">
             <property name="REFLECTIVITY" ref="REFLECTIVITY" />
             <property name="EFFICIENCY" ref="EFFICIENCY" />
@@ -75,71 +68,83 @@
         <box lunit="mm" name="World" x="2000" y="2000" z="2000" />
     </solids>
     <structure>
-        <volume name="Det">
+        <volume name="lvDet">
             <materialref ref="Glass" />
             <solidref ref="GlassPlate" />
             <colorref ref="red" />
             <auxiliary auxtype="Solid" auxvalue="True" />
             <auxiliary auxtype="SensDet" auxvalue="PhotonDetector" />
         </volume>
-        <volume name="Obj">
+        <volume name="lvlArgon">
             <materialref ref="liquidAr" />
-            <solidref ref="Obj" />
+            <solidref ref="lArgonBox" />
             <colorref ref="blue" />
             <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
             <auxiliary auxtype="SensDet" auxvalue="Radiator" />
-            <physvol name="Det2" copynumber="2">
-                <volumeref ref="Det" />
+            <physvol name="pvDet2" copynumber="2">
+                <volumeref ref="lvDet" />
                 <position name="Det2" unit="mm" x="497.5" y="0" z="0" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det3" copynumber="3">
-                <volumeref ref="Det" />
+            <physvol name="pvDet3" copynumber="3">
+                <volumeref ref="lvDet" />
                 <position name="Det3" unit="mm" x="497.5" y="450" z="950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det0" copynumber="0">
-                <volumeref ref="Det" />
+            <physvol name="pvDet0" copynumber="0">
+                <volumeref ref="lvDet" />
                 <position name="Det0" unit="mm" x="497.5" y="450" z="-950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det4" copynumber="4">
-                <volumeref ref="Det" />
+            <physvol name="pvDet4" copynumber="4">
+                <volumeref ref="lvDet" />
                 <position name="Det4" unit="mm" x="497.5" y="-450" z="950" />
                 <rotationref ref="rPMTRotation1" />
             </physvol>
-            <physvol name="Det1" copynumber="1">
-                <volumeref ref="Det" />
+            <physvol name="pvDet1" copynumber="1">
+                <volumeref ref="lvDet" />
                 <position name="Det1" unit="mm" x="497.5" y="-450" z="-950" />
                 <rotationref ref="rPMTRotation1" />
+            </physvol>
+        </volume>
+        <volume name="lvCryo">
+            <materialref ref="G4_STAINLESS-STEEL" />
+            <solidref ref="CryoBox" />
+            <colorref ref="yellow" />
+            <physvol name="pvlArgon">
+                <volumeref ref="lvlArgon" />
             </physvol>
         </volume>
         <volume name="World">
             <materialref ref="Air" />
             <solidref ref="World" />
-            <physvol name="Obj">
-                <volumeref ref="Obj" />
+            <physvol name="pvCryo">
+                <volumeref ref="lvCryo" />
             </physvol>
         </volume>
+        <bordersurface name="ScintWrapAr" surfaceproperty="ScintWrap">
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvCryo" />
+        </bordersurface>
         <bordersurface name="ScintWrap0" surfaceproperty="ScintWrap">
-            <physvolref ref="Obj" />
-            <physvolref ref="Det0" />
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvDet0" />
         </bordersurface>
         <bordersurface name="ScintWrap1" surfaceproperty="ScintWrap">
-            <physvolref ref="Obj" />
-            <physvolref ref="Det1" />
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvDet1" />
         </bordersurface>
         <bordersurface name="ScintWrap2" surfaceproperty="ScintWrap">
-            <physvolref ref="Obj" />
-            <physvolref ref="Det2" />
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvDet2" />
         </bordersurface>
         <bordersurface name="ScintWrap3" surfaceproperty="ScintWrap">
-            <physvolref ref="Obj" />
-            <physvolref ref="Det3" />
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvDet3" />
         </bordersurface>
         <bordersurface name="ScintWrap4" surfaceproperty="ScintWrap">
-            <physvolref ref="Obj" />
-            <physvolref ref="Det4" />
+            <physvolref ref="pvlArgon" />
+            <physvolref ref="pvDet4" />
         </bordersurface>
     </structure>
     <setup name="Default" version="1.0">

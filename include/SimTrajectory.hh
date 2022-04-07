@@ -24,7 +24,6 @@
 // ********************************************************************
 //
 //
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +33,70 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
+/// \file SimTrajectory.hh
+/// \brief Definition of the CaTS::SimTrajectory class
+
+#pragma once
+#include <vector>
+#include "globals.hh"
 #include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
-#include "SimTrajectory.hh"
-#include "SimEnergyDeposit.hh"
-#include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+#include "G4THitsCollection.hh"
+#include "G4Allocator.hh"
+class SimStep;
+
+class SimTrajectory : public G4VHit
+{
+ public:
+  SimTrajectory();
+  SimTrajectory(G4int id, G4int pdg, G4int parent);
+  ~SimTrajectory();
+  SimTrajectory(const SimTrajectory&);
+  const SimTrajectory& operator=(const SimTrajectory&);
+  G4bool operator==(const SimTrajectory&) const;
+  inline void* operator new(size_t);
+  inline void operator delete(void*);
+  void Draw() final;
+  G4int getTrackID() const { return fTrackID; }
+  void setTrackID(const G4int& fTrackID_) { fTrackID = fTrackID_; }
+
+  G4int getPDGcode() const { return fPDGcode; }
+  void setPDGcode(const G4int& fPDGcode_) { fPDGcode = fPDGcode_; }
+
+  G4int getParentID() const { return fParentID; }
+  void setParentID(const G4int& fParentID_) { fParentID = fParentID_; }
+
+  std::vector<SimStep*>* getTrajectory() const { return fTrajectory; }
+  void setTrajectory(std::vector<SimStep*>* fTrajectory_) { fTrajectory = fTrajectory_; }
+
+  std::vector<G4int>* getDaughters() const { return fDaughters; }
+  void setDaughters(std::vector<G4int>* fDaughters_) { fDaughters = fDaughters_; }
+
+  void AddSimStep(SimStep*);
+
+ private:
+  G4int fTrackID{ 0 };
+  G4int fPDGcode{ 0 };
+  G4int fParentID{ 0 };
+  std::vector<G4int>* fDaughters{ nullptr };
+  std::vector<SimStep*>* fTrajectory{ nullptr };
+};
+using SimTrajectoryCollection = G4THitsCollection<SimTrajectory>;
+extern G4ThreadLocal G4Allocator<SimTrajectory>* SimTrajectoryAllocator;
+
+inline void* SimTrajectory::operator new(size_t)
+{
+  if(!SimTrajectoryAllocator)
+  {
+    SimTrajectoryAllocator = new G4Allocator<SimTrajectory>;
+  }
+  return (void*) SimTrajectoryAllocator->MallocSingle();
+}
+
+inline void SimTrajectory::operator delete(void* aHit)
+{
+  SimTrajectoryAllocator->FreeSingle((SimTrajectory*) aHit);
+}

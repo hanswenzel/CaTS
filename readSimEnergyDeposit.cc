@@ -33,8 +33,8 @@
 //*           /       \    for the simulation of various detector     *
 //*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	         ( (                                                  *
-//*	          ) )                                                 *
+//*	             ( (                                                  *
+//*	              ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
@@ -43,8 +43,8 @@
 //* Ascii Art by Joan Stark: https://www.asciiworld.com/-Cats-2-.html *
 //---------------------------------------------------------------------
 //
-/// \file readPhotonHits.cc
-/// \brief example how to read the  CaTS::PhotonHits
+/// \file readSimEnergyDeposit.cc
+/// \brief example how to read the  CaTS::SimEnergyDeposit
 //
 // Root headers
 #include "TFile.h"
@@ -54,8 +54,7 @@
 #include "TTree.h"
 // Project headers
 #include "Event.hh"
-#include "PhotonHit.hh"
-#include "lArTPCHit.hh"
+#include "SimEnergyDeposit.hh"
 
 int main(int argc, char** argv)
 {
@@ -71,17 +70,8 @@ int main(int argc, char** argv)
   }
   TFile* outfile = new TFile(argv[2], "RECREATE");
   outfile->cd();
-  TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
-  TH1F* time  = new TH1F("time", "timing of photon hits", 100, 0., 2.);
-  TH1F* time0 = new TH1F("time0", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time1 = new TH1F("time1", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time2 = new TH1F("time2", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time3 = new TH1F("time3", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time4 = new TH1F("time3", "timing of photon hits", 1000, 0., 250.);
-  TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
-  TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
-  TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected Scintillation photons", 1000, 0., 1000.);
-  TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
+  TH1F* energy = new TH1F("energy", "total energy", 100, 0., 2000.);
+
   TFile fo(argv[1]);
   fo.GetListOfKeys()->Print();
   Event* event = new Event();
@@ -91,7 +81,7 @@ int main(int argc, char** argv)
   Int_t nevent        = fevtbranch->GetEntries();
   G4cout << "Nr. of Events:  " << nevent << G4endl;
   std::string CollectionName = argv[3];
-  CollectionName             = CollectionName + "_Photondetector_HC";
+  CollectionName             = CollectionName + "_SimEnergyDeposit_HC";
   for(Int_t i = 0; i < nevent; i++)
   {
     fevtbranch->GetEntry(i);
@@ -104,41 +94,14 @@ int main(int argc, char** argv)
         auto hits    = ele.second;
         G4int NbHits = hits.size();
         G4cout << "Event: " << i << "  Number of Hits:  " << NbHits << G4endl;
-        np->Fill(NbHits);
+        // np->Fill(NbHits);
+        double tote = 0.0;
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          PhotonHit* photonHit = dynamic_cast<PhotonHit*>(hits.at(ii));
-          time->Fill(photonHit->GetTime());
-          wl->Fill(photonHit->GetWavelength());
-          switch(photonHit->GetId())
-          {
-            case 0:
-              time0->Fill(photonHit->GetTime());
-              break;
-            case 1:
-              time1->Fill(photonHit->GetTime());
-              break;
-            case 2:
-              time2->Fill(photonHit->GetTime());
-              break;
-            case 3:
-              time3->Fill(photonHit->GetTime());
-              break;
-            case 4:
-              time4->Fill(photonHit->GetTime());
-              break;
-          }
-          switch(photonHit->GetPid())
-          {
-            case 0:
-              wlce->Fill(photonHit->GetWavelength());
-              break;
-            case 1:
-              wlsc->Fill(photonHit->GetWavelength());
-              break;
-          }
-          pos2->Fill(photonHit->GetPosition().getZ(), photonHit->GetPosition().getY());
+          SimEnergyDeposit* simEnergyDeposit = dynamic_cast<SimEnergyDeposit*>(hits.at(ii));
+          tote                               = tote + simEnergyDeposit->GetEdep();
         }
+        energy->Fill(tote);
       }
     }
   }

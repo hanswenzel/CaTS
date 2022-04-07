@@ -1,5 +1,6 @@
 # CaTS
-![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/CaTS.png)
+![Cats logo](https://github.com/hanswenzel/CaTS/blob/main/images/medium.CaTSlogo.png)
+
 # CaTS: Calorimeter and Tracker Simulation
 
 CaTS is a flexible and extend-able framework (based on geant4 and ROOT)
@@ -59,7 +60,7 @@ cd ../
 mkdir CaTS-build
 cd CaTS-build
 
-cmake -GNInja -DCMAKE_BUILD_TYPE=Release \
+cmake -GNinja -DCMAKE_BUILD_TYPE=Release \
   -DWITH_G4OPTICKS=ON \
   -DCMAKE_PREFIX_PATH="${LOCAL_BASE}/opticks/externals;${LOCAL_BASE}/opticks" \
   -DOPTICKS_PREFIX=${LOCAL_BASE}/opticks \
@@ -86,7 +87,7 @@ Note! For the moment one can use only 1 Geant4 thread when using G4Opticks'
 to compile CaTS without Opticks do:
 
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Debug   -DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
+cmake  -GNinja -DCMAKE_BUILD_TYPE=Release  -DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
 ```
 if you don't provide the -pl argument the default physics list configuration:
 'FTFP_BERT+OPTICAL+STEPLIMIT'

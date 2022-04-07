@@ -24,7 +24,6 @@
 // ********************************************************************
 //
 //
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +33,33 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
-#include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
-#include "SimTrajectory.hh"
+/// \file SimEnergyDepositSD.hh
+/// \brief Definition of the CaTS::SimEnergyDepositSD class
+
+#pragma once
+
+#include "G4VSensitiveDetector.hh"
 #include "SimEnergyDeposit.hh"
-#include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+class G4Step;
+class G4HCofThisEvent;
+
+class SimEnergyDepositSD : public G4VSensitiveDetector
+{
+ public:
+  SimEnergyDepositSD(G4String name);
+  ~SimEnergyDepositSD() = default;
+
+  // methods from base class
+  virtual void Initialize(G4HCofThisEvent*) final;
+  virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory*) final;
+  virtual void EndOfEvent(G4HCofThisEvent*) final;
+
+ private:
+  SimEnergyDepositCollection* fSimEnergyDepositCollection{ nullptr };
+  G4int fHCID{ 0 };
+  G4bool verbose{ false };
+};

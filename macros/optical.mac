@@ -1,7 +1,5 @@
 /CaTS/verbose false
 /run/initialize 
-#/process/optical/wls/setTimeProfile  exponential
-#/process/optical/wls/verbose 1
 /random/setSeeds 7 38 
 /CaTS/writeHits true 
 /CaTS/enable_opticks false

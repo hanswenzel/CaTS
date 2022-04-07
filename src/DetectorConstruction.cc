@@ -54,8 +54,6 @@
 #include "G4VisAttributes.hh"
 #include "G4ios.hh"
 
-#include "G4MaterialTable.hh"
-
 // project headers
 #include "CalorimeterSD.hh"
 #include "ColorReader.hh"
@@ -68,6 +66,8 @@
 #include "RadiatorSD.hh"
 #include "TrackerSD.hh"
 #include "lArTPCSD.hh"
+#include "SimTrajectorySD.hh"
+#include "SimEnergyDepositSD.hh"
 // c++ headers
 #include <iostream>
 DetectorConstruction::DetectorConstruction(G4String fname)
@@ -81,7 +81,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
   ReadGDML();
   const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
-  verbose                        = true;
   if(verbose)
   {
     G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
@@ -96,7 +95,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     }
     for(auto const& auxtype : listType)
     {
-      G4cout << auxtype.type << "   " << auxtype.value << "   " << auxtype.unit << G4endl;
       G4double value             = atof(auxtype.value);
       G4double val_unit          = 1;  //--no unit
       G4String provided_category = "NONE";
@@ -104,9 +102,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       {  // -- if provided and non-NULL
         val_unit          = G4UnitDefinition::GetValueOf(auxtype.unit);
         provided_category = G4UnitDefinition::GetCategory(auxtype.unit);
-        G4cout << " Unit parsed = " << auxtype.unit
-               << " from unit category: " << provided_category.c_str() << G4endl;
-
+        if(verbose)
+        {
+          G4cout << " Unit parsed = " << auxtype.unit
+                 << " from unit category: " << provided_category.c_str();
+        }
         value *=
           val_unit;  //-- Now do something with the value, making sure that the unit is appropriate
       }
@@ -178,23 +178,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
     }
   }
-
   /*
-  //
-  // dump material properties:
-  //
+//
+// dump material properties:
+//
 
-  const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
-  G4int nMaterials                     = G4Material::GetNumberOfMaterials();
-  for(G4int m = 0; m < nMaterials; m++)
-  {
-    const G4Material* aMaterial = (*materialTable)[m];
-    G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
-    G4MaterialPropertiesTable* aMaterialPropertiesTable = aMaterial->GetMaterialPropertiesTable();
-    if(aMaterialPropertiesTable != nullptr)
-      aMaterialPropertiesTable->DumpTable();
-  }
-  */
+const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
+G4int nMaterials                     = G4Material::GetNumberOfMaterials();
+for(G4int m = 0; m < nMaterials; m++)
+{
+  const G4Material* aMaterial = (*materialTable)[m];
+  G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
+  G4MaterialPropertiesTable* aMaterialPropertiesTable =
+aMaterial->GetMaterialPropertiesTable(); if(aMaterialPropertiesTable != nullptr)
+    aMaterialPropertiesTable->DumpTable();
+}
+*/
   return worldPhysVol;
 }
 void DetectorConstruction::ConstructSDandField()
@@ -206,21 +205,25 @@ void DetectorConstruction::ConstructSDandField()
     G4cout << "Found " << auxmap->size() << " volume(s) with auxiliary information." << G4endl
            << G4endl;
   }
-  std::map<std::string, int> mapofSensedets = { { "PhotonDetector", 0 }, { "Target", 1 },
-                                                { "Tracker", 2 },        { "Msc", 3 },
-                                                { "lArTPC", 4 },         { "Radiator", 5 },
-                                                { "Calorimeter", 6 },    { "DRCalorimeter", 7 } };
+  std::map<std::string, int> mapofSensedets = { { "PhotonDetector", 0 },   { "Target", 1 },
+                                                { "Tracker", 2 },          { "SimTrajectory", 3 },
+                                                { "SimEnergyDeposit", 4 }, { "Msc", 5 },
+                                                { "lArTPC", 6 },           { "Radiator", 7 },
+                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 } };
   enum SensDet
   {
     PhotonDetector,
     Target,
     Tracker,
+    SimTrajectory,
+    SimEnergyDeposit,
     Msc,
     lArTPC,
     Radiator,
     Calorimeter,
     DRCalorimeter
   };
+
   for(auto const& [logVol, listType] : *auxmap)
   {
     for(auto const& auxtype : listType)
@@ -259,6 +262,20 @@ void DetectorConstruction::ConstructSDandField()
               TrackerSD* aTrackerSD = new TrackerSD(name);
               SDman->AddNewDetector(aTrackerSD);
               logVol->SetSensitiveDetector(aTrackerSD);
+              break;
+            }
+            case SimTrajectory: {
+              name                              = logVol->GetName() + "_SimTrajectory";
+              SimTrajectorySD* aSimTrajectorySD = new SimTrajectorySD(name);
+              SDman->AddNewDetector(aSimTrajectorySD);
+              logVol->SetSensitiveDetector(aSimTrajectorySD);
+              break;
+            }
+            case SimEnergyDeposit: {
+              name                                    = logVol->GetName() + "_SimEnergyDeposit";
+              SimEnergyDepositSD* aSimEnergyDepositSD = new SimEnergyDepositSD(name);
+              SDman->AddNewDetector(aSimEnergyDepositSD);
+              logVol->SetSensitiveDetector(aSimEnergyDepositSD);
               break;
             }
             case Msc: {

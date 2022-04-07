@@ -23,8 +23,6 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -34,37 +32,79 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October 18th, 2021 : first implementation
+//   February 9th, 2022 : first implementation
 //
 // ********************************************************************
 //
-/// \file CaTSClasses.hh
-/// \brief Declaration of the classes for generating dictionaries
-//
-#include "G4VHit.hh"
-#include "lArTPCHit.hh"
-#include "PhotonHit.hh"
-#include "InteractionHit.hh"
-#include "CalorimeterHit.hh"
-#include "DRCalorimeterHit.hh"
-#include "TrackerHit.hh"
-#include "MscHit.hh"
-#include "SimTrajectory.hh"
+/// \file SimEnergyDeposit.cc
+/// \brief Implementation of the CaTS::SimEnergyDeposit class
+// Geant4 headers
+#include "G4VVisManager.hh"
+#include "G4Circle.hh"
+#include "G4Colour.hh"
+#include "G4VisAttributes.hh"
 #include "SimEnergyDeposit.hh"
-#include "SimStep.hh"
-#include "Event.hh"
-Event e;
-std::vector<PhotonHit*> p;
-std::vector<InteractionHit*> i;
-std::vector<lArTPCHit*> a;
-std::vector<CalorimeterHit*> c;
-std::vector<DRCalorimeterHit*> d;
-std::vector<TrackerHit*> t;
-std::vector<MscHit*> m;
-std::vector<SimStep*> sst;
-std::vector<SimTrajectory*> st;
-std::vector<SimEnergyDeposit*> sed;
-std::vector<G4int> vi;
-std::vector<G4VHit*> vh;
-std::map<G4String, std::vector<G4VHit*>> hm;  // map of Hit Collections
-#undef __G4String
+G4ThreadLocal G4Allocator<SimEnergyDeposit>* SimEnergyDepositAllocator = nullptr;
+SimEnergyDeposit::SimEnergyDeposit()
+  : G4VHit()
+{}
+
+SimEnergyDeposit::SimEnergyDeposit(unsigned int znph, unsigned int znelec, unsigned int ztid,
+                                   float zx, float zy, float zz, float zxe, float zye, float zze,
+                                   double zt, double zte, float zedep)
+  : nph(znph)
+  , nelec(znelec)
+  , tid(ztid)
+  , x(zx)
+  , y(zy)
+  , z(zz)
+  , xe(zxe)
+  , ye(zye)
+  , ze(zze)
+  , t(zt)
+  , te(zte)
+  , edep(zedep)
+{}
+
+SimEnergyDeposit::SimEnergyDeposit(const SimEnergyDeposit& right)
+{
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+const SimEnergyDeposit& SimEnergyDeposit::operator=(const SimEnergyDeposit& right)
+{
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
+  return *this;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+bool SimEnergyDeposit::operator==(const SimEnergyDeposit& right) const
+{
+  return (this == &right) ? true : false;
+}
+void SimEnergyDeposit::Draw() {}
