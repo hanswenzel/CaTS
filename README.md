@@ -68,7 +68,7 @@ cmake -GNinja -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=../CaTS-install \
   ../CaTS
 
-make install
+ninja install
 cd ../CaTS-install/bin
 time ./CaTS -g  simpleLArTPC.gdml -pl 'FTFP_BERT+OPTICAL+STEPLIMIT'  -t 1 -m time.mac >& time.log
 The command line variables are 
