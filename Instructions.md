@@ -307,5 +307,4 @@ if the geocache-create- command doesn't work:
 
 # Building CaTS
 
-Instructions for building and running CaTS can be found here:
-[README]README.md
+Instructions for building and running CaTS can be found here: [CaTS]README.md
