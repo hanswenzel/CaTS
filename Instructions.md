@@ -1,5 +1,5 @@
 # Prerequisites
-First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu (LTS 20.04, LTS 22.04) we provide the script   [checkpr.sh](scripts/checkpr.sh) that esnures the system is ready. Opticks requires Geant4 (as of 7/7/2022 we are using Geant4 v11.0.p2), nvidia cuda (11.5)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT (we are using ROOT 6.26/04). If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
+First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu (LTS 20.04, LTS 22.04) we provide the script [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4 (as of 7/7/2022 we are using Geant4 v11.0.p2), nvidia cuda (11.5)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT (we are using ROOT 6.26/04). If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
 The current version of Geant4  geant4-v11.0.2 is build on CLHEP version 2.4.5.1
@@ -37,19 +37,19 @@ https://geant4.web.cern.ch/support/download
 
 
     cd to the directory where you want to install Geant4
-    wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.0.tar.gz
-    tar xzvf geant4-v11.0.0.tar.gz
-    mkdir geant4-v11.0.0-build
-    cd  geant4-v11.0.0-build
+    wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.2.tar.gz
+    tar xzvf geant4-v11.0.2.tar.gz
+    mkdir geant4-v11.0.2-build
+    cd  geant4-v11.0.2-build
     
-    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-v11.0.0-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-v11.0.0 
+    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-v11.0.2-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-v11.0.2 
 
     ninja
     ninja install
-    . ../geant4-v11.0.0-install/bin/geant4.sh
+    . ../geant4-v11.0.2-install/bin/geant4.sh
 
 
-check the output for any error, install any development packages that might be necessary. 
+check the output for any error. 
 
 
 
@@ -85,16 +85,11 @@ check the output for any error, install any development packages that might be n
 
 # Installing CUDA
 
-cuda (11.3) is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
+cuda (11.5) is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
 
 https://developer.nvidia.com/cuda-downloads
 
 **Note** this will also install the corresponding NVIDIA graphics driver you might have to reboot.  
-
-Another way to obtain cuda is to install the NVIDIA hpc-sdk kit. Which can be found here. 
-https://developer.nvidia.com/nvidia-hpc-sdk-downloads
-
-The NVIDIA hpc-sdk kit provides an interesting set of tools e.g. nvc++ which allows offloading of parallel algorithms to NVIDIA GPUs.
 
 A good way to check that things are working properly is to build the cuda samples and execute them
 
@@ -133,25 +128,34 @@ Optix comes with precompiled samples and one might want to try them:
 # Building opticks vs. existing libraries
 
 This are instructions how to build opticks making use of preinstalled libraries available on the system. These libraries include CLHEP, xerces-c, boost and  Geant4.
-For geant 4 we use the current version at the time of writing which is Geant4.10.7.p2. We make use of the fact that the om-cmake function of om.bash is sensitive
-to CMAKE_PREFIX_PATH envvar so that we can point to the directories where the libraries are installed and void having to rebuild them.  In principle just cut and paste the following line to a file change the envars of the different directories to match your system and source the resulting script.
+For geant 4 we use the current version at the time of writing which is Geant4.10.7.p2. We make use of the fact that the om-cmake function of om.bash is sensitive to the CMAKE_PREFIX_PATH envvar so that we can point to the directories where the libraries are installed and avoid having to rebuild them.  In principle just cut and paste the following line to a file change the envars of the different directories to match your system and source the resulting script.
 
     cd to the directory where you want to install Opticks (the WORK_DIR environmental variable will point to this directory). 
     
     
-Here we are using a tagged snapshot of Opticks which can be found in github:
+Here we are using branch of Opticks which can be found in github. It contains some adjustments that we had to do to make opticks work with Geant4 version 11 and up which introduced some changes to the Geant4 API.
+
+git clone https://github.com/hanswenzel/opticks opticks.v0.1.7
+git checkout  v0.1.7
+git status
+
+Tagged versions of Simon's Blyth opticks can be found in:
 
     git clone https://github.com/simoncblyth/opticks.git
     cd opticks
     git checkout tags/v0.1.6 -b v0.1.6-branch
     git status
     
-The development version (a. k. a. the latest and greatest) can be found in the following repository 
+The development version (a. k. a. the latest and greatest) can be found in the following repository: 
 
     git clone https://bitbucket.org/simoncblyth/opticks.git
     
     
-
+But again here we do:
+git clone https://github.com/hanswenzel/opticks opticks.v0.1.7
+git checkout  v0.1.7
+git status
+  
 change opticks/optickscore/OpticksSwitches.h
 
 so that:
