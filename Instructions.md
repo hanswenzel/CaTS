@@ -162,7 +162,7 @@ so that:
 
     #define WITH_SKIPAHEAD 1
 
-is set. 
+is set. To create a setup_opticks.sh you can use the cat statement below. But you have to edit the created file so that the environmental variables WORK_DIR, OptiX_INSTALL_DIR, OPTICKS_COMPUTE_CAPABILITy, CUDA_INSTALL_DIR, CUDA_SAMPLES, G4INSTALL correspond to the correct values of your system. 
 
     cat > setup_opticks.sh << +EOF
     # ----------------------------------------------------------------------------------------------------------------------
