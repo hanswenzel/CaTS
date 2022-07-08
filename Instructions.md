@@ -313,21 +313,27 @@ is set. To create a setup_opticks.sh you can use the cat statement below. But yo
     }
     +EOF
 
+Change setup_opticks.sh so that the environmental variables are set to correspond to your installation as instructed in the script. Then get some information  about your system:
     source setup_opticks.sh
     oinfo-
     dinfo-
+ To build the opticks external packages do:
+ 
     mkdir -p ${WORK_DIR}/local/opticks/externals/
     cd ${WORK_DIR}/local/opticks/externals/
     ln -s ${OptiX_INSTALL_DIR} OptiX
     cd ${WORK_DIR}
     opticks-externals-install >& install_ext.log &
 
-scan the log file or any errors and correct them.
+scan the log file or any errors and correct them. Now build opticks:
 
     cd ${WORK_DIR}
     opticks-full  >& install_full.log &
 
-scan the log file or any errors and correct them. Before you run     opticks-t you want to to create the geocache using e.g. one of the gdml files provided by CaTS
+scan the log file or any errors and correct them. Before you run 
+    opticks-t 
+
+you want to to create the geocache using e.g. one of the gdml files provided by CaTS
 (https://github.com/hanswenzel/CaTS)
 
     geocache-
@@ -335,15 +341,16 @@ scan the log file or any errors and correct them. Before you run     opticks-t y
     export OPTICKS_KEY=`output from above command"
     opticks-t
     
-if the geocache-create- command doesn't work:
+if the geocache-create- command doesn't work try:
 
 
     ${WORK_DIR}/local/opticks/lib/OKX4Test --okx4test --g4codegen --deletegeocache --gdmlpath  ${WORK_DIR}/CaTS/gdml/simpleLArTPC.gdml
     export OPTICKS_KEY=`output from above command"
     opticks-t
 
-
-
+Also CaTS ( see instructions how to build and run CaTS below) rebuilds the geocache each time you run it and it will print out what to set the OPTICKS_KEY to:
+    e.g.  export OPTICKS_KEY=CaTS.X4PhysicalVolume.World_PV.6a511c07e6d72b5e4d71b74bd548e8fd
+    
 # Building CaTS
 
 Instructions for building and running CaTS can be found here: [README](README.md)
