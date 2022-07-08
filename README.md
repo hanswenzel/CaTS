@@ -39,7 +39,9 @@ Sensitive Detectors:        (+ corresponding Hit classes)
     RadiatorSD no Hits just collection of Gensteps  (Scintillation and Cerenkov) to be processed by Opticks.
 
 
-This requires the opticks environment to be set up properly [Instructions](Instructions.md)
+This requires the opticks environment to be set up properly see: [Instructions](Instructions.md)
+
+ source setup_opticks.sh
 
 To get started : 
 
