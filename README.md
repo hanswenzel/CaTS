@@ -36,14 +36,10 @@ Sensitive Detectors:        (+ corresponding Hit classes)
     MsCSD(Hit) used to study multiple scattering on a thin layer
     PhotonSD(Hit) sensitive detector that registers optical photons.
     lArTPCSD(Hit) sensitive detector that registers ionization and collects Gensteps (Scintillation and Cerenkov) to be processed by Opticks.
-
-
-
     RadiatorSD no Hits just collection of Gensteps  (Scintillation and Cerenkov) to be processed by Opticks.
 
 
-
-This requires the opticks environment to be set up properly (see  https://github.com/hanswenzel/CaTS/blob/master/Instructions.md)
+This requires the opticks environment to be set up properly [Instructions](Instructions.md)
 
 To get started : 
 
