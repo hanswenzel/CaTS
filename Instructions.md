@@ -101,7 +101,16 @@ A good way to check that things are working properly is to build the cuda sample
     which nvcc
     make 
     bin/x86_64/linux/release/deviceQuery
-    bin/x86_64/linux/release/deviceQueryDrv 
+    bin/x86_64/linux/release/deviceQueryDrv
+    
+**Note** later versions of cuda don't provide the samples anymore. Instead the samples are provided in a git repository 
+    
+    git clone https://github.com/nvidia/cuda-samples
+    cd cuda-samples
+    make --ignore-errors 
+    
+After the cuda-samples are build copy them to /usr/local/cuda or create a symbolic link /usr/local/cuda/sampes that points to the installation of cuda-samples. Opticks uses some of the sample headers and therefore building opticks will not suceed without them. 
+
 
 2 Tools For Monitoring Nvidia GPUs On Linux can be found here:
 https://www.linuxuprising.com/2019/06/2-tools-for-monitoring-nvidia-gpus-on.html
