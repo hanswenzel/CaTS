@@ -174,32 +174,61 @@ so that:
 is set. To create a setup_opticks.sh you can use the cat statement below. But you have to edit the created file so that the environmental variables WORK_DIR, OptiX_INSTALL_DIR, OPTICKS_COMPUTE_CAPABILITy, CUDA_INSTALL_DIR, CUDA_SAMPLES, G4INSTALL correspond to the correct values of your system. 
 
     cat > setup_opticks.sh << +EOF
-    # ----------------------------------------------------------------------------------------------------------------------
+      # ----------------------------------------------------------------------------------------------------------------------
     # --- you need to modify the following environmental variables so that point to the specific directories on your system
     # --- 
-    export WORK_DIR=/data2/wenzel/gputest_10.7.p02
-    export OptiX_INSTALL_DIR=/home/wenzel/NVIDIA-OptiX-SDK-6.5.0-linux64
-    export OPTICKS_COMPUTE_CAPABILITY=75
-    export CUDA_INSTALL_DIR=/usr/local/cuda-11.3
+    export WORK_DIR=/data/software/gpu4112
+    export OptiX_INSTALL_DIR=/data/software/NVIDIA-OptiX-SDK-6.5.0-linux64
+    export OPTICKS_COMPUTE_CAPABILITY=86
+    export CUDA_INSTALL_DIR=/usr/local/cuda
     export CUDA_SAMPLES=${CUDA_INSTALL_DIR}/samples
-    export G4INSTALL=/data2/wenzel/Geant4.10.07.p02_install
-    . ${G4INSTALL}/bin/Geant4.sh
-    export ROOTSYS=/data2/wenzel/root_install
-    . ${ROOTSYS}/bin/thisroot.sh
-    # ----------------------------------------------------------------------------------------------------------------------
+    export G4INSTALL=/data/software/geant4-v11.0.2-install
     export LOCAL_BASE=${WORK_DIR}/local
-    export CMAKE_PREFIX_PATH=${G4INSTALL}:${LOCAL_BASE}/opticks/externals:${OptiX_INSTALL_DIR}:${WORK_DIR}/opticks/cmake/Modules/:${WORK_DIR}/local/opticks:${WORK_DIR}/local/opticks:${WORK_DIR}/local/opticks/externals/
+    # ----------------------------------------------------------------------------------------------------------------------
+    export CMAKE_PREFIX_PATH=${G4INSTALL}:${LOCAL_BASE}/opticks/externals:${OptiX_INSTALL_DIR}:${WORK_DIR}/opticks/cmake/Modules/:${WORK_DIR}/local /opticks:${WORK_DIR}/local/opticks:${WORK_DIR}/local/opticks/externals/
     export PYTHONPATH=$WORK_DIR
     export OPTICKS_HOME=${WORK_DIR}/opticks
-    export PATH=${LOCAL_BASE}/bin:${PATH}
     export OPTICKS_PREFIX=${WORK_DIR}/local/opticks                            
     export OPTICKS_INSTALL_PREFIX=$LOCAL_BASE/opticks
-    export OPTICKS_OPTIX_PREFIX=${OptiX_INSTALL_DIR}
+    export OPTICKS_OPTIX_PREFIX=/data/software/NVIDIA-OptiX-SDK-6.5.0-linux64/
     export OPTICKS_CUDA_PREFIX=${CUDA_INSTALL_DIR}
     export OPTICKS_EMBEDDED_COMMANDLINE_EXTRA="--rngmax 10 --rtx 1 --skipaheadstep 10000"
+    #   
+    # setup Geant4 and root
+    #
+    . ${G4INSTALL}/bin/geant4.sh
+    . /data/software/root-install/bin/thisroot.sh
     opticks-(){ . ${OPTICKS_HOME}/opticks.bash && opticks-env $* ; }
     op(){ op.sh $* ; }
     o(){ cd $(opticks-home) ; hg st ; }
+    _path_prepend() {
+        if [ -n "$2" ]; then
+            case ":$(eval "echo \$$1"):" in
+                    *":$2:"*) :;;
+                *) eval "export $1=$2\${$1:+\":\$$1\"}" ;;
+         esac
+        else
+            case ":$PATH:" in
+                *":$1:"*) :;;
+                *) export PATH="$1${PATH:+":$PATH"}" ;;
+            esac    
+        fi
+    }   
+
+    _path_append() {
+        if [ -n "$2" ]; then
+            case ":$(eval "echo \$$1"):" in
+                *":$2:"*) :;;
+                *) eval "export $1=\${$1:+\"\$$1:\"}$2" ;;
+            esac
+        else
+            case ":$PATH:" in
+             *":$1:"*) :;;
+                *) export PATH="${PATH:+"$PATH:"}$1" ;;
+            esac
+        fi
+    }
+    _path_prepend "${LOCAL_BASE}/bin"
     # make sure to add the compiler options
     new=" -fPIC" 
     case ":${CXXFLAGS:=$new}:" in
@@ -220,7 +249,7 @@ is set. To create a setup_opticks.sh you can use the cat statement below. But yo
     # deal with the $LD_LIBRARYPATH
     new=${OptiX_INSTALL_DIR}/lib64/
     case ":${LD_LIBRARY_PATH:=$new}:" in
-        *:"$new":*)  ;;
+     *:"$new":*)  ;;
         *) LD_LIBRARY_PATH="$new:$LD_LIBRARY_PATH"  ;;
     esac
     new=${OPTICKS_HOME}/externals/lib
@@ -230,14 +259,15 @@ is set. To create a setup_opticks.sh you can use the cat statement below. But yo
     esac
     new=${CUDA_INSTALL_DIR}/lib64/
     case ":${LD_LIBRARY_PATH:=$new}:" in
-        *:"$new":*)  ;;
-        *) LD_LIBRARY_PATH="$new:$LD_LIBRARY_PATH"  ;;
+         *:"$new":*)  ;;
+         *) LD_LIBRARY_PATH="$new:$LD_LIBRARY_PATH"  ;;
     esac
     new=${LOCAL_BASE}/opticks/lib/
     case ":${LD_LIBRARY_PATH:=$new}:" in
         *:"$new":*)  ;;
         *) LD_LIBRARY_PATH="$new:$LD_LIBRARY_PATH"  ;;
     esac
+
     opticks-
     new=${CUDA_INSTALL_DIR}/bin
     case ":${PATH:=$new}:" in
@@ -246,7 +276,7 @@ is set. To create a setup_opticks.sh you can use the cat statement below. But yo
     esac
     new=${OPTICKS_HOME}/bin/
     case ":${PATH:=$new}:" in
-        *:"$new":*)  ;;
+     *:"$new":*)  ;;
         *) PATH="$new:$PATH"  ;;
     esac
     new=${OPTICKS_HOME}/ana/
@@ -261,7 +291,7 @@ is set. To create a setup_opticks.sh you can use the cat statement below. But yo
     esac
     new=${CUDA_SAMPLES}/bin/x86_64/linux/release/
     case ":${PATH:=$new}:" in
-        *:"$new":*)  ;;
+     *:"$new":*)  ;;
         *) PATH="$new:$PATH"  ;;
     esac
     oinfo-(){
