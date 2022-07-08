@@ -112,7 +112,7 @@ A good way to check that things are working properly is to build the cuda sample
 After the cuda-samples are build copy them to /usr/local/cuda or create a symbolic link /usr/local/cuda/sampes that points to the installation of cuda-samples. Opticks uses some of the sample headers and therefore building opticks will not suceed without them. 
 
 
-2 Tools For Monitoring Nvidia GPUs On Linux can be found here:
+Two tools for monitoring Nvidia GPUs On Linux can be found here:
 https://www.linuxuprising.com/2019/06/2-tools-for-monitoring-nvidia-gpus-on.html
 
 # Installing Optix (6.5)
@@ -142,7 +142,7 @@ For geant 4 we use the current version at the time of writing which is Geant4.10
     cd to the directory where you want to install Opticks (the WORK_DIR environmental variable will point to this directory). 
     
     
-Here we are using branch of Opticks which can be found in github. It contains some adjustments that we had to do to make opticks work with Geant4 version 11 and up which introduced some changes to the Geant4 API.
+Here we are using branch of Opticks which can be found in github. It contains some adjustments that we had to do to make opticks work with Geant4 version 11 and up which introduced some changes to the Geant4 API. Also there has been some rearrangement of the cuda header files in later cuda version that needed to be accounted for.
 
 git clone https://github.com/hanswenzel/opticks opticks.v0.1.7
 git checkout  v0.1.7
