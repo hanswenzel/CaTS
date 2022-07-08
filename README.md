@@ -92,7 +92,7 @@ if you don't provide the -pl argument the default physics list configuration:
 is used
 
 
-![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/display.png)
+![example1](images/display.png)
 to look at the hit collection and make a few histograms:
 
     ./readPhotonHits NewHits_point_Run0.root PhotonHistos.root Det
