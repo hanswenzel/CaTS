@@ -117,7 +117,7 @@ root [1] TBrowser b
 (TBrowser &) Name: Browser Title: ROOT Object Browser
 ```
 
-![alt text](https://github.com/hanswenzel/CaTS/blob/master/images/position.png)
+![example2](images/position.png)
 
 For comparison one might want to disable Opticks and use Geant4 to generate and propagate optical photons:
     
