@@ -1,0 +1,12 @@
+/CaTS/verbose false
+/CaTS/dumpgdml true
+/CaTS/writeHits true
+/CaTS/fname HydrogenTarget
+/CaTS/enable_opticks false
+/run/initialize 
+/CaTS/doAnalysis false
+/gun/particle pi- 
+/gun/momentumAmp 1000 MeV 
+/gun/position 0. 0. -1. cm
+/gun/direction 0. 0. 1.
+/run/beamOn 10000

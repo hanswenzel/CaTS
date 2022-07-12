@@ -209,7 +209,8 @@ void DetectorConstruction::ConstructSDandField()
                                                 { "Tracker", 2 },          { "SimTrajectory", 3 },
                                                 { "SimEnergyDeposit", 4 }, { "Msc", 5 },
                                                 { "lArTPC", 6 },           { "Radiator", 7 },
-                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 } };
+                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 },
+                                                { "Interaction", 10 }};
   enum SensDet
   {
     PhotonDetector,
@@ -221,7 +222,8 @@ void DetectorConstruction::ConstructSDandField()
     lArTPC,
     Radiator,
     Calorimeter,
-    DRCalorimeter
+    DRCalorimeter,
+    Interaction
   };
 
   for(auto const& [logVol, listType] : *auxmap)
@@ -313,6 +315,13 @@ void DetectorConstruction::ConstructSDandField()
               logVol->SetSensitiveDetector(aDRCalorimeterSD);
               break;
             }
+	  case Interaction: {
+              name                              = logVol->GetName() + "_Interaction";
+              InteractionSD* aInteractionSD = new InteractionSD(name);
+              SDman->AddNewDetector(aInteractionSD);
+              logVol->SetSensitiveDetector(aInteractionSD);
+              break;
+            } 
           }
           if(verbose)
           {
