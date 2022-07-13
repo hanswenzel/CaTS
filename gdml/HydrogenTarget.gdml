@@ -22,7 +22,7 @@
     <structure>
         <volume name="volTarget">
             <materialref ref="hydrogen"/>
-            <auxiliary auxtype="SensDet" auxvalue="Interaction"/>
+            <auxiliary auxtype="SensDet" auxvalue="Target"/>
             <solidref ref="Target"/> 
             <colorref ref="green"/> 
         </volume>

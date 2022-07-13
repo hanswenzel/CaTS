@@ -1,4 +1,4 @@
-/CaTS/verbose false
+/CaTS/verbose true
 /CaTS/dumpgdml true
 /CaTS/writeHits true
 /CaTS/fname HydrogenTarget

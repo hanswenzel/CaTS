@@ -54,8 +54,8 @@
 #include "TTree.h"
 // Project headers
 #include "Event.hh"
-#include "PhotonHit.hh"
-#include "lArTPCHit.hh"
+#include "InteractionHit.hh"
+
 
 int main(int argc, char** argv)
 {
@@ -82,8 +82,8 @@ int main(int argc, char** argv)
   TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
   TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
   TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected Scintillation photons", 1000, 0., 1000.);
-  TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
   */
+  TH1F* np    = new TH1F("np", "number of detected photons", 100, 0., 50.);
   TFile fo(argv[1]);
   fo.GetListOfKeys()->Print();
   Event* event = new Event();
@@ -93,8 +93,7 @@ int main(int argc, char** argv)
   Int_t nevent        = fevtbranch->GetEntries();
   G4cout << "Nr. of Events:  " << nevent << G4endl;
   std::string CollectionName = argv[3];
-  CollectionName             = CollectionName + "_Interaction_HC";
-  /*
+  CollectionName             = CollectionName + "_Target_HC";
   for(Int_t i = 0; i < nevent; i++)
   {
     fevtbranch->GetEntry(i);
@@ -102,6 +101,7 @@ int main(int argc, char** argv)
     for(const auto& ele : *hcmap)
     {
       auto hits = ele.second;
+      G4cout<<ele.first<<G4endl;
       if(ele.first.compare(CollectionName) == 0)
       {
         auto hits    = ele.second;
@@ -110,42 +110,13 @@ int main(int argc, char** argv)
         np->Fill(NbHits);
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          PhotonHit* photonHit = dynamic_cast<PhotonHit*>(hits.at(ii));
-          time->Fill(photonHit->GetTime());
-          wl->Fill(photonHit->GetWavelength());
-          switch(photonHit->GetId())
-          {
-            case 0:
-              time0->Fill(photonHit->GetTime());
-              break;
-            case 1:
-              time1->Fill(photonHit->GetTime());
-              break;
-            case 2:
-              time2->Fill(photonHit->GetTime());
-              break;
-            case 3:
-              time3->Fill(photonHit->GetTime());
-              break;
-            case 4:
-              time4->Fill(photonHit->GetTime());
-              break;
-          }
-          switch(photonHit->GetPid())
-          {
-            case 0:
-              wlce->Fill(photonHit->GetWavelength());
-              break;
-            case 1:
-              wlsc->Fill(photonHit->GetWavelength());
-              break;
-          }
-          pos2->Fill(photonHit->GetPosition().getZ(), photonHit->GetPosition().getY());
+          InteractionHit* interactionHit = dynamic_cast<InteractionHit*>(hits.at(ii));
+	  G4cout<<interactionHit->GetPname()<<G4endl;
         }
       }
     }
   }
-  */
+
   outfile->cd();
   outfile->Write();
 }
