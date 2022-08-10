@@ -99,7 +99,7 @@ G4bool PhotonSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
     processname = thisProcess->GetProcessName();
   else
     processname = "No Process";
-  unsigned theCreationProcessid;
+  int theCreationProcessid;
   if(processname == "Cerenkov")
   {
     theCreationProcessid = 0;
@@ -140,10 +140,24 @@ void PhotonSD::AddOpticksHits()
   G4OpticksHit hit;
   G4OpticksHitExtra hit_extra;
   G4OpticksHitExtra* hit_extra_ptr = way_enabled ? &hit_extra : NULL;
+  int theCreationProcessid;
   for(unsigned i = 0; i < num_hits; i++)
   {
     g4ok->getHit(i, &hit, hit_extra_ptr);
-    PhotonHit* newHit = new PhotonHit(i, 0, hit.wavelength, hit.time, hit.global_position,
+    if(hit.is_cerenkov)
+      {
+	theCreationProcessid = 0;
+      }
+    else if(hit.is_reemission)
+      {
+	theCreationProcessid = 1;
+      }
+    else
+      {
+	theCreationProcessid = -1;
+      }
+    
+    PhotonHit* newHit = new PhotonHit(i, theCreationProcessid, hit.wavelength, hit.time, hit.global_position,
                                       hit.global_direction, hit.global_polarization);
     fPhotonHitsCollection->insert(newHit);
   }
