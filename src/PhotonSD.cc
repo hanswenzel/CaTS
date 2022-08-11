@@ -157,7 +157,7 @@ void PhotonSD::AddOpticksHits()
 	theCreationProcessid = -1;
       }
     
-    PhotonHit* newHit = new PhotonHit(i, theCreationProcessid, hit.wavelength, hit.time, hit.global_position,
+    PhotonHit* newHit = new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time, hit.global_position,
                                       hit.global_direction, hit.global_polarization);
     fPhotonHitsCollection->insert(newHit);
   }

@@ -62,7 +62,7 @@ class PhotonHit : public G4VHit
 
   inline void Print() final
   {
-    G4cout << "PhotonHit id: " << fid << " pid: " << fpid
+    G4cout << "Detector id: " << fid << " process id (0:Cerenkov,1:Sz,-1:unknown)  " << fpid
            << " wavelength: " << fwavelength << " time: " << ftime
            << " position X: " << fposition.getX() << " Y: " << fposition.getY()
            << " Z: " << fposition.getZ()

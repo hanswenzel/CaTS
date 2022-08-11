@@ -80,12 +80,15 @@ RootIO::RootIO() {
                     std::to_string(G4Threading::G4GetThreadId()) + ".root";
             G4cout << "RootIO:: Opening File: " << fFilename << G4endl;
             fFile = new TFile(fFilename.c_str(), "RECREATE");
-            TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
+	    //fFile->SetCompressionLevel(9);
+            //TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
             // Create a ROOT Tree and one superbranch
             ftree = new TTree("Events", "ROOT tree containing Hit collections");
-            ftree->SetAutoSave(1000000000); // autosave when 1 Gbyte written
+	    Long64_t  autos = -300000000;
+            ftree->SetAutoSave(autos); 
             Int_t branchStyle = 1;
             TTree::SetBranchStyle(branchStyle);
+	    //ftree->Print();
         }
     } else {
         G4String fFilename = ConfigurationManager::getInstance()->getfname() + ".root";
@@ -94,9 +97,13 @@ RootIO::RootIO() {
         TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
         // Create a ROOT Tree and one superbranch
         ftree = new TTree("Events", "ROOT tree containing Hit collections");
-        ftree->SetAutoSave(1000000000); // autosave when 1 Gbyte written
+	Long64_t  autos = -300000000;
+	ftree->SetAutoSave(autos); 
+	
+	//ftree->SetAutoSave(1000000000); // autosave when 1 Gbyte written
         Int_t branchStyle = 1;
         TTree::SetBranchStyle(branchStyle);
+	//ftree->Print();
     }
 }
 
@@ -114,13 +121,15 @@ void RootIO::Write(Event* fevent) {
     if ((fevent->GetEventNumber()) % 1000 == 0)
         G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
     if (!fevtinitialized) {
-        Int_t bufsize = 64000;
-        fevtbranch = ftree->Branch("event.", &fevent, bufsize, 0);
+        Int_t bufsize = 128000;
+        fevtbranch = ftree->Branch("event.", &fevent, bufsize, 99);
         fevtbranch->SetAutoDelete(kFALSE);
         fevtinitialized = true;
+	//ftree->Print();
     }
     fFile = ftree->GetCurrentFile(); // just in case we switched to a new file
     fnb += ftree->Fill();
+    //ftree->Print();
     fFile->Write("", TObject::kOverwrite);
 }
 
