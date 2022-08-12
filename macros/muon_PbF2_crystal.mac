@@ -1,0 +1,19 @@
+/CaTS/verbose false
+/CaTS/dumpgdml false
+/CaTS/writeHits true
+/CaTS/fname CrystalPbF2_mu
+/CaTS/enable_opticks false
+/run/initialize 
+/process/optical/scintillation/setStackPhotons true
+/process/activate  Cerenkov 
+/process/optical/cerenkov/setStackPhotons true
+/process/optical/rayleigh/verbose 0
+/process/optical/absorption/verbose 0
+/process/optical/boundary/verbose 0
+/random/setSeeds 7 38 
+/CaTS/doAnalysis false
+/gun/particle mu-
+/gun/energy 1 GeV
+/gun/position 0. 0. -10. cm
+/gun/direction 0. 0. 1
+/run/beamOn 1000

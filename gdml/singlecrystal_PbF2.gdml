@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org"
+		       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"          
+		       xs:noNamespaceSchemaLocation="SimpleExtension.xsd"> 
+<!--
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+-->
+ <!--
+    //
+    // PbF2 optical data from:
+    // http://www.crystran.co.uk/
+    // http://www.crystran.co.uk/lead-fluoride-pbf2.htm
+    // the data values where estimated using:
+    // Engauge Digitizer - Digitizing software
+    // http://digitizer.sourceforge.net/
+    // Note! the formula used to calculate the absorption length from the transmission
+    // is not correct (too pessimistic) since it doesn't account for 
+    // fresnel reflection.
+    //
+-->
+
+    <extension>
+      <color name="magenta"     R="0.0"  G="1.0"  B="0.0"  A="1.0" />
+      <color name="green"       R="1.0"  G="0.0"  B="1.0"  A="1.0" />
+      <color name="red"         R="1.0"  G="0.0"  B="0.0"  A="1.0" />
+      <color name="blue"        R="0.0"  G="0.0"  B="1.0"  A="1.0" />
+      <color name="yellow"      R="1.0"  G="1.0"  B="0.0"  A="1.0" />
+    </extension>
+      
+
+    <define>
+      <matrix name="RINDEX" coldim="2" values="1.56258*eV 1.74822
+					       1.59515*eV 1.74941
+					       1.63606*eV 1.75
+					       1.67667*eV 1.75178
+					       1.71167*eV 1.75296
+                                               1.76698*eV 1.75474
+					       1.80023*eV 1.75593
+					       1.84655*eV 1.7583
+					       1.9016*eV  1.7583 
+					       1.95004*eV 1.76067
+					       1.99407*eV 1.76244
+					       2.03291*eV 1.76422
+					       2.07329*eV 1.76422
+					       2.12313*eV 1.766
+					       2.155*eV   1.76778
+					       2.20466*eV 1.76955
+					       2.25223*eV 1.77192
+					       2.30652*eV 1.7737
+					       2.36837*eV 1.77666
+					       2.43363*eV 1.77903
+					       2.48095*eV 1.78081
+					       2.54136*eV 1.78437
+					       2.58717*eV 1.78614
+					       2.65907*eV 1.78911
+					       2.73508*eV 1.79266
+					       2.80182*eV 1.79563
+					       2.85761*eV 1.79977
+					       2.93054*eV 1.80451
+					       2.99162*eV 1.80925
+					       3.04721*eV 1.8134
+					       3.0799*eV  1.81696
+					       3.1133*eV  1.82051
+					       3.16479*eV 1.82525
+					       3.20902*eV 1.83059
+					       3.25449*eV 1.83533
+					       3.30128*eV 1.84007
+					       3.34944*eV 1.8454
+					       3.39901*eV 1.85192
+					       3.43974*eV 1.85725
+					       3.49205*eV 1.86258
+					       3.53505*eV 1.86673
+					       3.57914*eV 1.87206
+					       3.6358*eV  1.87799
+					       3.68244*eV 1.8851
+					       3.7303*eV  1.89102
+					       3.79189*eV 1.89873
+					       3.84266*eV 1.90465
+					       3.90805*eV 1.90999
+					       3.94837*eV 1.91473
+					       3.97571*eV 1.92065
+					       4.04576*eV 1.92658
+					       4.07447*eV 1.93191
+					       4.14807*eV 1.93665
+					       4.19353*eV 1.94198
+					       4.25569*eV 1.94672
+					       4.33605*eV 1.95206
+					       4.43657*eV 1.95798
+					       4.50622*eV 1.96628
+					       4.63351*eV 1.9722
+					       4.76822*eV 1.97694
+					       4.86931*eV 1.98109"/>
+
+
+      <matrix name="ABSORB" coldim="2" values="1.56494*eV  4.06899*cm 
+					       1.57967*eV  4.0395*cm 
+					       1.59635*eV  4.03977*cm 
+					       1.61339*eV  4.04004*cm 
+					       1.6308*eV  4.04029*cm 
+					       1.64859*eV  4.04057*cm 
+					       1.66677*eV  4.04084*cm 
+					       1.68536*eV  4.01174*cm 
+					       1.70437*eV  3.983*cm 
+					       1.72381*eV  3.98326*cm 
+					       1.7437*eV  3.98353*cm 
+					       1.76405*eV  3.95513*cm 
+					       1.78489*eV  3.95539*cm 
+					       1.80407*eV  3.92732*cm 
+					       1.82586*eV  3.92758*cm 
+					       1.84819*eV  3.89989*cm 
+					       1.87107*eV  3.90015*cm 
+					       1.89216*eV  3.87276*cm 
+					       1.91615*eV  3.87301*cm 
+					       1.94076*eV  3.87326*cm 
+					       1.96601*eV  3.84622*cm 
+					       1.99192*eV  3.84647*cm 
+					       2.01853*eV  3.81975*cm 
+					       2.04586*eV  3.79337*cm 
+					       2.07393*eV  3.79361*cm 
+					       2.10278*eV  3.79386*cm 
+					       2.12946*eV  3.76775*cm 
+					       2.15989*eV  3.74197*cm 
+					       2.19121*eV  3.71651*cm 
+					       2.22345*eV  3.71674*cm 
+					       2.25665*eV  3.71696*cm 
+					       2.29086*eV  3.6918*cm 
+					       2.32255*eV  3.66689*cm 
+					       2.35881*eV  3.64231*cm 
+					       2.39621*eV  3.61799*cm 
+					       2.43482*eV  3.59395*cm 
+					       2.4747*eV  3.5702*cm 
+					       2.51172*eV  3.54669*cm 
+					       2.55417*eV  3.52347*cm 
+					       2.59809*eV  3.5005*cm 
+					       2.64354*eV  3.4778*cm 
+					       2.68583*eV  3.45532*cm 
+					       2.73444*eV  3.41094*cm 
+					       2.78482*eV  3.41114*cm 
+					       2.8318*eV  3.36769*cm 
+					       2.88588*eV  3.34644*cm 
+					       2.94207*eV  3.3254*cm 
+					       3.0005*eV  3.28381*cm 
+					       3.0551*eV  3.26342*cm 
+					       3.11817*eV  3.20321*cm 
+					       3.17718*eV  3.16415*cm 
+					       3.24544*eV  3.1259*cm 
+					       3.30943*eV  3.06986*cm 
+					       3.38356*eV  3.0155*cm 
+					       3.45319*eV  2.94541*cm 
+					       3.51755*eV  2.86147*cm 
+					       3.58438*eV  2.76582*cm 
+					       3.645*eV  2.66064*cm 
+					       3.70772*eV  2.56181*cm 
+					       3.76324*eV  2.45589*cm 
+					       3.81081*eV  2.35676*cm 
+					       3.85962*eV  2.25257*cm 
+					       3.90971*eV  2.15538*cm 
+					       3.95075*eV  2.06447*cm 
+					       3.99266*eV  1.97925*cm 
+					       4.03549*eV  1.89058*cm 
+					       4.06826*eV  1.81569*cm 
+					       4.11271*eV  1.74502*cm 
+					       4.15817*eV  1.67101*cm 
+					       4.19297*eV  1.60811*cm 
+					       4.2402*eV  1.54844*cm 
+					       4.27641*eV  1.48558*cm 
+					       4.32557*eV  1.43188*cm 
+					       4.36323*eV  1.38068*cm 
+					       4.41443*eV  1.3265*cm 
+					       4.45367*eV  1.27998*cm 
+					       4.49362*eV  1.2306*cm 
+					       4.52071*eV  1.18808*cm 
+					       4.5619*eV  1.14281*cm 
+					       4.58984*eV  1.09948*cm 
+					       4.61815*eV  1.05793*cm 
+					       4.6468*eV  1.01803*cm 
+					       4.66135*eV  0.983433*cm 
+					       4.67603*eV  0.946342*cm 
+					       4.70541*eV  0.910576*cm 
+					       4.72037*eV  0.876032*cm 
+					       4.73542*eV  0.842617*cm 
+					       4.76554*eV  0.810252*cm 
+					       4.78088*eV  0.778842*cm 
+					       4.79633*eV  0.748313*cm 
+					       4.82723*eV  0.718591*cm 
+					       4.84297*eV  0.689596*cm 
+					       4.85882*eV  0.661255*cm 
+					       4.89052*eV  0.63625*cm 
+					       4.90668*eV  0.608945*cm 
+					       4.92294*eV  0.582071*cm 
+					       4.9555*eV  0.555543*cm"/> 
+					       
+    </define>
+
+    <materials>
+
+      <material Z="1.0" name="AIR">
+         <D value="1e-24"/>
+         <atom value="1.00794"/>
+      </material>
+      <element name="Oxygen"   formula="O"  Z="8.">  <atom value="16.0"/>   </element>
+      <element name="Nitrogen" formula="N"  Z="7.">  <atom value="14.01"/>  </element>
+      <element name="Fluorine" formula="F"  Z="9.">  <atom value="18.9984032"/>  </element>
+      <element name="Lead"     formula="Pb" Z="82."> <atom value="207.20"/> </element>
+
+      <material name="Air">
+	<D value="1.290" unit="mg/cm3"/>
+	<fraction n="0.7" ref="Nitrogen"/>
+	<fraction n="0.3" ref="Oxygen"/>
+      </material>
+
+      <material name="PbF2">
+	<property name="RINDEX" ref="RINDEX"/>
+        <property name="ABSLENGTH" ref="ABSORB"/>
+	<D value="7.77" unit="g/cm3"/>
+	<composite n="1" ref="Lead"/>
+	<composite n="2" ref="Fluorine"/>
+      </material>
+      <material name="Si" Z="14.">
+         <D value="2.33" />
+         <atom value="28.09" />
+       </material>
+    </materials>
+    
+    <solids>
+        <box name="WorldBox" lunit="mm" x="50" y="50" z="200"/>
+        <box name="CalorimeterCell"  lunit="mm" x="25" y="25" z="100"/>
+        <box name="PhotonBox" lunit="mm" x="25" y="25" z=".3" />
+        <opticalsurface name="surf1" model="LUT" finish="etchedtyvekair" type="dielectric_LUT" value="1.0"/>
+    </solids>
+
+    <structure>
+        <volume name="CalorimeterVolume">
+            <materialref ref="PbF2"/>
+            <solidref ref="CalorimeterCell"/>
+            <auxiliary auxtype="SensDet" auxvalue="DRCalorimeter"/>
+ 	    <!-- color extension element -->	
+	    <colorref ref="green"/> 
+        </volume>
+        <volume name="PhotonVolume">
+            <materialref ref="Si" />
+            <solidref ref="PhotonBox" />
+            <auxiliary auxtype="SensDet" auxvalue="PhotonDetector"/>
+	    <colorref ref="blue"/>
+	    <auxiliary auxtype="Solid" auxvalue="True" />
+        </volume>
+
+        <volume name="TOP">
+            <materialref ref="AIR"/>
+            <solidref ref="WorldBox"/>
+            <physvol name="pCalorimeterVolume">
+                <volumeref ref="CalorimeterVolume"/>
+                <position name="Calpos" x="0" y="0" z="0"/>
+            </physvol>
+            <physvol name="pPhotonVolume0" copynumber="0">
+                <volumeref ref="PhotonVolume"/>
+                <position name="PDpos0" x="0" y="0" z="50.15"/>
+            </physvol>
+            <physvol name="pPhotonVolume1"  copynumber="1">
+                <volumeref ref="PhotonVolume"/>
+                <position name="PDpos1" x="0" y="0" z="-50.15"/>
+            </physvol>
+        </volume>
+
+        <skinsurface name="skinsrf1" surfaceproperty="surf1" >
+            <volumeref ref="CalorimeterVolume"/>
+        </skinsurface> 
+
+        <bordersurface name="bordersrf0" surfaceproperty="surf1" >
+            <physvolref ref="pCalorimeterVolume"/>
+            <physvolref ref="pPhotonVolume0"/>
+        </bordersurface>
+        <bordersurface name="bordersrf1" surfaceproperty="surf1" >
+            <physvolref ref="pCalorimeterVolume"/>
+            <physvolref ref="pPhotonVolume1"/>
+        </bordersurface>
+    </structure>
+
+    <setup version="1.0" name="Default">
+        <world ref="TOP"/>
+    </setup>
+</gdml_simple_extension>
+
