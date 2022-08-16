@@ -63,7 +63,9 @@
 #include "InteractionSD.hh"
 #include "MscSD.hh"
 #include "PhotonSD.hh"
+#ifdef WITH_G4OPTICKS
 #include "RadiatorSD.hh"
+#endif
 #include "TrackerSD.hh"
 #include "lArTPCSD.hh"
 #include "SimTrajectorySD.hh"
@@ -292,13 +294,15 @@ void DetectorConstruction::ConstructSDandField()
               logVol->SetSensitiveDetector(alArTPCSD);
               break;
             }
-            case Radiator: {
-              name                    = logVol->GetName() + "_Radiator";
-              RadiatorSD* aRadiatorSD = new RadiatorSD(name);
-              SDman->AddNewDetector(aRadiatorSD);
-              logVol->SetSensitiveDetector(aRadiatorSD);
-              break;
-            }
+#ifdef WITH_G4OPTICKS
+	  case Radiator: {
+	    name                    = logVol->GetName() + "_Radiator";
+	    RadiatorSD* aRadiatorSD = new RadiatorSD(name);
+	    SDman->AddNewDetector(aRadiatorSD);
+	    logVol->SetSensitiveDetector(aRadiatorSD);
+	    break;
+	  }
+#endif	      
             case Calorimeter: {
               name                          = logVol->GetName() + "_Calorimeter";
               CalorimeterSD* aCalorimeterSD = new CalorimeterSD(name);

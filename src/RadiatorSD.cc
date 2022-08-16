@@ -253,7 +253,7 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       }
       g4ok->reset();
     }
-  }
+  } // end if enable_opticks
 #endif
   return true;
 }
