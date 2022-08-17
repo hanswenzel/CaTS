@@ -68,6 +68,13 @@
 #include "RadiatorSD.hh"
 #include "ConfigurationManager.hh"
 
+#include "G4AutoLock.hh"
+
+namespace
+{
+   G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
+}
+
 RadiatorSD::RadiatorSD(G4String name)
   : G4VSensitiveDetector(name)
 {
@@ -216,6 +223,7 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     if(Sphotons > 0)
     {
       G4double ScintillationRiseTime = 0.0;
+      G4AutoLock lock(&opticks_mutex);
       G4Opticks::Get()->collectGenstep_G4Scintillation_1042(
         aTrack, aStep, Sphotons, scntId, ScintillationTime,
         ScintillationRiseTime);
@@ -225,6 +233,7 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     //
     if(Cphotons > 0)
     {
+      G4AutoLock lock(&opticks_mutex);
       G4Opticks::Get()->collectGenstep_G4Cerenkov_1042(
         aTrack, aStep, Cphotons, BetaInverse, Pmin, Pmax, maxCos, maxSin2,
         MeanNumberOfPhotons1, MeanNumberOfPhotons2);
@@ -237,6 +246,7 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     unsigned num_photons = g4ok->getNumPhotons();
     if(num_photons > ConfigurationManager::getInstance()->getMaxPhotons())
     {
+      G4AutoLock lock(&opticks_mutex);
       g4ok->propagateOpticalPhotons(eventid);
       G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
       for(G4int i = 0; i < hctable->entries(); ++i)
@@ -260,6 +270,52 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
 void RadiatorSD::EndOfEvent(G4HCofThisEvent*)
 {
-  tSphotons = 0;
-  tCphotons = 0;
+#ifdef WITH_G4OPTICKS
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
+  {
+    // Process left-over tracks
+    G4Opticks* g4ok      = G4Opticks::Get();
+    G4RunManager* rm     = G4RunManager::GetRunManager();
+    const G4Event* event = rm->GetCurrentEvent();
+    G4int eventid        = event->GetEventID();
+    G4OpticksHit hit;
+    unsigned num_photons = g4ok->getNumPhotons();
+    if(num_photons > ConfigurationManager::getInstance()->getMaxPhotons())
+    {
+      G4AutoLock lock(&opticks_mutex);
+      g4ok->propagateOpticalPhotons(eventid);
+      G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+      for(G4int i = 0; i < hctable->entries(); ++i)
+      {
+        std::string sdn   = hctable->GetSDname(i);
+        std::size_t found = sdn.find("Photondetector");
+        if(found != std::string::npos)
+        {
+          PhotonSD* aSD =
+            (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(
+              sdn);
+          aSD->AddOpticksHits();
+        }
+      }
+      g4ok->reset();
+    }
+
+    if(verbose)
+    {
+      G4cout << "========================== After reset: " << G4endl;
+      G4cout << " EndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
+             << " Gensteps: " << g4ok->getNumGensteps()
+             << "  Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
+      G4cout << "EndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
+      G4cout << g4ok->dbgdesc() << G4endl;
+      G4cout << "***********************************************************"
+                "********************************************************"
+             << G4endl;
+    } 
+
+    // Reset the number of photons
+    tSphotons = 0;
+    tCphotons = 0;
+  }
+#endif
 }
