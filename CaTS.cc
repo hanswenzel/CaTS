@@ -77,6 +77,13 @@
 #ifdef WITH_G4OPTICKS
 #  include "OPTICKS_LOG.hh"
 #endif
+#ifdef WITH_G4CXOPTICKS
+#include "OPTICKS_LOG.hh"
+#include "G4CXOpticks.hh"
+#include <cuda_runtime.h>
+#include "SEventConfig.hh"
+#endif
+
 #include "TROOT.h"
 #include <thread>
 
@@ -169,6 +176,9 @@ int main(int argc, char** argv)
 #ifdef WITH_G4OPTICKS
   OPTICKS_LOG(argc, argv);
 #endif
+#ifdef WITH_G4CXOPTICKS
+  OPTICKS_LOG(argc, argv);
+#endif    
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
   G4String DumpFilename       = gdmlfile + "_G4";
   ConfigurationManager::getInstance()->setGDMLFileName(DumpFilename);
