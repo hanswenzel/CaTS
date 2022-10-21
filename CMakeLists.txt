@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16...3.21)
-if(WITH_G4OPTICKS AND WITH_G4CXOPTICKS)
-    message(FATAL_ERROR "CaTS cmake illegal set of parameters. One can't use opticks and legacy opticks at the same time. Either -DWITH_G4OPTICKS or -DWITH_G4CXOPTICKS must be set to off and can't be set on at the same time.
+if(WITH_G4OPTICKS AND WITH_CXG4OPTICKS)
+    message(FATAL_ERROR "CaTS cmake illegal set of parameters. One can't use opticks and legacy opticks at the same time. Either -DWITH_G4OPTICKS or -DWITH_CXG4OPTICKS must be set to off and can't be set on at the same time.
 the following combinations are allowed:
--DWITH_G4OPTICKS=OFF -DWITH_G4CXOPTICKS=OFF : no opticks just Geant4 optical physics
--DWITH_G4OPTICKS=ON  -DWITH_G4CXOPTICKS=OFF : build using legacy opticks based on NVIDIA OptiX 6
--DWITH_G4OPTICKS=OFF -DWITH_G4CXOPTICKS=ON  : build using current opticks based on NVIDIA OptiX > 7
+-DWITH_G4OPTICKS=OFF -DWITH_CXG4OPTICKS=OFF : no opticks just Geant4 optical physics
+-DWITH_G4OPTICKS=ON  -DWITH_CXG4OPTICKS=OFF : build using legacy opticks based on NVIDIA OptiX 6
+-DWITH_G4OPTICKS=OFF -DWITH_CXG4OPTICKS=ON  : build using current opticks based on NVIDIA OptiX > 7
 ")
 endif()
   
@@ -168,5 +168,5 @@ endif()
 
 message(STATUS "G4ANALYSIS_USE:   ${G4ANALYSIS_USE}")
 message(STATUS "WITH_G4OPTICKS:   ${WITH_G4OPTICKS}")
-message(STATUS "WITH_G4CXOPTICKS: ${WITH_G4CXOPTICKS}")
+message(STATUS "WITH_CXG4OPTICKS: ${WITH_CXG4OPTICKS}")
 message(STATUS "WITH_ROOT:        ${WITH_ROOT}")

@@ -31,10 +31,10 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	          \       /    systems                                    *
+//*	      \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	             ( (                                                  *
-//*	              ) )                                                 *
+//*	         ( (                                                  *
+//*	          ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
@@ -77,7 +77,7 @@
 #ifdef WITH_G4OPTICKS
 #  include "OPTICKS_LOG.hh"
 #endif
-#ifdef WITH_G4CXOPTICKS
+#ifdef WITH_CXG4OPTICKS
 #include "OPTICKS_LOG.hh"
 #include "G4CXOpticks.hh"
 #include <cuda_runtime.h>
@@ -176,7 +176,7 @@ int main(int argc, char** argv)
 #ifdef WITH_G4OPTICKS
   OPTICKS_LOG(argc, argv);
 #endif
-#ifdef WITH_G4CXOPTICKS
+#ifdef WITH_CXG4OPTICKS
   OPTICKS_LOG(argc, argv);
 #endif    
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
