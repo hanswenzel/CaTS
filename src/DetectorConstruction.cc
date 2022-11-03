@@ -64,13 +64,13 @@
 #include "MscSD.hh"
 #include "PhotonSD.hh"
 #ifdef WITH_G4OPTICKS
-#include "RadiatorSD.hh"
+#  include "RadiatorSD.hh"
 #endif
 #ifdef WITH_CXG4OPTICKS
-#include "OPTICKS_LOG.hh"
-#include "G4CXOpticks.hh"
-#include <cuda_runtime.h>
-#include "SEventConfig.hh"
+#  include "OPTICKS_LOG.hh"
+#  include "G4CXOpticks.hh"
+#  include <cuda_runtime.h>
+#  include "SEventConfig.hh"
 #endif
 
 #include "TrackerSD.hh"
@@ -218,7 +218,7 @@ void DetectorConstruction::ConstructSDandField()
                                                 { "Tracker", 2 },          { "SimTrajectory", 3 },
                                                 { "SimEnergyDeposit", 4 }, { "Msc", 5 },
                                                 { "lArTPC", 6 },           { "Radiator", 7 },
-                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 }};
+                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 } };
   enum SensDet
   {
     PhotonDetector,
@@ -302,14 +302,14 @@ void DetectorConstruction::ConstructSDandField()
               break;
             }
 #ifdef WITH_G4OPTICKS
-	  case Radiator: {
-	    name                    = logVol->GetName() + "_Radiator";
-	    RadiatorSD* aRadiatorSD = new RadiatorSD(name);
-	    SDman->AddNewDetector(aRadiatorSD);
-	    logVol->SetSensitiveDetector(aRadiatorSD);
-	    break;
-	  }
-#endif	      
+            case Radiator: {
+              name                    = logVol->GetName() + "_Radiator";
+              RadiatorSD* aRadiatorSD = new RadiatorSD(name);
+              SDman->AddNewDetector(aRadiatorSD);
+              logVol->SetSensitiveDetector(aRadiatorSD);
+              break;
+            }
+#endif
             case Calorimeter: {
               name                          = logVol->GetName() + "_Calorimeter";
               CalorimeterSD* aCalorimeterSD = new CalorimeterSD(name);
@@ -343,9 +343,9 @@ void DetectorConstruction::ReadGDML()
   G4VPhysicalVolume* World = parser->GetWorldVolume();
   //----- GDML parser makes world invisible, this is a hack to make it
   // visible again...
-#ifdef WITH_CXG4OPTICKS     
-  G4CXOpticks gx;            // Simulate is the default RGMode
-  gx.setGeometry( World ) ; 
+#ifdef WITH_CXG4OPTICKS
+  G4CXOpticks gx;  // Simulate is the default RGMode
+  gx.setGeometry(World);
 #endif
   G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
   pWorldLogical->SetVisAttributes(0);

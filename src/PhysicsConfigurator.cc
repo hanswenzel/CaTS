@@ -65,6 +65,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   G4PhysicsConstructorRegistry* g4pcr = G4PhysicsConstructorRegistry::Instance();
   G4PhysListRegistry* g4plr           = G4PhysListRegistry::Instance();
   G4bool verbose                      = ConfigurationManager::getInstance()->isEnable_verbose();
+  verbose                             = true;
   if(verbose)
   {
     G4cout << "Available Physics Constructors:  " << g4pcr->AvailablePhysicsConstructors().size()
@@ -79,7 +80,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   {
     g4plr->SetVerbose(0);
   }
-  g4plr->AddPhysicsExtension("OPTICAL", "G4OpticalPhysics");
+  g4plr->AddPhysicsExtension("MyOPTICAL", "MyG4OpticalPhysics");
   g4plr->AddPhysicsExtension("STEPLIMIT", "G4StepLimiterPhysics");
   g4plr->AddPhysicsExtension("NEUTRONLIMIT", "G4NeutronTrackingCut");
   if(verbose)
