@@ -23,53 +23,48 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
+/// \file field/field01/include/F01FieldMessenger.hh
+/// \brief Definition of the F01FieldMessenger class
 //
+//
+//
+//
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-// ********************************************************************
-//
-//  CaTS (Calorimetry and Tracking Simulation)
-//
-//  Authors : Hans Wenzel
-//            Soon Yung Jun
-//            (Fermi National Accelerator Laboratory)
-//
-// History
-//   October 18th, 2021 : first implementation
-//
-// ********************************************************************
-//
-/// \file DetectorConstruction.hh
-/// \brief Definition of the CaTS::DetectorConstruction class
+#ifndef F01FieldMessenger_h
+#define F01FieldMessenger_h 1
 
-#pragma once
+#include "G4UImessenger.hh"
 
-#include "G4VUserDetectorConstruction.hh"
-#include <G4String.hh>
-#include "G4Cache.hh"
-class G4VPhysicalVolume;
-class ColorReader;
-class G4GDMLParser;
 class F01FieldSetup;
+class G4UIdirectory;
+class G4UIcmdWithAnInteger;
+class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWith3VectorAndUnit;
+class G4UIcmdWithoutParameter;
 
-class DetectorConstruction : public G4VUserDetectorConstruction
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+class F01FieldMessenger: public G4UImessenger
 {
- public:
-  DetectorConstruction(G4String fname);
-  ~DetectorConstruction() final;
-  DetectorConstruction& operator=(const DetectorConstruction& right) = delete;
-  DetectorConstruction(const DetectorConstruction&)                  = delete;
-  void ReadGDML();
-  G4VPhysicalVolume* Construct() final;
-  void ConstructSDandField() final;
-  void UpdateGeometry();
-  void SetUseFSALstepper(G4bool val) { fUseFSALstepper = val; }
-  G4bool AreUsingFSALstepper() { return fUseFSALstepper; }
+  public:
+    F01FieldMessenger(F01FieldSetup* );
+    virtual ~F01FieldMessenger();
+ 
+    virtual void SetNewValue(G4UIcommand*, G4String);
+ 
+  private:
 
- private:
-  G4Cache<F01FieldSetup*> fEmFieldSetup;
-  G4String gdmlFile;
-  G4GDMLParser* parser{ nullptr };
-  ColorReader* fReader{ nullptr };
-  G4bool verbose{ false };
-  G4bool fUseFSALstepper = false;
+    F01FieldSetup*             fEMfieldSetup;
+
+    G4UIdirectory*             fFieldDir;
+
+    G4UIcmdWithAnInteger*      fStepperCmd;
+    G4UIcmdWithADoubleAndUnit* fMagFieldZCmd;
+    G4UIcmdWith3VectorAndUnit* fMagFieldCmd;
+    G4UIcmdWithADoubleAndUnit* fMinStepCmd;
+    G4UIcmdWithoutParameter*   fUpdateCmd;
 };
+
+#endif

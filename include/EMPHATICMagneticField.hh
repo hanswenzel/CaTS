@@ -23,53 +23,42 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
+///////////////////////////////////////////////////////////////////////////////
+// File: CCalMagneticField.hh
+// Description: A class for control of the Magnetic Field of the detector.
+//              The field is assumed to be uniform.
+///////////////////////////////////////////////////////////////////////////////
+#ifndef EMPHATICMagneticField_H
+#define EMPHATICMagneticField_H
 
-// ********************************************************************
-//
-//  CaTS (Calorimetry and Tracking Simulation)
-//
-//  Authors : Hans Wenzel
-//            Soon Yung Jun
-//            (Fermi National Accelerator Laboratory)
-//
-// History
-//   October 18th, 2021 : first implementation
-//
-// ********************************************************************
-//
-/// \file DetectorConstruction.hh
-/// \brief Definition of the CaTS::DetectorConstruction class
+#include "G4UniformMagField.hh"
+#include "G4ThreeVector.hh"
+#include <map>
+#include <vector>
 
-#pragma once
+class G4FieldManager;
 
-#include "G4VUserDetectorConstruction.hh"
-#include <G4String.hh>
-#include "G4Cache.hh"
-class G4VPhysicalVolume;
-class ColorReader;
-class G4GDMLParser;
-class F01FieldSetup;
-
-class DetectorConstruction : public G4VUserDetectorConstruction
+class EMPHATICMagneticField : public G4MagneticField
 {
  public:
-  DetectorConstruction(G4String fname);
-  ~DetectorConstruction() final;
-  DetectorConstruction& operator=(const DetectorConstruction& right) = delete;
-  DetectorConstruction(const DetectorConstruction&)                  = delete;
-  void ReadGDML();
-  G4VPhysicalVolume* Construct() final;
-  void ConstructSDandField() final;
-  void UpdateGeometry();
-  void SetUseFSALstepper(G4bool val) { fUseFSALstepper = val; }
-  G4bool AreUsingFSALstepper() { return fUseFSALstepper; }
+  EMPHATICMagneticField(const G4String& name);
+  ~EMPHATICMagneticField();
+
+  // Access functions
+  void MagneticField(const double Point[3], double Bfield[3]) const;
+  CLHEP::Hep3Vector MagneticField(const CLHEP::Hep3Vector Point) const;
+  virtual void GetFieldValue(const double Point[3], double* Bfield) const;
+  // G4double GetConstantFieldvalue() const {return fval;}
+
+ protected:
+  // Find the global Field Manager
+  G4FieldManager* GetGlobalFieldManager();
 
  private:
-  G4Cache<F01FieldSetup*> fEmFieldSetup;
-  G4String gdmlFile;
-  G4GDMLParser* parser{ nullptr };
-  ColorReader* fReader{ nullptr };
-  G4bool verbose{ false };
-  G4bool fUseFSALstepper = false;
+  std::map<int, std::map<int, std::map<int, std::vector<double>>>> field;
+  double step;
+  double start[3];
+  G4bool fVerbosity;
 };
+
+#endif

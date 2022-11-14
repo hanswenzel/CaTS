@@ -55,6 +55,17 @@
 #include "G4ios.hh"
 
 // project headers
+#include "F01FieldSetup.hh"
+#include "EMPHATICMagneticField.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4SDManager.hh"
+#include "G4FieldManager.hh"
+#include "G4ChordFinder.hh"
+#include "G4Mag_UsualEqRhs.hh"
+#include "G4PropagatorInField.hh"
+#include "G4TransportationManager.hh"
+#include "G4ClassicalRK4.hh"
+
 #include "CalorimeterSD.hh"
 #include "ColorReader.hh"
 #include "ConfigurationManager.hh"
@@ -88,6 +99,42 @@ DetectorConstruction::~DetectorConstruction() {}
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   verbose = ConfigurationManager::getInstance()->isEnable_verbose();
+
+  // if(fMagFieldMap != "")
+  //{
+  /*
+    G4String fMagFieldMap           = "magField.root";
+    EMPHATICMagneticField* magField = new EMPHATICMagneticField(fMagFieldMap);
+    G4FieldManager* fieldMgr =
+    G4TransportationManager::GetTransportationManager()->GetFieldManager();
+    fieldMgr->SetDetectorField(magField);
+    G4Mag_UsualEqRhs* fEquation = new G4Mag_UsualEqRhs(magField);
+
+    G4MagIntegratorStepper* pStepper = new G4ClassicalRK4(fEquation);
+
+    G4ChordFinder* pChordFinder = new G4ChordFinder(magField, 1.e-1 * mm, pStepper);
+    pChordFinder->SetDeltaChord(1.0e-3 * mm);
+    fieldMgr->SetChordFinder(pChordFinder);
+    fieldMgr->SetDeltaOneStep(1.0e-3 * mm);
+    fieldMgr->SetDeltaIntersection(1.0e-4 * mm);
+    G4PropagatorInField* fieldPropagator =
+      G4TransportationManager::GetTransportationManager()->GetPropagatorInField();
+    fieldPropagator->SetMinimumEpsilonStep(1.e-5 * mm);
+    fieldPropagator->SetMaximumEpsilonStep(1.e-2 * mm);
+    */
+  //}
+  /*
+    fUseFSALstepper = true;
+    F01FieldSetup* fieldSetup =
+      new F01FieldSetup(G4ThreeVector(0.0, 3.3 * tesla, 0.0), fUseFSALstepper);
+    G4AutoDelete::Register(fieldSetup);  // Kernel will delete the F01FieldSetup
+    fEmFieldSetup.Put(fieldSetup);
+  */
+  G4MagneticField* magField;
+  magField                 = new G4UniformMagField(G4ThreeVector(0., 3.0 * tesla, 0.0));
+  G4FieldManager* fieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
+  fieldMgr->SetDetectorField(magField);
+  fieldMgr->CreateChordFinder(magField);
   ReadGDML();
   const G4GDMLAuxMapType* auxmap = parser->GetAuxMap();
   if(verbose)
