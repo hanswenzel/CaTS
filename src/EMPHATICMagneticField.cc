@@ -38,7 +38,7 @@
 #include "TTree.h"
 #include "math.h"
 // #define ddebug
-#define debug
+// #define debug
 
 // Constructor and destructor:
 
@@ -83,9 +83,7 @@ EMPHATICMagneticField::EMPHATICMagneticField(const G4String& filename)
   tree->SetBranchAddress("Bx", &Bx);
   tree->SetBranchAddress("By", &By);
   tree->SetBranchAddress("Bz", &Bz);
-  Bx           = Bx * 100000;
-  By           = By * 100000;
-  Bz           = Bz * 100000;
+
   int nEntries = tree->GetEntries();
 
   tree->GetEntry(0);
@@ -107,10 +105,9 @@ EMPHATICMagneticField::EMPHATICMagneticField(const G4String& filename)
   for(int i = 0; i < nEntries; i++)
   {
     tree->GetEntry(i);
-    int indX   = (int) (x - start[0]) / step;
-    int indY   = (int) (y - start[1]) / step;
-    int indZ   = (int) (z - start[2]) / step;
-    fVerbosity = true;
+    int indX = (int) (x - start[0]) / step;
+    int indY = (int) (y - start[1]) / step;
+    int indZ = (int) (z - start[2]) / step;
     if(fVerbosity)
     {
       G4cout << "(x, y, z) = (" << x << ", " << y << ", " << z << ") cm,    (ix, iy, iz) = ("
@@ -221,7 +218,7 @@ void EMPHATICMagneticField::MagneticField(const double x[3], double B[3]) const
            << B[0] << ", " << B[1] << ", " << B[2] << ") kG" << G4endl;
   }
 }
-
+/*
 CLHEP::Hep3Vector EMPHATICMagneticField::MagneticField(const CLHEP::Hep3Vector point) const
 {
   G4double x[3], B[3];
@@ -236,8 +233,8 @@ CLHEP::Hep3Vector EMPHATICMagneticField::MagneticField(const CLHEP::Hep3Vector p
   v.setZ(B[2]);
   return v;
 }
-
-void EMPHATICMagneticField::GetFieldValue(const double x[3], double* B) const
+*/
+void EMPHATICMagneticField::GetFieldValue(const double x[4], double* B) const
 {
   EMPHATICMagneticField::MagneticField(x, B);
 }

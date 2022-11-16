@@ -31,7 +31,7 @@
 #ifndef EMPHATICMagneticField_H
 #define EMPHATICMagneticField_H
 
-#include "G4UniformMagField.hh"
+#include "G4MagneticField.hh"
 #include "G4ThreeVector.hh"
 #include <map>
 #include <vector>
@@ -42,12 +42,12 @@ class EMPHATICMagneticField : public G4MagneticField
 {
  public:
   EMPHATICMagneticField(const G4String& name);
-  ~EMPHATICMagneticField();
+  ~EMPHATICMagneticField() override;
 
   // Access functions
-  void MagneticField(const double Point[3], double Bfield[3]) const;
-  CLHEP::Hep3Vector MagneticField(const CLHEP::Hep3Vector Point) const;
-  virtual void GetFieldValue(const double Point[3], double* Bfield) const;
+  void MagneticField(const double Point[4], double Bfield[3]) const;
+  // CLHEP::Hep3Vector MagneticField(const CLHEP::Hep3Vector Point) const;
+  virtual void GetFieldValue(const double Point[4], double* Bfield) const override;
   // G4double GetConstantFieldvalue() const {return fval;}
 
  protected:
@@ -56,8 +56,8 @@ class EMPHATICMagneticField : public G4MagneticField
 
  private:
   std::map<int, std::map<int, std::map<int, std::vector<double>>>> field;
-  double step;
   double start[3];
+  double step;
   G4bool fVerbosity;
 };
 

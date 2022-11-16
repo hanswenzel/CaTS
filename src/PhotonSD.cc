@@ -55,6 +55,37 @@
 #  include "OpticksGenstep.h"
 #  include "TrackInfo.hh"
 #endif
+#ifdef WITH_CXG4OPTICKS
+#  include "SLOG.hh"
+#  include "G4Step.hh"
+#  include "scuda.h"
+#  include "sqat4.h"
+#  include "sframe.h"
+
+#  include "SSys.hh"
+#  include "SEvt.hh"
+#  include "SSim.hh"
+#  include "SGeo.hh"
+#  include "SOpticksResource.hh"
+#  include "SFrameGenstep.hh"
+
+#  include "U4VolumeMaker.hh"
+
+#  include "SEventConfig.hh"
+#  include "U4GDML.h"
+#  include "U4Tree.h"
+
+#  include "CSGFoundry.h"
+#  include "CSG_GGeo_Convert.h"
+#  include "CSGOptiX.h"
+#  include "QSim.hh"
+
+#  include "U4Hit.h"
+
+#  include "U4.hh"
+#  include "G4CXOpticks.hh"
+// #include "G4Opticks.hh"
+#endif
 
 PhotonSD::PhotonSD(G4String name)
   : G4VSensitiveDetector(name)
@@ -145,23 +176,49 @@ void PhotonSD::AddOpticksHits()
   {
     g4ok->getHit(i, &hit, hit_extra_ptr);
     if(hit.is_cerenkov)
-      {
-	theCreationProcessid = 0;
-      }
+    {
+      theCreationProcessid = 0;
+    }
     else if(hit.is_reemission)
-      {
-	theCreationProcessid = 1;
-      }
+    {
+      theCreationProcessid = 1;
+    }
     else
-      {
-	theCreationProcessid = -1;
-      }
-    
-    PhotonHit* newHit = new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time, hit.global_position,
-                                      hit.global_direction, hit.global_polarization);
+    {
+      theCreationProcessid = -1;
+    }
+
+    PhotonHit* newHit =
+      new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
+                    hit.global_position, hit.global_direction, hit.global_polarization);
     fPhotonHitsCollection->insert(newHit);
   }
   if(verbose)
     G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
+}
+#endif
+
+#ifdef WITH_CXG4OPTICKS
+void PhotonSD::AddOpticksHits()
+{
+  G4cout << "PhotonSD::AddOpticksHits PhotonHits:  " << G4endl;
+  G4CXOpticks* g4cxok = G4CXOpticks::Get();
+  // G4int eventid       = event->GetEventID();
+  // SEvt::SetIndex(eventid);
+  G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
+  G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
+
+  if(num_photon > 0)
+  {
+    cudaDeviceSynchronize();
+    g4cxok->simulate();
+    cudaDeviceSynchronize();
+  }
+  // cudaDeviceSynchronize();
+  unsigned int num_hits = SEvt::GetNumHit();
+  // unsigned numphotons =  SEvt::getNumPhoton();
+  G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
+  G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
+  G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
 }
 #endif

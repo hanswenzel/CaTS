@@ -62,6 +62,9 @@ class PhotonSD : public G4VSensitiveDetector
 #ifdef WITH_G4OPTICKS
   void AddOpticksHits();
 #endif
+#ifdef WITH_CXG4OPTICKS
+  void AddOpticksHits();
+#endif
   void EndOfEvent(G4HCofThisEvent* hitCollection) final;
 
  private:
