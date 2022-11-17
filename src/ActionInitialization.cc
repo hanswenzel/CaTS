@@ -43,24 +43,21 @@
 #include <G4VUserActionInitialization.hh>
 // project headers
 #include "ActionInitialization.hh"
-#include "EventAction.hh"
+// #include "EventAction.hh"
+#include "MCEventAction.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "StackingAction.hh"
-
 
 ActionInitialization::ActionInitialization()
   : G4VUserActionInitialization()
 {}
 
-void ActionInitialization::BuildForMaster() const
-{
-  SetUserAction(new RunAction);
-}
+void ActionInitialization::BuildForMaster() const { SetUserAction(new RunAction); }
 
 void ActionInitialization::Build() const
 {
   SetUserAction(new PrimaryGeneratorAction());
   SetUserAction(new StackingAction());
-  SetUserAction(new EventAction());
+  SetUserAction(new MCEventAction());
 }

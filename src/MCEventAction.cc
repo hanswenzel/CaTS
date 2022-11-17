@@ -124,8 +124,8 @@ void MCEventAction ::BeginOfEventAction(const G4Event* anEvent) {}
 void MCEventAction ::EndOfEventAction(const G4Event* event)
 {
   G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
-  if(verbose)
-    G4cout << "MCEventAction n::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  // if(verbose)
+  G4cout << "MCEventAction n::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
   if(HCE == nullptr)
     return;
@@ -143,7 +143,8 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   SEvt::SetIndex(eventid);
   G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
   G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-
+  G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
+  G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
   if(num_photon > 0)
   {
     cudaDeviceSynchronize();

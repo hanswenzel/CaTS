@@ -281,7 +281,7 @@ G4VParticleChange* MyG4Cerenkov::PostStepDoIt(const G4Track& aTrack, const G4Ste
 
       G4double OMeanNumberOfPhotons1 = GetAverageNumberOfPhotons(charge, Obeta1, aMaterial, Rindex);
       G4double OMeanNumberOfPhotons2 = GetAverageNumberOfPhotons(charge, Obeta2, aMaterial, Rindex);
-      G4cout << "collecting Cerenkov Genstep: " << fNumPhotons << G4endl;
+      /// G4cout << "collecting Cerenkov Genstep: " << fNumPhotons << G4endl;
       U4::CollectGenstep_G4Cerenkov_modified(&aTrack, &aStep, fNumPhotons, OBetaInverse, OPmin,
                                              OPmax, OmaxCos, OmaxSin2, OMeanNumberOfPhotons1,
                                              OMeanNumberOfPhotons2);

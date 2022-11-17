@@ -77,7 +77,37 @@
 #  include "G4Opticks.hh"
 #  include "G4OpticksHit.hh"
 #endif
+#ifdef WITH_CXG4OPTICKS
+#  include "SLOG.hh"
+#  include "G4Step.hh"
+#  include "scuda.h"
+#  include "sqat4.h"
+#  include "sframe.h"
 
+#  include "SSys.hh"
+#  include "SEvt.hh"
+#  include "SSim.hh"
+#  include "SGeo.hh"
+#  include "SOpticksResource.hh"
+#  include "SFrameGenstep.hh"
+
+#  include "U4VolumeMaker.hh"
+
+#  include "SEventConfig.hh"
+#  include "U4GDML.h"
+#  include "U4Tree.h"
+
+#  include "CSGFoundry.h"
+#  include "CSG_GGeo_Convert.h"
+#  include "CSGOptiX.h"
+#  include "QSim.hh"
+
+#  include "U4Hit.h"
+
+#  include "U4.hh"
+#  include "G4CXOpticks.hh"
+// #include "G4Opticks.hh"
+#endif
 namespace
 {
   // Mutex to lock updating the global ion map

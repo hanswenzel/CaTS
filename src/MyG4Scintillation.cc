@@ -431,7 +431,7 @@ G4VParticleChange* MyG4Scintillation::PostStepDoIt(const G4Track& aTrack, const 
 #ifdef WITH_CXG4OPTICKS
     if(fNumPhotons > 0)
     {
-      G4cout << "collecting Scintillation Genstep: " << fNumPhotons << G4endl;
+      // G4cout << "collecting Scintillation Genstep: " << fNumPhotons << G4endl;
       U4::CollectGenstep_DsG4Scintillation_r4695(
         &aTrack, &aStep, fNumPhotons, 1, MPT->GetConstProperty(kSCINTILLATIONTIMECONSTANT1));
     }
