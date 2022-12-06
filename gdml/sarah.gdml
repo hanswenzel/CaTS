@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define>
+    <matrix coldim="2" name="RINDEX0x5575da56c330" values="1e-09 2.19103 1.1e-09 2.19414 1.2e-09 2.19762 1.3e-09 2.20149 1.4e-09 2.20577 1.5e-09 2.2105 1.6e-09 2.21571 1.7e-09 2.22144 1.8e-09 2.22773 1.9e-09 2.23463 2e-09 2.24221 2.1e-09 2.25053 2.2e-09 2.25968 2.3e-09 2.26974 2.4e-09 2.28084 2.5e-09 2.2931 2.6e-09 2.30668 2.7e-09 2.32177 2.8e-09 2.3386 2.9e-09 2.35745 3e-09 2.37866 3.1e-09 2.40268 3.2e-09 2.43006 3.3e-09 2.4615 3.4e-09 2.49794 3.5e-09 2.54063 3.6e-09 2.59128 3.7e-09 2.6523 3.8e-09 2.72722 3.9e-09 2.82141"/>
+    <matrix coldim="2" name="GROUPVEL0x5575da56c630" values="1e-09 134.819 1.05e-09 134.725 1.15e-09 134.083 1.25e-09 133.365 1.35e-09 132.57 1.45e-09 131.679 1.55e-09 130.695 1.65e-09 129.607 1.75e-09 128.411 1.85e-09 127.095 1.95e-09 125.636 2.05e-09 124.04 2.15e-09 122.275 2.25e-09 120.349 2.35e-09 118.21 2.45e-09 115.871 2.55e-09 113.294 2.65e-09 110.459 2.75e-09 107.339 2.85e-09 103.907 2.95e-09 100.141 3.05e-09 95.9884 3.15e-09 91.4345 3.25e-09 86.4578 3.35e-09 81.0169 3.45e-09 75.0986 3.55e-09 68.6981 3.65e-09 61.8271 3.75e-09 54.5167 3.9e-09 46.4973"/>
+    <matrix coldim="2" name="RINDEX0x5575da56f850" values="1e-09 2.19103 1.1e-09 2.19414 1.2e-09 2.19762 1.3e-09 2.20149 1.4e-09 2.20577 1.5e-09 2.2105 1.6e-09 2.21571 1.7e-09 2.22144 1.8e-09 2.22773 1.9e-09 2.23463 2e-09 2.24221 2.1e-09 2.25053 2.2e-09 2.25968 2.3e-09 2.26974 2.4e-09 2.28084 2.5e-09 2.2931 2.6e-09 2.30668 2.7e-09 2.32177 2.8e-09 2.3386 2.9e-09 2.35745 3e-09 2.37866 3.1e-09 2.40268 3.2e-09 2.43006 3.3e-09 2.4615 3.4e-09 2.49794 3.5e-09 2.54063 3.6e-09 2.59128 3.7e-09 2.6523 3.8e-09 2.72722 3.9e-09 2.82141"/>
+    <matrix coldim="2" name="GROUPVEL0x5575da56fb10" values="1e-09 134.819 1.05e-09 134.725 1.15e-09 134.083 1.25e-09 133.365 1.35e-09 132.57 1.45e-09 131.679 1.55e-09 130.695 1.65e-09 129.607 1.75e-09 128.411 1.85e-09 127.095 1.95e-09 125.636 2.05e-09 124.04 2.15e-09 122.275 2.25e-09 120.349 2.35e-09 118.21 2.45e-09 115.871 2.55e-09 113.294 2.65e-09 110.459 2.75e-09 107.339 2.85e-09 103.907 2.95e-09 100.141 3.05e-09 95.9884 3.15e-09 91.4345 3.25e-09 86.4578 3.35e-09 81.0169 3.45e-09 75.0986 3.55e-09 68.6981 3.65e-09 61.8271 3.75e-09 54.5167 3.9e-09 46.4973"/>
+    <matrix coldim="2" name="ABSLENGTH0x5575da56ffd0" values="1.3776e-09 271.4 1.45864e-09 361.9 1.5498e-09 579.1 1.65312e-09 434.3 1.71013e-09 789.6 1.7712e-09 542.9 1.8368e-09 3619 1.90745e-09 1737 1.98375e-09 3619 2.0664e-09 542.9 2.10143e-09 1300 2.13766e-09 1450 2.17516e-09 1600 2.214e-09 1800 2.25426e-09 1650 2.296e-09 1700 2.33932e-09 1400 2.38431e-09 1600 2.43106e-09 1500 2.47968e-09 1450 2.53029e-09 1300 2.583e-09 1200 2.63796e-09 1000 2.69531e-09 800 2.7552e-09 723.8 2.81782e-09 400 2.88335e-09 120 2.952e-09 50 3.0996e-09 20 3.54241e-09 20 4.13281e-09 10"/>
+    <matrix coldim="2" name="FASTCOMPONENT0x5575da570290" values="1.3776e-09 0 1.45864e-09 0 1.5498e-09 0 1.65312e-09 0 1.71013e-09 0 1.7712e-09 0 1.8368e-09 0 1.90745e-09 0.0003 1.98375e-09 0.0008 2.0664e-09 0.0032 2.10143e-09 0.0057 2.13766e-09 0.0084 2.17516e-09 0.0153 2.214e-09 0.0234 2.25426e-09 0.0343 2.296e-09 0.0604 2.33932e-09 0.0927 2.38431e-09 0.1398 2.43106e-09 0.2105 2.47968e-09 0.2903 2.53029e-09 0.4122 2.583e-09 0.5518 2.63796e-09 0.7086 2.69531e-09 0.8678 2.7552e-09 1 2.81782e-09 0.8676 2.88335e-09 0.2311 2.952e-09 0.0033 3.0996e-09 0.0012 3.54241e-09 0 4.13281e-09 0"/>
+    <matrix coldim="1" name="SCINTILLATIONYIELD0x5575da56df60" values="1.39e+07"/>
+    <matrix coldim="1" name="RESOLUTIONSCALE0x5575da56df60" values="1"/>
+    <matrix coldim="1" name="FASTTIMECONSTANT0x5575da56df60" values="2.8e-09"/>
+    <matrix coldim="2" name="RINDEX0x5575da565ad0" values="2.034e-09 1 2.068e-09 1 2.103e-09 1 2.139e-09 1 2.177e-09 1 2.216e-09 1 2.256e-09 1 2.298e-09 1 2.341e-09 1 2.386e-09 1 2.433e-09 1 2.481e-09 1 2.532e-09 1 2.585e-09 1 2.64e-09 1 2.697e-09 1 2.757e-09 1 2.82e-09 1 2.885e-09 1 2.954e-09 1 3.026e-09 1 3.102e-09 1 3.181e-09 1 3.265e-09 1 3.353e-09 1 3.446e-09 1 3.545e-09 1 3.649e-09 1 3.76e-09 1 3.877e-09 1 4.002e-09 1 4.136e-09 1"/>
+    <matrix coldim="2" name="GROUPVEL0x5575da565df0" values="2.034e-09 299.792 2.051e-09 299.792 2.0855e-09 299.792 2.121e-09 299.792 2.158e-09 299.792 2.1965e-09 299.792 2.236e-09 299.792 2.277e-09 299.792 2.3195e-09 299.792 2.3635e-09 299.792 2.4095e-09 299.792 2.457e-09 299.792 2.5065e-09 299.792 2.5585e-09 299.792 2.6125e-09 299.792 2.6685e-09 299.792 2.727e-09 299.792 2.7885e-09 299.792 2.8525e-09 299.792 2.9195e-09 299.792 2.99e-09 299.792 3.064e-09 299.792 3.1415e-09 299.792 3.223e-09 299.792 3.309e-09 299.792 3.3995e-09 299.792 3.4955e-09 299.792 3.597e-09 299.792 3.7045e-09 299.792 3.8185e-09 299.792 3.9395e-09 299.792 4.136e-09 299.792"/>
+    <matrix coldim="2" name="REFLECTIVITY0x5575da572d80" values="1e-09 1 1e-08 1"/>
+    <matrix coldim="2" name="EFFICIENCY0x5575da572eb0" values="1e-09 1 1e-08 1"/>
+  </define>
+
+  <materials>
+    <isotope N="36" Z="18" name="Ar360x5575da55c800">
+      <atom unit="g/mole" value="35.9675"/>
+    </isotope>
+    <isotope N="38" Z="18" name="Ar380x5575da55c850">
+      <atom unit="g/mole" value="37.9627"/>
+    </isotope>
+    <isotope N="40" Z="18" name="Ar400x5575da55c8a0">
+      <atom unit="g/mole" value="39.9624"/>
+    </isotope>
+    <element name="Ar_elm0x5575da55c6e0">
+      <fraction n="0.003365" ref="Ar360x5575da55c800"/>
+      <fraction n="0.000632" ref="Ar380x5575da55c850"/>
+      <fraction n="0.996003" ref="Ar400x5575da55c8a0"/>
+    </element>
+    <isotope N="14" Z="7" name="N140x5575da526cd0">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N150x5575da55c360">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="N_elm0x5575da55c220">
+      <fraction n="0.99632" ref="N140x5575da526cd0"/>
+      <fraction n="0.00368" ref="N150x5575da55c360"/>
+    </element>
+    <isotope N="16" Z="8" name="O160x5575da55c530">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O170x5575da55c5b0">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O180x5575da55c600">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="O_elm0x5575da55c410">
+      <fraction n="0.99757" ref="O160x5575da55c530"/>
+      <fraction n="0.00038" ref="O170x5575da55c5b0"/>
+      <fraction n="0.00205" ref="O180x5575da55c600"/>
+    </element>
+    <material name="killMedia0x5575da566110" state="gas">
+      <property name="RINDEX" ref="RINDEX0x5575da56c330"/>
+      <property name="GROUPVEL" ref="GROUPVEL0x5575da56c630"/>
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.6436645878276"/>
+      <D unit="g/cm3" value="0.0012"/>
+      <fraction n="0.0120000000372529" ref="Ar_elm0x5575da55c6e0"/>
+      <fraction n="0.754000003892928" ref="N_elm0x5575da55c220"/>
+      <fraction n="0.233999996069819" ref="O_elm0x5575da55c410"/>
+    </material>
+    <isotope N="204" Z="82" name="Pb2040x5575da562640">
+      <atom unit="g/mole" value="203.973"/>
+    </isotope>
+    <isotope N="206" Z="82" name="Pb2060x5575da55c650">
+      <atom unit="g/mole" value="205.974"/>
+    </isotope>
+    <isotope N="207" Z="82" name="Pb2070x5575da565c00">
+      <atom unit="g/mole" value="206.976"/>
+    </isotope>
+    <isotope N="208" Z="82" name="Pb2080x5575da56c9c0">
+      <atom unit="g/mole" value="207.977"/>
+    </isotope>
+    <element name="Pb_elm0x5575da5641e0">
+      <fraction n="0.014" ref="Pb2040x5575da562640"/>
+      <fraction n="0.241" ref="Pb2060x5575da55c650"/>
+      <fraction n="0.221" ref="Pb2070x5575da565c00"/>
+      <fraction n="0.524" ref="Pb2080x5575da56c9c0"/>
+    </element>
+    <isotope N="180" Z="74" name="W1800x5575da56cbd0">
+      <atom unit="g/mole" value="179.947"/>
+    </isotope>
+    <isotope N="182" Z="74" name="W1820x5575da56cc20">
+      <atom unit="g/mole" value="181.948"/>
+    </isotope>
+    <isotope N="183" Z="74" name="W1830x5575da56cc70">
+      <atom unit="g/mole" value="182.95"/>
+    </isotope>
+    <isotope N="184" Z="74" name="W1840x5575da56ccc0">
+      <atom unit="g/mole" value="183.951"/>
+    </isotope>
+    <isotope N="186" Z="74" name="W1860x5575da56cd10">
+      <atom unit="g/mole" value="185.954"/>
+    </isotope>
+    <element name="W_elm0x5575da56cae0">
+      <fraction n="0.0012" ref="W1800x5575da56cbd0"/>
+      <fraction n="0.265" ref="W1820x5575da56cc20"/>
+      <fraction n="0.1431" ref="W1830x5575da56cc70"/>
+      <fraction n="0.3064" ref="W1840x5575da56ccc0"/>
+      <fraction n="0.2843" ref="W1860x5575da56cd10"/>
+    </element>
+    <material name="E_PbWO40x5575da56d090" state="solid">
+      <property name="RINDEX" ref="RINDEX0x5575da56f850"/>
+      <property name="GROUPVEL" ref="GROUPVEL0x5575da56fb10"/>
+      <property name="ABSLENGTH" ref="ABSLENGTH0x5575da56ffd0"/>
+      <property name="FASTCOMPONENT" ref="FASTCOMPONENT0x5575da570290"/>
+      <property name="SCINTILLATIONYIELD" ref="SCINTILLATIONYIELD0x5575da56df60"/>
+      <property name="RESOLUTIONSCALE" ref="RESOLUTIONSCALE0x5575da56df60"/>
+      <property name="FASTTIMECONSTANT" ref="FASTTIMECONSTANT0x5575da56df60"/>
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="542.735387883208"/>
+      <D unit="g/cm3" value="8.28"/>
+      <fraction n="0.140639424324036" ref="O_elm0x5575da55c410"/>
+      <fraction n="0.455326616764069" ref="Pb_elm0x5575da5641e0"/>
+      <fraction n="0.404033958911896" ref="W_elm0x5575da56cae0"/>
+    </material>
+    <material name="Air0x5575da55ca10" state="gas">
+      <property name="RINDEX" ref="RINDEX0x5575da565ad0"/>
+      <property name="GROUPVEL" ref="GROUPVEL0x5575da565df0"/>
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.6436645878276"/>
+      <D unit="g/cm3" value="0.0012"/>
+      <fraction n="0.0120000000372529" ref="Ar_elm0x5575da55c6e0"/>
+      <fraction n="0.754000003892928" ref="N_elm0x5575da55c220"/>
+      <fraction n="0.233999996069819" ref="O_elm0x5575da55c410"/>
+    </material>
+  </materials>
+
+  <solids>
+    <box lunit="mm" name="slice1_shape_0x5575da5713f0" x="24.98" y="24.98" z="4"/>
+    <box lunit="mm" name="slice2_shape_0x5575da571530" x="24.98" y="24.98" z="60"/>
+    <box lunit="mm" name="slice3_shape_0x5575da571670" x="24.98" y="24.98" z="4"/>
+    <box lunit="mm" name="layer1_shape_0x5575da5712b0" x="24.98" y="24.98" z="67.98"/>
+    <box lunit="mm" name="tower_shape_0x5575da571170" x="25" y="25" z="68"/>
+    <box lunit="mm" name="DRCrystal_shape_0x5575da570ff0" x="250" y="250" z="680"/>
+    <opticalsurface finish="0" model="0" name="_world_DRCrystal_mirrorSurface0x5575da5717b0" type="1" value="1">
+      <property name="REFLECTIVITY" ref="REFLECTIVITY0x5575da572d80"/>
+      <property name="EFFICIENCY" ref="EFFICIENCY0x5575da572eb0"/>
+    </opticalsurface>
+    <box lunit="mm" name="world_volume_shape_0x5575da570eb0" x="1200000" y="1200000" z="1200000"/>
+  </solids>
+
+  <structure>
+    <volume name="slice10x5575da5266f0">
+      <materialref ref="killMedia0x5575da566110"/>
+      <solidref ref="slice1_shape_0x5575da5713f0"/>
+    </volume>
+    <volume name="slice20x5575da56cfe0">
+      <materialref ref="E_PbWO40x5575da56d090"/>
+      <solidref ref="slice2_shape_0x5575da571530"/>
+    </volume>
+    <volume name="slice30x5575da5790d0">
+      <materialref ref="killMedia0x5575da566110"/>
+      <solidref ref="slice3_shape_0x5575da571670"/>
+    </volume>
+    <volume name="layer10x5575da579240">
+      <materialref ref="Air0x5575da55ca10"/>
+      <solidref ref="layer1_shape_0x5575da5712b0"/>
+      <physvol name="slice1_00x5575da579390">
+        <volumeref ref="slice10x5575da5266f0"/>
+        <position name="slice1_00x5575da579390_pos" unit="mm" x="0" y="0" z="-32"/>
+      </physvol>
+      <physvol copynumber="1" name="slice2_10x5575da57d600">
+        <volumeref ref="slice20x5575da56cfe0"/>
+        <position name="slice2_10x5575da57d600_pos" unit="mm" x="0" y="0" z="-4.44089209850063e-15"/>
+      </physvol>
+      <physvol copynumber="2" name="slice3_20x5575da57d6e0">
+        <volumeref ref="slice30x5575da5790d0"/>
+        <position name="slice3_20x5575da57d6e0_pos" unit="mm" x="0" y="0" z="32"/>
+      </physvol>
+    </volume>
+    <volume name="tower0x5575da5793f0">
+      <materialref ref="Air0x5575da55ca10"/>
+      <solidref ref="tower_shape_0x5575da571170"/>
+      <physvol name="layer1_00x5575da57d860">
+        <volumeref ref="layer10x5575da579240"/>
+        <position name="layer1_00x5575da57d860_pos" unit="mm" x="0" y="0" z="4.44089209850063e-15"/>
+      </physvol>
+    </volume>
+    <volume name="DRCrystal0x5575da5794a0">
+      <materialref ref="Air0x5575da55ca10"/>
+      <solidref ref="DRCrystal_shape_0x5575da570ff0"/>
+      <physvol name="tower_00x5575da57db30">
+        <volumeref ref="tower0x5575da5793f0"/>
+      </physvol>
+    </volume>
+    <volume name="world_volume0x5575da57d8c0">
+      <materialref ref="Air0x5575da55ca10"/>
+      <solidref ref="world_volume_shape_0x5575da570eb0"/>
+      <physvol name="DRCrystal_00x5575da57ddd0">
+        <volumeref ref="DRCrystal0x5575da5794a0"/>
+      </physvol>
+    </volume>
+    <skinsurface name="_world_DRCrystal_HallCrys0x5575da57dfe0" surfaceproperty="_world_DRCrystal_mirrorSurface0x5575da5717b0">
+      <volumeref ref="DRCrystal0x5575da5794a0"/>
+    </skinsurface>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="world_volume0x5575da57d8c0"/>
+  </setup>
+
+</gdml>

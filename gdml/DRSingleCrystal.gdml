@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+    <matrix name="RINDEX__Air" coldim="2" values="2.034e-09 1
+2.068e-09 1
+2.103e-09 1
+2.139e-09 1
+2.177e-09 1
+2.216e-09 1
+2.256e-09 1
+2.298e-09 1
+2.341e-09 1
+2.386e-09 1
+2.433e-09 1
+2.481e-09 1
+2.532e-09 1
+2.585e-09 1
+2.64e-09 1
+2.697e-09 1
+2.757e-09 1
+2.82e-09 1
+2.885e-09 1
+2.954e-09 1
+3.026e-09 1
+3.102e-09 1
+3.181e-09 1
+3.265e-09 1
+3.353e-09 1
+3.446e-09 1
+3.545e-09 1
+3.649e-09 1
+3.76e-09 1
+3.877e-09 1
+4.002e-09 1
+4.136e-09 1"/>
+    <matrix name="RINDEX__PbWO4" coldim="2" values="1e-09 2.19103
+1.1e-09 2.19414
+1.2e-09 2.19762
+1.3e-09 2.20149
+1.4e-09 2.20577
+1.5e-09 2.2105
+1.6e-09 2.21571
+1.7e-09 2.22144
+1.8e-09 2.22773
+1.9e-09 2.23463
+2e-09 2.24221
+2.1e-09 2.25053
+2.2e-09 2.25968
+2.3e-09 2.26974
+2.4e-09 2.28084
+2.5e-09 2.2931
+2.6e-09 2.30668
+2.7e-09 2.32177
+2.8e-09 2.3386
+2.9e-09 2.35745
+3e-09 2.37866
+3.1e-09 2.40268
+3.2e-09 2.43006
+3.3e-09 2.4615
+3.4e-09 2.49794
+3.5e-09 2.54063
+3.6e-09 2.59128
+3.7e-09 2.6523
+3.8e-09 2.72722
+3.9e-09 2.82141"/>
+    <matrix name="RI_PS" coldim="2" values="1.3776e-09 1.5749
+1.45864e-09 1.5764
+1.5498e-09 1.5782
+1.65312e-09 1.5803
+1.71013e-09 1.5815
+1.7712e-09 1.5829
+1.8368e-09 1.5845
+1.90745e-09 1.5862
+1.98375e-09 1.5882
+2.0664e-09 1.5904
+2.10143e-09 1.5914
+2.13766e-09 1.5924
+2.17516e-09 1.5935
+2.214e-09 1.5947
+2.25426e-09 1.5959
+2.296e-09 1.5972
+2.33932e-09 1.5986
+2.38431e-09 1.6
+2.43106e-09 1.6016
+2.47968e-09 1.6033
+2.53029e-09 1.6051
+2.583e-09 1.607
+2.63796e-09 1.609
+2.69531e-09 1.6112
+2.7552e-09 1.6136
+2.81782e-09 1.6161
+2.88335e-09 1.617
+2.952e-09 1.623
+3.0996e-09 1.62858
+3.54241e-09 1.65191
+4.13281e-09 1.69165"/>
+    <matrix name="AbsLen_PS" coldim="2" values="1.3776e-09 271.4
+1.45864e-09 361.9
+1.5498e-09 579.1
+1.65312e-09 434.3
+1.71013e-09 789.6
+1.7712e-09 542.9
+1.8368e-09 3619
+1.90745e-09 1737
+1.98375e-09 3619
+2.0664e-09 542.9
+2.10143e-09 1300
+2.13766e-09 1450
+2.17516e-09 1600
+2.214e-09 1800
+2.25426e-09 1650
+2.296e-09 1700
+2.33932e-09 1400
+2.38431e-09 1600
+2.43106e-09 1500
+2.47968e-09 1450
+2.53029e-09 1300
+2.583e-09 1200
+2.63796e-09 1000
+2.69531e-09 800
+2.7552e-09 723.8
+2.81782e-09 400
+2.88335e-09 120
+2.952e-09 50
+3.0996e-09 20
+3.54241e-09 20
+4.13281e-09 10"/>
+    <matrix name="scintFast_PS" coldim="2" values="1.3776e-09 0
+1.45864e-09 0
+1.5498e-09 0
+1.65312e-09 0
+1.71013e-09 0
+1.7712e-09 0
+1.8368e-09 0
+1.90745e-09 0.0003
+1.98375e-09 0.0008
+2.0664e-09 0.0032
+2.10143e-09 0.0057
+2.13766e-09 0.0084
+2.17516e-09 0.0153
+2.214e-09 0.0234
+2.25426e-09 0.0343
+2.296e-09 0.0604
+2.33932e-09 0.0927
+2.38431e-09 0.1398
+2.43106e-09 0.2105
+2.47968e-09 0.2903
+2.53029e-09 0.4122
+2.583e-09 0.5518
+2.63796e-09 0.7086
+2.69531e-09 0.8678
+2.7552e-09 1
+2.81782e-09 0.8676
+2.88335e-09 0.2311
+2.952e-09 0.0033
+3.0996e-09 0.0012
+3.54241e-09 0
+4.13281e-09 0"/>
+    <matrix name="REFLECTIVITY__0x2d946b0" coldim="2" values="1e-09 1
+1e-08 1"/>
+    <matrix name="EFFICIENCY__0x2d944d0" coldim="2" values="1e-09 1
+1e-08 1"/>
+<!--
+    <constant name="FASTTIMECONSTANT_0x2dfbf80" value="2.7999999999999998e-09"/>
+-->
+<matrix name="FASTTIMECONSTANT_0x2dfbf80"  coldim="1"  values="2.7999999999999998e-09"/>
+<!--
+    <constant name="RESOLUTIONSCALE_0x2dfbf80" value="1"/>
+-->
+<matrix name="RESOLUTIONSCALE_0x2dfbf80" coldim="1" values="1"/>
+    <!--
+    <constant name="SCINTILLATIONYIELD_0x2dfbf80" value="13899992.686390091"/>
+    -->
+    <matrix name="SCINTILLATIONYIELD_0x2dfbf80" coldim="1" values="13899992.686390091"/>
+    <position name="slice1_0inlayer1pos" x="0" y="0" z="-3.2000000000000002" unit="cm"/>
+    <position name="slice2_1inlayer1pos" x="0" y="0" z="-4.4408920985006262e-16" unit="cm"/>
+    <position name="slice3_2inlayer1pos" x="0" y="0" z="3.1999999999999997" unit="cm"/>
+    <position name="layer1_0intowerpos" x="0" y="0" z="4.4408920985006262e-16" unit="cm"/>
+    <position name="tower_0inDRCrystalpos" x="0" y="0" z="0" unit="cm"/>
+    <position name="DRCrystal_0inworld_volumepos" x="0" y="0" z="0" unit="cm"/>
+  </define>
+  <materials>
+    <element name="N_elm" formula="N" Z="7">
+      <atom unit="g/mole" value="14.0068"/>
+    </element>
+    <element name="O_elm" formula="O" Z="8">
+      <atom unit="g/mole" value="15.9994"/>
+    </element>
+    <element name="Ar_elm" formula="Ar" Z="18">
+      <atom unit="g/mole" value="39.947699999999998"/>
+    </element>
+    <material name="Air">
+      <D unit="g/cm3" value="0.0011999999999999999"/>
+      <fraction n="0.012000000104308128" ref="Ar_elm"/>
+      <fraction n="0.75400000810623169" ref="N_elm"/>
+      <fraction n="0.23399999737739563" ref="O_elm"/>
+      <property name="RINDEX" ref="RINDEX__Air"/>
+    </material>
+    <material name="killMedia">
+      <D unit="g/cm3" value="0.0011999999999999999"/>
+      <fraction n="0.012000000104308128" ref="Ar_elm"/>
+      <fraction n="0.75400000810623169" ref="N_elm"/>
+      <fraction n="0.23399999737739563" ref="O_elm"/>
+      <property name="RINDEX" ref="RINDEX__PbWO4"/>
+    </material>
+    <element name="Pb_elm" formula="Pb" Z="82">
+      <atom unit="g/mole" value="207.21700000000001"/>
+    </element>
+    <element name="W_elm" formula="W" Z="74">
+      <atom unit="g/mole" value="183.84200000000001"/>
+    </element>
+    <material name="E_PbWO4">
+      <D unit="g/cm3" value="8.2799999999999994"/>
+      <fraction n="0.14063942432403564" ref="O_elm"/>
+      <fraction n="0.4553266167640686" ref="Pb_elm"/>
+      <fraction n="0.40403395891189575" ref="W_elm"/>
+      <property name="RINDEX" ref="RINDEX__PbWO4"/>
+      <property name="ABSLENGTH" ref="AbsLen_PS"/>
+      <property name="FASTCOMPONENT" ref="scintFast_PS"/>
+      <property name="SCINTILLATIONYIELD" ref="SCINTILLATIONYIELD_0x2dfbf80"/>
+      <property name="FASTTIMECONSTANT" ref="FASTTIMECONSTANT_0x2dfbf80"/>
+      <property name="RESOLUTIONSCALE" ref="RESOLUTIONSCALE_0x2dfbf80"/>
+    </material>
+  </materials>
+  <solids>
+    <box name="world_volume_shape_0x2dfcd90" x="120000" y="120000" z="120000" lunit="cm"/>
+    <box name="DRCrystal_shape_0x2e0dd00" x="25" y="25" z="68" lunit="cm"/>
+    <box name="tower_shape_0x2b53140" x="2.5" y="2.5" z="6.7999999999999998" lunit="cm"/>
+    <box name="layer1_shape_0x2b530c0" x="2.4980000000000002" y="2.4980000000000002" z="6.7980000000000009" lunit="cm"/>
+    <box name="slice1_shape_0x312c800" x="2.4980000000000002" y="2.4980000000000002" z="0.40000000000000002" lunit="cm"/>
+    <box name="slice2_shape_0x312d070" x="2.4980000000000002" y="2.4980000000000002" z="6" lunit="cm"/>
+    <box name="slice3_shape_0x312d4a0" x="2.4980000000000002" y="2.4980000000000002" z="0.40000000000000002" lunit="cm"/>
+    <opticalsurface name="/world/DRCrystal#mirrorSurface" model="glisur" finish="polished" type="dielectric_dielectric" value="1">
+      <property name="REFLECTIVITY" ref="REFLECTIVITY__0x2d946b0"/>
+      <property name="EFFICIENCY" ref="EFFICIENCY__0x2d944d0"/>
+    </opticalsurface>
+  </solids>
+  <structure>
+    <volume name="slice1">
+      <materialref ref="killMedia"/>
+      <solidref ref="slice1_shape_0x312c800"/>
+    </volume>
+    <volume name="slice2">
+      <materialref ref="E_PbWO4"/>
+      <solidref ref="slice2_shape_0x312d070"/>
+    </volume>
+    <volume name="slice3">
+      <materialref ref="killMedia"/>
+      <solidref ref="slice3_shape_0x312d4a0"/>
+    </volume>
+    <volume name="layer1">
+      <materialref ref="Air"/>
+      <solidref ref="layer1_shape_0x2b530c0"/>
+      <physvol name="slice1_0" copynumber="0">
+        <volumeref ref="slice1"/>
+        <positionref ref="slice1_0inlayer1pos"/>
+      </physvol>
+      <physvol name="slice2_1" copynumber="1">
+        <volumeref ref="slice2"/>
+        <positionref ref="slice2_1inlayer1pos"/>
+      </physvol>
+      <physvol name="slice3_2" copynumber="2">
+        <volumeref ref="slice3"/>
+        <positionref ref="slice3_2inlayer1pos"/>
+      </physvol>
+    </volume>
+    <volume name="tower">
+      <materialref ref="Air"/>
+      <solidref ref="tower_shape_0x2b53140"/>
+      <physvol name="layer1_0" copynumber="0">
+        <volumeref ref="layer1"/>
+        <positionref ref="layer1_0intowerpos"/>
+      </physvol>
+    </volume>
+    <volume name="DRCrystal">
+      <materialref ref="Air"/>
+      <solidref ref="DRCrystal_shape_0x2e0dd00"/>
+      <physvol name="tower_0" copynumber="0">
+        <volumeref ref="tower"/>
+        <positionref ref="tower_0inDRCrystalpos"/>
+      </physvol>
+    </volume>
+    <volume name="world_volume">
+      <materialref ref="Air"/>
+      <solidref ref="world_volume_shape_0x2dfcd90"/>
+      <physvol name="DRCrystal_0" copynumber="0">
+        <volumeref ref="DRCrystal"/>
+        <positionref ref="DRCrystal_0inworld_volumepos"/>
+      </physvol>
+    </volume>
+    <skinsurface name="/world/DRCrystal#HallCrys" surfaceproperty="/world/DRCrystal#mirrorSurface">
+      <volumeref  ref="DRCrystal"/>
+    </skinsurface>
+  </structure>
+  <setup name="default" version="1.0">
+    <world ref="world_volume"/>
+  </setup>
+</gdml>
