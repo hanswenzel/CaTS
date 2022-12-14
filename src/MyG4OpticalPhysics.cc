@@ -122,11 +122,11 @@ void MyG4OpticalPhysics::ConstructProcess()
   G4OpWLS2* wls2 = new G4OpWLS2();
   if(params->GetProcessActivation("OpWLS2"))
     pManager->AddDiscreteProcess(wls2);
-
+  /*
   MyG4Scintillation* scint       = new MyG4Scintillation();
   G4EmSaturation* emSaturation = G4LossTableManager::Instance()->EmSaturation();
   scint->AddSaturation(emSaturation);
-
+  */
   MyG4Cerenkov* cerenkov = new MyG4Cerenkov();
 
   auto myParticleIterator = GetParticleIterator();
@@ -153,6 +153,7 @@ void MyG4OpticalPhysics::ConstructProcess()
       pManager->AddProcess(cerenkov);
       pManager->SetProcessOrdering(cerenkov, idxPostStep);
     }
+    /*
     if(scint->IsApplicable(*particle) &&
        params->GetProcessActivation("Scintillation"))
     {
@@ -160,6 +161,7 @@ void MyG4OpticalPhysics::ConstructProcess()
       pManager->SetProcessOrderingToLast(scint, idxAtRest);
       pManager->SetProcessOrderingToLast(scint, idxPostStep);
     }
+    */
     if(boundary->IsApplicable(*particle) &&
        params->GetProcessActivation("OpBoundary"))
     {

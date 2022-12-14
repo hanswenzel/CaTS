@@ -137,27 +137,34 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 
   G4cout << "EventAction::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
 #ifdef WITH_CXG4OPTICKS
-
-  G4CXOpticks* g4cxok = G4CXOpticks::Get();
-  G4int eventid       = event->GetEventID();
-  SEvt::SetIndex(eventid);
-  G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
-  G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-  G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
-  G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
-  if(num_photon > 0)
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
-    cudaDeviceSynchronize();
-    g4cxok->simulate();
-    cudaDeviceSynchronize();
+    G4CXOpticks* g4cxok = G4CXOpticks::Get();
+    G4int eventid       = event->GetEventID();
+    SEvt::SetIndex(eventid);
+    //    G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
+    G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
+    G4int num_photon  = SEvt::GetNumPhotonCollected();
+    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
+    G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
+    if(num_photon > 0)
+    {
+      /*
+      cudaDeviceSynchronize();
+      g4cxok->simulate();
+      cudaDeviceSynchronize();
+      */
+      cudaDeviceReset();
+      g4cxok->simulate();
+      cudaDeviceSynchronize();
+    }
+    // cudaDeviceSynchronize();
+    unsigned int num_hits = SEvt::GetNumHit();
+    // unsigned numphotons =  SEvt::getNumPhoton();
+    G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
+    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
+    G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
   }
-  // cudaDeviceSynchronize();
-  unsigned int num_hits = SEvt::GetNumHit();
-  // unsigned numphotons =  SEvt::getNumPhoton();
-  G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
-  G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
-  G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
-
 #endif
 
 #ifdef WITH_G4OPTICKS
@@ -209,16 +216,13 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   }     // end isEnable_opticks
 #endif  // end   WITH_G4OPTICKS
 #ifdef WITH_CXG4OPTICKS
+/*
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
-    //    G4Opticks* g4ok = G4Opticks::Get();
-    //    G4int eventid   = event->GetEventID();
-    //    g4ok->propagateOpticalPhotons(eventid);
-    //    unsigned num_hits = g4ok->getNumHit();
-    //    G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
 
     G4CXOpticks* g4cxok = G4CXOpticks::Get();
     G4int eventid       = event->GetEventID();
+
     SEvt::SetIndex(eventid);
     G4int num_hits    = SEvt::GetNumPhotonFromGenstep();
     G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
@@ -246,36 +250,9 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
         }
       }
     }
-    /*
-    if(verbose)
-    {
-      G4cout << "***********************************************************"
-                "********************************************************"
-             << G4endl;
-      G4cout << " EndOfEventAction: numphotons:   " << g4cxok->getNumPhotons()
-             << " Gensteps: " << g4cxok->getNumGensteps()
-             << "  Maxgensteps:  " << g4cxok->getMaxGensteps() << G4endl;
-      G4cout << " EndOfEventAction: num_hits: " << g4cxok->getNumHit() << G4endl;
-      //     G4cout << g4ok->dbgdesc() << G4endl;
-    }
-    g4cxok->reset();
-    */
-    if(verbose)
-    {
-      /*
-            G4cout << "========================== After reset: " << G4endl;
-            G4cout << " EndOfEventAction: numphotons:   " << g4cxok->getNumPhotons()
-                   << " Gensteps: " << g4cxok->getNumGensteps()
-                   << "  Maxgensteps:  " << g4cxok->getMaxGensteps() << G4endl;
-            G4cout << "EndOfEventAction: num_hits: " << g4cxok->getNumHit() << G4endl;
-            G4cout << g4cxok->dbgdesc() << G4endl;
-            G4cout << "***********************************************************"
-                      "********************************************************"
-                   << G4endl;
-                   */
-    }
   }     // end isEnable_opticks
-#endif  // end   WITH_G4OPTICKS
+*/
+#endif  // end   WITH_CXG4OPTICKS
 
   //
   // Now we deal with the Geant4 Hit collections.
