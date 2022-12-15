@@ -83,7 +83,7 @@
 #include "G4ThreeVector.hh"
 #include "Randomize.hh"
 #include "G4PhysicsModelCatalog.hh"
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 #  include "U4.hh"
 #endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -428,7 +428,7 @@ G4VParticleChange* MyG4Scintillation::PostStepDoIt(const G4Track& aTrack, const 
 
   if(!fStackingFlag)
   {
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
     if(fNumPhotons > 0)
     {
       // G4cout << "collecting Scintillation Genstep: " << fNumPhotons << G4endl;

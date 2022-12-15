@@ -55,7 +55,7 @@
 #  include "OpticksGenstep.h"
 #  include "TrackInfo.hh"
 #endif
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 #  include "SLOG.hh"
 #  include "G4Step.hh"
 #  include "scuda.h"
@@ -198,7 +198,7 @@ void PhotonSD::AddOpticksHits()
 }
 #endif
 
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
 {
   G4cout << "PhotonSD::AddOpticksHits PhotonHits:  " << G4endl;

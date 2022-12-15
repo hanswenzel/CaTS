@@ -74,36 +74,9 @@
 #  include "G4Opticks.hh"
 #  include "G4OpticksHit.hh"
 #endif
-#ifdef WITH_CXG4OPTICKS
-#  include "SLOG.hh"
-#  include "G4Step.hh"
-#  include "scuda.h"
-#  include "sqat4.h"
-#  include "sframe.h"
-
-#  include "SSys.hh"
+#ifdef WITH_G4CXOPTICKS
 #  include "SEvt.hh"
-#  include "SSim.hh"
-#  include "SGeo.hh"
-#  include "SOpticksResource.hh"
-#  include "SFrameGenstep.hh"
-
-#  include "U4VolumeMaker.hh"
-
-#  include "SEventConfig.hh"
-#  include "U4GDML.h"
-#  include "U4Tree.h"
-
-#  include "CSGFoundry.h"
-#  include "CSG_GGeo_Convert.h"
-#  include "CSGOptiX.h"
-#  include "QSim.hh"
-
-#  include "U4Hit.h"
-
-#  include "U4.hh"
 #  include "G4CXOpticks.hh"
-// #include "G4Opticks.hh"
 #endif
 namespace
 {
@@ -136,7 +109,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 #endif  // end WITH_ROOT
 
   G4cout << "EventAction::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
     G4CXOpticks* g4cxok = G4CXOpticks::Get();
@@ -215,7 +188,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     }
   }     // end isEnable_opticks
 #endif  // end   WITH_G4OPTICKS
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 /*
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
@@ -252,7 +225,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     }
   }     // end isEnable_opticks
 */
-#endif  // end   WITH_CXG4OPTICKS
+#endif  // end   WITH_G4CXOPTICKS
 
   //
   // Now we deal with the Geant4 Hit collections.

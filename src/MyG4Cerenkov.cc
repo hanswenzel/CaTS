@@ -74,7 +74,7 @@
 #include "G4ThreeVector.hh"
 #include "Randomize.hh"
 #include "G4PhysicsModelCatalog.hh"
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 #  include "U4.hh"
 #endif
 
@@ -263,7 +263,7 @@ G4VParticleChange* MyG4Cerenkov::PostStepDoIt(const G4Track& aTrack, const G4Ste
   if(!fStackingFlag)
   {
 // return unchanged particle and no secondaries
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
     if(fNumPhotons > 0)
     {
       G4double OPmin = Rindex->Energy(0);

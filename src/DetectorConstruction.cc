@@ -77,7 +77,7 @@
 #ifdef WITH_G4OPTICKS
 #  include "RadiatorSD.hh"
 #endif
-#ifdef WITH_CXG4OPTICKS
+#ifdef WITH_G4CXOPTICKS
 #  include "OPTICKS_LOG.hh"
 #  include "G4CXOpticks.hh"
 #  include <cuda_runtime.h>
@@ -427,10 +427,11 @@ void DetectorConstruction::ReadGDML()
   //----- GDML parser makes world invisible, this is a hack to make it
   // visible again...
   G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
-#ifdef WITH_CXG4OPTICKS
-  G4CXOpticks gx;  // Simulate is the default RGMode
-  gx.setGeometry(World);
-  SEventConfig::SetMaxPhoton(10000000);
+#ifdef WITH_G4CXOPTICKS
+  // G4CXOpticks gx;  // Simulate is the default RGMode
+  G4CXOpticks::SetGeometry(World);
+  // gx.setGeometry(World);
+  // SEventConfig::SetMaxPhoton(10000000);
 #endif
   pWorldLogical->SetVisAttributes(0);
   if(verbose)
