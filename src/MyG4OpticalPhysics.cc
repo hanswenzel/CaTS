@@ -37,8 +37,8 @@
 //
 
 #include "MyG4OpticalPhysics.hh"
-
 #include "MyG4Cerenkov.hh"
+#include "MyG4Scintillation.hh"
 #include "G4EmSaturation.hh"
 #include "G4LossTableManager.hh"
 #include "G4OpAbsorption.hh"
@@ -50,7 +50,6 @@
 #include "G4OpWLS2.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4ProcessManager.hh"
-#include "MyG4Scintillation.hh"
 
 // factory
 #include "G4PhysicsConstructorFactory.hh"
@@ -68,16 +67,10 @@ MyG4OpticalPhysics::MyG4OpticalPhysics(G4int verbose, const G4String& name)
 MyG4OpticalPhysics::~MyG4OpticalPhysics() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void MyG4OpticalPhysics::PrintStatistics() const
-{
-  G4OpticalParameters::Instance()->Dump();
-}
+void MyG4OpticalPhysics::PrintStatistics() const { G4OpticalParameters::Instance()->Dump(); }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void MyG4OpticalPhysics::ConstructParticle()
-{
-  G4OpticalPhoton::OpticalPhotonDefinition();
-}
+void MyG4OpticalPhysics::ConstructParticle() { G4OpticalPhoton::OpticalPhotonDefinition(); }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void MyG4OpticalPhysics::ConstructProcess()
@@ -89,8 +82,7 @@ void MyG4OpticalPhysics::ConstructProcess()
 
   // Add Optical Processes
 
-  G4ProcessManager* pManager =
-    G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
+  G4ProcessManager* pManager = G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
   if(!pManager)
   {
     G4ExceptionDescription ed;
@@ -122,11 +114,11 @@ void MyG4OpticalPhysics::ConstructProcess()
   G4OpWLS2* wls2 = new G4OpWLS2();
   if(params->GetProcessActivation("OpWLS2"))
     pManager->AddDiscreteProcess(wls2);
-  /*
-  MyG4Scintillation* scint       = new MyG4Scintillation();
+
+  MyG4Scintillation* scint     = new MyG4Scintillation();
   G4EmSaturation* emSaturation = G4LossTableManager::Instance()->EmSaturation();
   scint->AddSaturation(emSaturation);
-  */
+
   MyG4Cerenkov* cerenkov = new MyG4Cerenkov();
 
   auto myParticleIterator = GetParticleIterator();
@@ -142,28 +134,22 @@ void MyG4OpticalPhysics::ConstructProcess()
     {
       G4ExceptionDescription ed;
       ed << "Particle " << particleName << "without a Process Manager";
-      G4Exception("MyG4OpticalPhysics::ConstructProcess()", "", FatalException,
-                  ed);
+      G4Exception("MyG4OpticalPhysics::ConstructProcess()", "", FatalException, ed);
       return;  // else coverity complains for pManager use below
     }
 
-    if(cerenkov->IsApplicable(*particle) &&
-       params->GetProcessActivation("Cerenkov"))
+    if(cerenkov->IsApplicable(*particle) && params->GetProcessActivation("Cerenkov"))
     {
       pManager->AddProcess(cerenkov);
       pManager->SetProcessOrdering(cerenkov, idxPostStep);
     }
-    /*
-    if(scint->IsApplicable(*particle) &&
-       params->GetProcessActivation("Scintillation"))
+    if(scint->IsApplicable(*particle) && params->GetProcessActivation("Scintillation"))
     {
       pManager->AddProcess(scint);
       pManager->SetProcessOrderingToLast(scint, idxAtRest);
       pManager->SetProcessOrderingToLast(scint, idxPostStep);
     }
-    */
-    if(boundary->IsApplicable(*particle) &&
-       params->GetProcessActivation("OpBoundary"))
+    if(boundary->IsApplicable(*particle) && params->GetProcessActivation("OpBoundary"))
     {
       pManager->SetProcessOrderingToLast(boundary, idxPostStep);
     }

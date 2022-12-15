@@ -48,7 +48,6 @@
 #include <G4VHit.hh>
 #include <G4VHitsCollection.hh>
 #include "G4SDManager.hh"
-
 // project headers:
 #include "MCEventAction.hh"
 #include "ConfigurationManager.hh"
@@ -69,6 +68,8 @@
 #include <utility>
 #include <algorithm>
 #include <istream>
+#include <string>
+
 #ifdef WITH_G4OPTICKS
 #  include "OpticksFlags.hh"
 #  include "G4Opticks.hh"
@@ -76,7 +77,10 @@
 #endif
 #ifdef WITH_G4CXOPTICKS
 #  include "SEvt.hh"
+#  include "NP.hh"
 #  include "G4CXOpticks.hh"
+#  include "U4Hit.h"
+#  include "U4HitGet.h"
 #endif
 namespace
 {
@@ -122,21 +126,20 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
     if(num_photon > 0)
     {
-      /*
-      cudaDeviceSynchronize();
-      g4cxok->simulate();
-      cudaDeviceSynchronize();
-      */
       cudaDeviceReset();
       g4cxok->simulate();
       cudaDeviceSynchronize();
     }
-    // cudaDeviceSynchronize();
     unsigned int num_hits = SEvt::GetNumHit();
-    // unsigned numphotons =  SEvt::getNumPhoton();
     G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
     G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
     G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
+    SEvt* sev = SEvt::Get();
+    std::cout << sev->descFull();
+    const NP* hits = sev->getHit();
+    //     const std::string EvDescr = SEvt::desc();
+    //  const NP* getPhoton() const ;
+    //     std::cout << SEvt::descFull();
   }
 #endif
 
