@@ -137,6 +137,23 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     SEvt* sev = SEvt::Get();
     std::cout << sev->descFull();
     const NP* hits = sev->getHit();
+    U4Hit hit;
+    U4HitExtra hit_extra;
+    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
+    for(int idx = 0; idx < int(num_hits); idx++)
+    {
+      U4HitGet::FromEvt(hit, idx);
+      std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
+                << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier
+                << "  sensor id:  " << hit.sensorIndex << std::endl;
+
+      /*
+      collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
+      if(idx < 20 && LEVEL == info)
+        ss << descHit(idx, &hit, hit_extra_ptr) << std::endl;
+        */
+    }
+
     //     const std::string EvDescr = SEvt::desc();
     //  const NP* getPhoton() const ;
     //     std::cout << SEvt::descFull();
