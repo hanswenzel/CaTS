@@ -78,10 +78,11 @@
 #  include "RadiatorSD.hh"
 #endif
 #ifdef WITH_G4CXOPTICKS
-#  include "OPTICKS_LOG.hh"
+// #  include "OPTICKS_LOG.hh"
 #  include "G4CXOpticks.hh"
-#  include <cuda_runtime.h>
-#  include "SEventConfig.hh"
+// #  include "OpticksMode.hh"
+//  #  include <cuda_runtime.h>
+//  #  include "SEventConfig.hh"
 #endif
 
 #include "TrackerSD.hh"
@@ -150,6 +151,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       G4double value             = atof(auxtype.value);
       G4double val_unit          = 1;  //--no unit
       G4String provided_category = "NONE";
+      G4cout << auxtype.type << G4endl;
       if((auxtype.unit) && (auxtype.unit != ""))
       {  // -- if provided and non-NULL
         val_unit          = G4UnitDefinition::GetValueOf(auxtype.unit);
@@ -429,6 +431,8 @@ void DetectorConstruction::ReadGDML()
   G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
 #ifdef WITH_G4CXOPTICKS
   // G4CXOpticks gx;  // Simulate is the default RGMode
+  // if(opticksMode != 0)
+  std::cout << "DetectorConstruction setGeometry" << std::endl;
   G4CXOpticks::SetGeometry(World);
   // gx.setGeometry(World);
   // SEventConfig::SetMaxPhoton(10000000);

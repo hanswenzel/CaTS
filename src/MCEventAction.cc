@@ -79,10 +79,10 @@
 #  include "SEvt.hh"
 #  include "NP.hh"
 #  include "G4CXOpticks.hh"
-#  include "U4Hit.h"
-#  include "U4HitGet.h"
 #endif
+
 namespace
+
 {
   // Mutex to lock updating the global ion map
   G4Mutex ionIdMapMutex = G4MUTEX_INITIALIZER;
@@ -94,7 +94,7 @@ MCEventAction ::MCEventAction()
 #ifdef WITH_ROOT
   RootIO::GetInstance();
 #endif
-}
+}  // namespace MCEventAction::MCEventAction()
 
 void MCEventAction ::BeginOfEventAction(const G4Event* anEvent) {}
 
@@ -112,7 +112,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   std::map<G4String, std::vector<G4VHit*>>* hcmap = CaTSEvt->GetHCMap();
 #endif  // end WITH_ROOT
 
-  G4cout << "EventAction::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  G4cout << "MCEventAction::EndOfEventAction Event:   " << event->GetEventID() << G4endl;
 #ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
@@ -122,37 +122,40 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     //    G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
     G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
     G4int num_photon  = SEvt::GetNumPhotonCollected();
-    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
-    G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
+    G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
+    G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
     if(num_photon > 0)
     {
-      cudaDeviceReset();
+      //      cudaDeviceReset();
+      // cudaDeviceSynchronize();
       g4cxok->simulate();
-      cudaDeviceSynchronize();
+      // cudaDeviceSynchronize();
     }
     unsigned int num_hits = SEvt::GetNumHit();
-    G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
-    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
-    G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
+    G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
+    G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
+    G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
     SEvt* sev = SEvt::Get();
     std::cout << sev->descFull();
-    const NP* hits = sev->getHit();
-    U4Hit hit;
-    U4HitExtra hit_extra;
-    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
-    for(int idx = 0; idx < int(num_hits); idx++)
-    {
-      U4HitGet::FromEvt(hit, idx);
-      std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
-                << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier
-                << "  sensor id:  " << hit.sensorIndex << std::endl;
+    // const NP* hits = sev->getHit();
 
-      /*
-      collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
-      if(idx < 20 && LEVEL == info)
-        ss << descHit(idx, &hit, hit_extra_ptr) << std::endl;
-        */
+    if(num_hits > 0)
+    {
+      G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+      for(G4int i = 0; i < hctable->entries(); ++i)
+      {
+        std::string sdn   = hctable->GetSDname(i);
+        std::size_t found = sdn.find("Photondetector");
+        if(found != std::string::npos)
+        {
+          std::cout << "Photondetector: " << sdn << std::endl;
+          PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
+          aSD->AddOpticksHits();
+        }
+      }
     }
+
+    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
 
     //     const std::string EvDescr = SEvt::desc();
     //  const NP* getPhoton() const ;
@@ -167,7 +170,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     G4int eventid   = event->GetEventID();
     g4ok->propagateOpticalPhotons(eventid);
     unsigned num_hits = g4ok->getNumHit();
-    G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
+    G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
     if(num_hits > 0)
     {
       G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
@@ -187,20 +190,20 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       G4cout << "***********************************************************"
                 "********************************************************"
              << G4endl;
-      G4cout << " EndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
+      G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
              << " Gensteps: " << g4ok->getNumGensteps()
              << "  Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
-      G4cout << " EndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
+      G4cout << " MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
       G4cout << g4ok->dbgdesc() << G4endl;
     }
     g4ok->reset();
     if(verbose)
     {
       G4cout << "========================== After reset: " << G4endl;
-      G4cout << " EndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
+      G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
              << " Gensteps: " << g4ok->getNumGensteps()
              << "  Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
-      G4cout << "EndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
+      G4cout << "MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
       G4cout << g4ok->dbgdesc() << G4endl;
       G4cout << "***********************************************************"
                 "********************************************************"
@@ -208,45 +211,45 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     }
   }     // end isEnable_opticks
 #endif  // end   WITH_G4OPTICKS
-#ifdef WITH_G4CXOPTICKS
-/*
-  if(ConfigurationManager::getInstance()->isEnable_opticks())
-  {
-
-    G4CXOpticks* g4cxok = G4CXOpticks::Get();
-    G4int eventid       = event->GetEventID();
-
-    SEvt::SetIndex(eventid);
-    G4int num_hits    = SEvt::GetNumPhotonFromGenstep();
-    G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-    if(num_hits > 0)
-    {
-      cudaDeviceSynchronize();
-      g4cxok->simulate();
-      cudaDeviceSynchronize();
-    }
-    G4cout << "EndOfEventAction: num_hits: " << num_hits << G4endl;
-    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
-    G4cout << "EndOfEventAction: num_genstep: " << num_genstep << G4endl;
-
-    if(num_hits > 0)
-    {
-      G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
-      for(G4int i = 0; i < hctable->entries(); ++i)
-      {
-        std::string sdn   = hctable->GetSDname(i);
-        std::size_t found = sdn.find("Photondetector");
-        if(found != std::string::npos)
-        {
-          PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
-          aSD->AddOpticksHits();
-        }
-      }
-    }
-  }     // end isEnable_opticks
-*/
-#endif  // end   WITH_G4CXOPTICKS
-
+        /*
+        #ifdef WITH_G4CXOPTICKS
+      
+          if(ConfigurationManager::getInstance()->isEnable_opticks())
+          {
+            G4CXOpticks* g4cxok = G4CXOpticks::Get();
+            G4int eventid       = event->GetEventID();
+      
+            SEvt::SetIndex(eventid);
+            G4int num_hits    = SEvt::GetNumPhotonFromGenstep();
+            G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
+            if(num_hits > 0)
+            {
+              cudaDeviceSynchronize();
+              g4cxok->simulate();
+              cudaDeviceSynchronize();
+            }
+            G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
+            //    G4cout << "EndOfEventAction: num_photon: " << num_photon << G4endl;
+            G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
+      
+            if(num_hits > 0)
+            {
+              G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+              for(G4int i = 0; i < hctable->entries(); ++i)
+              {
+                std::string sdn   = hctable->GetSDname(i);
+                std::size_t found = sdn.find("Photondetector");
+                if(found != std::string::npos)
+                {
+                  PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
+                  aSD->AddOpticksHits();
+                }
+              }
+            }
+          }  // end isEnable_opticks
+      
+        #endif  // end   WITH_G4CXOPTICKS
+        */
   //
   // Now we deal with the Geant4 Hit collections.
   //
