@@ -129,7 +129,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       //      cudaDeviceReset();
       // cudaDeviceSynchronize();
       g4cxok->simulate();
-      // cudaDeviceSynchronize();
+      cudaDeviceSynchronize();
     }
     unsigned int num_hits = SEvt::GetNumHit();
     G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;

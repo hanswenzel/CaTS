@@ -81,7 +81,7 @@
 // #  include "OPTICKS_LOG.hh"
 #  include "G4CXOpticks.hh"
 // #  include "OpticksMode.hh"
-//  #  include <cuda_runtime.h>
+#  include <cuda_runtime.h>
 //  #  include "SEventConfig.hh"
 #endif
 
@@ -433,6 +433,7 @@ void DetectorConstruction::ReadGDML()
   // G4CXOpticks gx;  // Simulate is the default RGMode
   // if(opticksMode != 0)
   std::cout << "DetectorConstruction setGeometry" << std::endl;
+  cudaDeviceReset();
   G4CXOpticks::SetGeometry(World);
   // gx.setGeometry(World);
   // SEventConfig::SetMaxPhoton(10000000);
