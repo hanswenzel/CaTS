@@ -137,8 +137,15 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
     SEvt* sev = SEvt::Get();
     std::cout << sev->descFull();
-    // const NP* hits = sev->getHit();
+    //
 
+    const NP* hits     = sev->getHit();
+    G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
+    G4int inum_genstep = SEvt::GetNumGenstepFromGenstep();
+    G4cout << "MCEndOfEventAction: GetNumPhotonFromGenstep: " << inum_photon << G4endl;
+    G4cout << "McEndOfEventAction: GetNumGenstepFromGenstep: " << inum_genstep << G4endl;
+
+    //
     if(num_hits > 0)
     {
       G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();

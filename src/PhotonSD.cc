@@ -56,37 +56,10 @@
 #  include "TrackInfo.hh"
 #endif
 #ifdef WITH_G4CXOPTICKS
-#  include "SLOG.hh"
-#  include "G4Step.hh"
 #  include "scuda.h"
-#  include "sqat4.h"
-#  include "sframe.h"
-
-#  include "SSys.hh"
 #  include "SEvt.hh"
-#  include "SSim.hh"
-#  include "SGeo.hh"
-#  include "SOpticksResource.hh"
-#  include "SFrameGenstep.hh"
-
-#  include "U4VolumeMaker.hh"
-
-#  include "SEventConfig.hh"
-#  include "U4GDML.h"
-#  include "U4Tree.h"
-
-#  include "CSGFoundry.h"
-#  include "CSG_GGeo_Convert.h"
-#  include "CSGOptiX.h"
-#  include "QSim.hh"
-
-#  include "U4Hit.h"
-
-#  include "U4.hh"
 #  include "G4CXOpticks.hh"
-#  include "U4Hit.h"
 #  include "U4HitGet.h"
-// #include "G4Opticks.hh"
 #endif
 
 PhotonSD::PhotonSD(G4String name)
@@ -204,20 +177,12 @@ void PhotonSD::AddOpticksHits()
 void PhotonSD::AddOpticksHits()
 {
   G4cout << "PhotonSD::AddOpticksHits PhotonHits:  " << G4endl;
-  G4CXOpticks* g4cxok = G4CXOpticks::Get();
-  // G4int eventid       = event->GetEventID();
-  // SEvt::SetIndex(eventid);
+  // G4CXOpticks* g4cxok = G4CXOpticks::Get();
+  //  G4int eventid       = event->GetEventID();
+  //  SEvt::SetIndex(eventid);
   G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
   G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-  /*
-  if(num_photon > 0)
-  {
-    cudaDeviceSynchronize();
-    g4cxok->simulate();
-    cudaDeviceSynchronize();
-  }
-  */
-  // cudaDeviceSynchronize();
+
   unsigned int num_hits = SEvt::GetNumHit();
   G4cout << "AddOpticksHits: num_hits: " << num_hits << G4endl;
   G4cout << "AddOpticksHits: num_photon: " << num_photon << G4endl;
@@ -225,12 +190,13 @@ void PhotonSD::AddOpticksHits()
   U4Hit hit;
   U4HitExtra hit_extra;
   int theCreationProcessid;
+  // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
   for(int idx = 0; idx < int(num_hits); idx++)
   {
     U4HitGet::FromEvt(hit, idx);
     std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
               << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier
-              << "  sensor id:  " << hit.sensorIndex << std::endl;
+              << "  sensor id:  " << hit.sensorIndex;
     if(hit.is_cerenkov)
     {
       theCreationProcessid = 0;
@@ -243,14 +209,14 @@ void PhotonSD::AddOpticksHits()
     {
       theCreationProcessid = -1;
     }
-
+    std::cout << "  process id:  " << theCreationProcessid << std::endl;
     PhotonHit* newHit =
       new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
                     hit.global_position, hit.global_direction, hit.global_polarization);
     fPhotonHitsCollection->insert(newHit);
 
-    if(verbose)
-      G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
+    // if(verbose)
+    //       G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
 
     /*
     collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
