@@ -79,8 +79,6 @@
 #endif
 #ifdef WITH_G4CXOPTICKS
 #  include "OPTICKS_LOG.hh"
-#  include "G4CXOpticks.hh"
-#  include <cuda_runtime.h>
 #  include "SEventConfig.hh"
 #endif
 
@@ -177,6 +175,8 @@ int main(int argc, char** argv)
   OPTICKS_LOG(argc, argv);
 #endif
 #ifdef WITH_G4CXOPTICKS
+  SEventConfig::SetMaxPhoton(30000000);
+  std::cout << SEventConfig::Desc() << std::endl;
   OPTICKS_LOG(argc, argv);
 #endif
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);

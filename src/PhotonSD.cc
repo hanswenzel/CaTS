@@ -194,9 +194,11 @@ void PhotonSD::AddOpticksHits()
   for(int idx = 0; idx < int(num_hits); idx++)
   {
     U4HitGet::FromEvt(hit, idx);
+    /*
     std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
               << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier
               << "  sensor id:  " << hit.sensorIndex;
+  */
     if(hit.is_cerenkov)
     {
       theCreationProcessid = 0;
@@ -209,7 +211,7 @@ void PhotonSD::AddOpticksHits()
     {
       theCreationProcessid = -1;
     }
-    std::cout << "  process id:  " << theCreationProcessid << std::endl;
+    //    std::cout << "  process id:  " << theCreationProcessid << std::endl;
     PhotonHit* newHit =
       new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
                     hit.global_position, hit.global_direction, hit.global_polarization);

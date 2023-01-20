@@ -82,7 +82,7 @@
 #  include "G4CXOpticks.hh"
 // #  include "OpticksMode.hh"
 #  include <cuda_runtime.h>
-//  #  include "SEventConfig.hh"
+#  include "SEventConfig.hh"
 #endif
 
 #include "TrackerSD.hh"
@@ -436,7 +436,8 @@ void DetectorConstruction::ReadGDML()
   cudaDeviceReset();
   G4CXOpticks::SetGeometry(World);
   // gx.setGeometry(World);
-  // SEventConfig::SetMaxPhoton(10000000);
+  SEventConfig::SetMaxPhoton(100000000);
+  std::cout << SEventConfig::Desc() << std::endl;
 #endif
   pWorldLogical->SetVisAttributes(0);
   if(verbose)

@@ -76,6 +76,7 @@
 #include "G4PhysicsModelCatalog.hh"
 #ifdef WITH_G4CXOPTICKS
 #  include "U4.hh"
+#  include "ConfigurationManager.hh"
 #endif
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -264,27 +265,32 @@ G4VParticleChange* MyG4Cerenkov::PostStepDoIt(const G4Track& aTrack, const G4Ste
   {
 // return unchanged particle and no secondaries
 #ifdef WITH_G4CXOPTICKS
-    if(fNumPhotons > 0)
+    if(ConfigurationManager::getInstance()->isEnable_opticks())
     {
-      G4double OPmin = Rindex->Energy(0);
-      G4double OPmax = Rindex->GetMaxEnergy();
-      // G4double dp   = Pmax - Pmin;
+      if(fNumPhotons > 0)
+      {
+        G4double OPmin = Rindex->Energy(0);
+        G4double OPmax = Rindex->GetMaxEnergy();
+        // G4double dp   = Pmax - Pmin;
 
-      G4double OnMax        = Rindex->GetMaxValue();
-      G4double OBetaInverse = 1. / beta;
+        G4double OnMax        = Rindex->GetMaxValue();
+        G4double OBetaInverse = 1. / beta;
 
-      G4double OmaxCos  = OBetaInverse / OnMax;
-      G4double OmaxSin2 = (1.0 - OmaxCos) * (1.0 + OmaxCos);
+        G4double OmaxCos  = OBetaInverse / OnMax;
+        G4double OmaxSin2 = (1.0 - OmaxCos) * (1.0 + OmaxCos);
 
-      G4double Obeta1 = pPreStepPoint->GetBeta();
-      G4double Obeta2 = pPostStepPoint->GetBeta();
+        G4double Obeta1 = pPreStepPoint->GetBeta();
+        G4double Obeta2 = pPostStepPoint->GetBeta();
 
-      G4double OMeanNumberOfPhotons1 = GetAverageNumberOfPhotons(charge, Obeta1, aMaterial, Rindex);
-      G4double OMeanNumberOfPhotons2 = GetAverageNumberOfPhotons(charge, Obeta2, aMaterial, Rindex);
-      /// G4cout << "collecting Cerenkov Genstep: " << fNumPhotons << G4endl;
-      U4::CollectGenstep_G4Cerenkov_modified(&aTrack, &aStep, fNumPhotons, OBetaInverse, OPmin,
-                                             OPmax, OmaxCos, OmaxSin2, OMeanNumberOfPhotons1,
-                                             OMeanNumberOfPhotons2);
+        G4double OMeanNumberOfPhotons1 =
+          GetAverageNumberOfPhotons(charge, Obeta1, aMaterial, Rindex);
+        G4double OMeanNumberOfPhotons2 =
+          GetAverageNumberOfPhotons(charge, Obeta2, aMaterial, Rindex);
+        /// G4cout << "collecting Cerenkov Genstep: " << fNumPhotons << G4endl;
+        U4::CollectGenstep_G4Cerenkov_modified(&aTrack, &aStep, fNumPhotons, OBetaInverse, OPmin,
+                                               OPmax, OmaxCos, OmaxSin2, OMeanNumberOfPhotons1,
+                                               OMeanNumberOfPhotons2);
+      }
     }
 #endif
     aParticleChange.SetNumberOfSecondaries(0);

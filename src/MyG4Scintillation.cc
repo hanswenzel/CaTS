@@ -85,6 +85,7 @@
 #include "G4PhysicsModelCatalog.hh"
 #ifdef WITH_G4CXOPTICKS
 #  include "U4.hh"
+#  include "ConfigurationManager.hh"
 #endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 MyG4Scintillation::MyG4Scintillation(const G4String& processName, G4ProcessType type)
@@ -429,11 +430,14 @@ G4VParticleChange* MyG4Scintillation::PostStepDoIt(const G4Track& aTrack, const 
   if(!fStackingFlag)
   {
 #ifdef WITH_G4CXOPTICKS
-    if(fNumPhotons > 0)
+    if(ConfigurationManager::getInstance()->isEnable_opticks())
     {
-      // G4cout << "collecting Scintillation Genstep: " << fNumPhotons << G4endl;
-      U4::CollectGenstep_DsG4Scintillation_r4695(
-        &aTrack, &aStep, fNumPhotons, 1, MPT->GetConstProperty(kSCINTILLATIONTIMECONSTANT1));
+      if(fNumPhotons > 0)
+      {
+        // G4cout << "collecting Scintillation Genstep: " << fNumPhotons << G4endl;
+        U4::CollectGenstep_DsG4Scintillation_r4695(
+          &aTrack, &aStep, fNumPhotons, 1, MPT->GetConstProperty(kSCINTILLATIONTIMECONSTANT1));
+      }
     }
 #endif
     // return unchanged particle and no secondaries
