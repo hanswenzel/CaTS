@@ -24,48 +24,43 @@
 // ********************************************************************
 //
 //
+// ********************************************************************
 //
-//---------------------------------------------------------------------------
+//  CaTS (Calorimetry and Tracking Simulation)
 //
-// ClassName:   MyG4OpticalPhysics
+//  Authors : Hans Wenzel
+//            Soon Yung Jun
+//            (Fermi National Accelerator Laboratory)
 //
-// Author:      P.Gumplinger 30.09.2009
+// History
+//   January 23rd, 2023 : first implementation
 //
-// Modified:    P.Gumplinger 29.09.2011
-//              (based on code from I. Hrivnacova)
-//
-//---------------------------------------------------------------------------
-//
-// This class provides construction of default optical physics
+// ********************************************************************
 //
 
-#ifndef MyG4OpticalPhysics_h
-#define MyG4OpticalPhysics_h 1
+/// \file SteppingAction.hh
+/// \brief Definition of the SteppingAction class
 
-#include "G4VPhysicsConstructor.hh"
-#include "G4OpticalParameters.hh"
+#pragma once
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "G4UserSteppingAction.hh"
+#include "globals.hh"
 
-class MyG4OpticalPhysics : public G4VPhysicsConstructor
+class G4LogicalVolume;
+
+/// Stepping action class
+///
+
+class SteppingAction : public G4UserSteppingAction
 {
  public:
-  MyG4OpticalPhysics(G4int verbose = 0, const G4String& name = "Optical");
-  ~MyG4OpticalPhysics() override;
-  void PrintStatistics() const;
+  SteppingAction();
+  ~SteppingAction() override;
 
-  MyG4OpticalPhysics(const MyG4OpticalPhysics& right) = delete;
-  MyG4OpticalPhysics& operator=(const MyG4OpticalPhysics& right) = delete;
-
- protected:
-  // construct particle and physics
-  void ConstructParticle() override;
-  void ConstructProcess() override;
+  // method from the base class
+  void UserSteppingAction(const G4Step*) override;
 
  private:
-  void PrintWarning(G4ExceptionDescription&) const;
+  G4bool first{ true };
+  G4int counter{ 0 };
 };
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-#endif  // MyG4OpticalPhysics_h

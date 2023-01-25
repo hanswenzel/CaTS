@@ -430,14 +430,18 @@ void DetectorConstruction::ReadGDML()
   // visible again...
   G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
 #ifdef WITH_G4CXOPTICKS
-  // G4CXOpticks gx;  // Simulate is the default RGMode
-  // if(opticksMode != 0)
-  std::cout << "DetectorConstruction setGeometry" << std::endl;
-  cudaDeviceReset();
-  G4CXOpticks::SetGeometry(World);
-  // gx.setGeometry(World);
-  SEventConfig::SetMaxPhoton(100000000);
-  std::cout << SEventConfig::Desc() << std::endl;
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
+  {
+    // G4CXOpticks gx;  // Simulate is the default RGMode
+    // if(opticksMode != 0)
+    std::cout << "DetectorConstruction setGeometry" << std::endl;
+    cudaDeviceReset();
+    // SEventConfig::SetMaxPhoton(100000000);
+    G4CXOpticks* g4cx = G4CXOpticks::SetGeometry(World);
+    // gx.setGeometry(World);
+    // SEventConfig::SetMaxPhoton(100000000);
+    std::cout << SEventConfig::Desc() << std::endl;
+  }
 #endif
   pWorldLogical->SetVisAttributes(0);
   if(verbose)

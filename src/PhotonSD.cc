@@ -129,11 +129,13 @@ G4bool PhotonSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 void PhotonSD::EndOfEvent(G4HCofThisEvent*)
 {
+  /*
   if(verbose)
   {
     G4int NbHits = fPhotonHitsCollection->entries();
     G4cout << " PhotonSD::EndOfEvent Number of PhotonHits:  " << NbHits << G4endl;
   }
+  */
 }
 #ifdef WITH_G4OPTICKS
 void PhotonSD::AddOpticksHits()
@@ -176,17 +178,7 @@ void PhotonSD::AddOpticksHits()
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
 {
-  G4cout << "PhotonSD::AddOpticksHits PhotonHits:  " << G4endl;
-  // G4CXOpticks* g4cxok = G4CXOpticks::Get();
-  //  G4int eventid       = event->GetEventID();
-  //  SEvt::SetIndex(eventid);
-  G4int num_photon  = SEvt::GetNumPhotonFromGenstep();
-  G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-
   unsigned int num_hits = SEvt::GetNumHit();
-  G4cout << "AddOpticksHits: num_hits: " << num_hits << G4endl;
-  G4cout << "AddOpticksHits: num_photon: " << num_photon << G4endl;
-  G4cout << "AddOpticksHits: num_genstep: " << num_genstep << G4endl;
   U4Hit hit;
   U4HitExtra hit_extra;
   int theCreationProcessid;

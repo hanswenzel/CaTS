@@ -72,7 +72,7 @@
 
 namespace
 {
-   G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
+  G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
 }
 
 RadiatorSD::RadiatorSD(G4String name)
@@ -104,13 +104,10 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       if(verbose)
       {
         G4cout << "*******************************" << G4endl;
-        G4cout << "RadiatorSD::ProcessHits initializing Material:  "
-               << aMaterial->GetName() << " " << G4endl;
+        G4cout << "RadiatorSD::ProcessHits initializing Material:  " << aMaterial->GetName() << " "
+               << G4endl;
         G4cout << "RadiatorSD::ProcessHits: Name "
-               << aStep->GetPreStepPoint()
-                    ->GetPhysicalVolume()
-                    ->GetLogicalVolume()
-                    ->GetName()
+               << aStep->GetPreStepPoint()->GetPhysicalVolume()->GetLogicalVolume()->GetName()
                << G4endl;
       }
       aMaterialPropertiesTable = aMaterial->GetMaterialPropertiesTable();
@@ -124,10 +121,9 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 #  if(G4VERSION_NUMBER > 1072)
       YieldRatio =
         aMaterialPropertiesTable->GetConstProperty(kSCINTILLATIONYIELD1) /
-        aMaterialPropertiesTable->GetConstProperty(
-          kSCINTILLATIONYIELD2);  // slowerRatio,
-      FastTimeConstant = aMaterialPropertiesTable->GetConstProperty(
-        kSCINTILLATIONTIMECONSTANT1);  // TimeConstant,
+        aMaterialPropertiesTable->GetConstProperty(kSCINTILLATIONYIELD2);  // slowerRatio,
+      FastTimeConstant =
+        aMaterialPropertiesTable->GetConstProperty(kSCINTILLATIONTIMECONSTANT1);  // TimeConstant,
       SlowTimeConstant = aMaterialPropertiesTable->GetConstProperty(
         kSCINTILLATIONTIMECONSTANT2);  // slowerTimeConstant,
 #  else
@@ -151,8 +147,8 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       nMax = Rindex->GetMaxValue();
       if(verbose)
       {
-        G4cout << "nMax: " << nMax << "  Pmin: " << Pmin << "  Pmax: " << Pmax
-               << "  dp: " << dp << G4endl;
+        G4cout << "nMax: " << nMax << "  Pmin: " << Pmin << "  Pmax: " << Pmax << "  dp: " << dp
+               << G4endl;
         Rindex->DumpValues();
       }
       //
@@ -163,17 +159,16 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     //
     // info needed for generating Cerenkov photons on the GPU;
     //
-    G4double maxCos                      = 0.0;
-    G4double maxSin2                     = 0.0;
-    G4double beta                        = 0.0;
-    G4double beta1                       = 0.0;
-    G4double beta2                       = 0.0;
-    G4double BetaInverse                 = 0.0;
-    G4double MeanNumberOfPhotons1        = 0.0;
-    G4double MeanNumberOfPhotons2        = 0.0;
-    G4SteppingManager* fpSteppingManager = G4EventManager::GetEventManager()
-                                             ->GetTrackingManager()
-                                             ->GetSteppingManager();
+    G4double maxCos               = 0.0;
+    G4double maxSin2              = 0.0;
+    G4double beta                 = 0.0;
+    G4double beta1                = 0.0;
+    G4double beta2                = 0.0;
+    G4double BetaInverse          = 0.0;
+    G4double MeanNumberOfPhotons1 = 0.0;
+    G4double MeanNumberOfPhotons2 = 0.0;
+    G4SteppingManager* fpSteppingManager =
+      G4EventManager::GetEventManager()->GetTrackingManager()->GetSteppingManager();
     G4StepStatus stepStatus = fpSteppingManager->GetfStepStatus();
     if(stepStatus != fAtRestDoItProc)
     {
@@ -225,8 +220,7 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
       G4double ScintillationRiseTime = 0.0;
       G4AutoLock lock(&opticks_mutex);
       G4Opticks::Get()->collectGenstep_G4Scintillation_1042(
-        aTrack, aStep, Sphotons, scntId, ScintillationTime,
-        ScintillationRiseTime);
+        aTrack, aStep, Sphotons, scntId, ScintillationTime, ScintillationRiseTime);
     }
     //
     // harvest the Cerenkov photon gensteps:
@@ -234,9 +228,9 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     if(Cphotons > 0)
     {
       G4AutoLock lock(&opticks_mutex);
-      G4Opticks::Get()->collectGenstep_G4Cerenkov_1042(
-        aTrack, aStep, Cphotons, BetaInverse, Pmin, Pmax, maxCos, maxSin2,
-        MeanNumberOfPhotons1, MeanNumberOfPhotons2);
+      G4Opticks::Get()->collectGenstep_G4Cerenkov_1042(aTrack, aStep, Cphotons, BetaInverse, Pmin,
+                                                       Pmax, maxCos, maxSin2, MeanNumberOfPhotons1,
+                                                       MeanNumberOfPhotons2);
     }
     G4Opticks* g4ok      = G4Opticks::Get();
     G4RunManager* rm     = G4RunManager::GetRunManager();
@@ -255,15 +249,13 @@ G4bool RadiatorSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
         std::size_t found = sdn.find("Photondetector");
         if(found != std::string::npos)
         {
-          PhotonSD* aSD =
-            (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(
-              sdn);
+          PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
           aSD->AddOpticksHits();
         }
       }
       g4ok->reset();
     }
-  } // end if enable_opticks
+  }  // end if enable_opticks
 #endif
   return true;
 }
@@ -291,9 +283,7 @@ void RadiatorSD::EndOfEvent(G4HCofThisEvent*)
         std::size_t found = sdn.find("Photondetector");
         if(found != std::string::npos)
         {
-          PhotonSD* aSD =
-            (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(
-              sdn);
+          PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
           aSD->AddOpticksHits();
         }
       }
@@ -311,7 +301,7 @@ void RadiatorSD::EndOfEvent(G4HCofThisEvent*)
       G4cout << "***********************************************************"
                 "********************************************************"
              << G4endl;
-    } 
+    }
 
     // Reset the number of photons
     tSphotons = 0;

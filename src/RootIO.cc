@@ -125,8 +125,8 @@ void RootIO::Write(Event* fevent)
 {
   if(ConfigurationManager::getInstance()->isEnable_verbose())
     G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
-  if((fevent->GetEventNumber()) % 1000 == 0)
-    G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
+  // if((fevent->GetEventNumber()) % 1000 == 0)
+  G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
   if(!fevtinitialized)
   {
     Int_t bufsize = 128000;

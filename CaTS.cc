@@ -78,8 +78,11 @@
 #  include "OPTICKS_LOG.hh"
 #endif
 #ifdef WITH_G4CXOPTICKS
+// #  include "Opticks.hh"
 #  include "OPTICKS_LOG.hh"
+#  include "OpticksCfg.hh"
 #  include "SEventConfig.hh"
+#  //include "OContext.hh"
 #endif
 
 #include "TROOT.h"
@@ -153,8 +156,8 @@ int main(int argc, char** argv)
   if(physicsconf == "")
   {
     G4cout << "Warning! no physics configuration specified!" << G4endl;
-    G4cout << "Using default FTFP_BERT+MyOPTICAL+STEPLIMIT" << G4endl;
-    physicsconf = "FTFP_BERT+MyOPTICAL+STEPLIMIT";
+    G4cout << "Using default FTFP_BERT+OPTICAL+STEPLIMIT" << G4endl;
+    physicsconf = "FTFP_BERT+OPTICAL+STEPLIMIT";
     G4cout << "Usage:  CaTS -pl physicsconfiguration" << G4endl;
     G4cout << G4endl;
   }
@@ -176,8 +179,10 @@ int main(int argc, char** argv)
 #endif
 #ifdef WITH_G4CXOPTICKS
   SEventConfig::SetMaxPhoton(30000000);
+  // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
+  //  std::cout << OpticksCfg::getRTX() << std::endl;
   std::cout << SEventConfig::Desc() << std::endl;
-  OPTICKS_LOG(argc, argv);
+  // OPTICKS_LOG(argc, argv);
 #endif
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
   G4String DumpFilename       = gdmlfile + "_G4";
