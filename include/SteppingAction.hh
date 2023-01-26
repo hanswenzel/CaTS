@@ -53,14 +53,16 @@ class G4LogicalVolume;
 
 class SteppingAction : public G4UserSteppingAction
 {
+ private:
+  G4int Photoncounter{ 0 };
+  G4int GenStepcounter{ 0 };
+
  public:
   SteppingAction();
   ~SteppingAction() override;
 
   // method from the base class
   void UserSteppingAction(const G4Step*) override;
-
- private:
-  G4bool first{ true };
-  G4int counter{ 0 };
+  inline void ResetPhotoncounter(unsigned int id) { Photoncounter = 0; }
+  inline void ResetGenStepcounter(unsigned int id) { GenStepcounter = 0; }
 };
