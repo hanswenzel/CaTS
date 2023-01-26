@@ -46,11 +46,28 @@
 #include "G4Scintillation.hh"
 #include "G4Cerenkov.hh"
 #include "G4MaterialPropertyVector.hh"
+#include "ConfigurationManager.hh"
+#include "G4AutoLock.hh"
+#include "G4HCofThisEvent.hh"
+#include <G4String.hh>
+#include <G4Types.hh>
+#include <G4VHit.hh>
+#include <G4VHitsCollection.hh>
+#include "G4SDManager.hh"
+#include "ConfigurationManager.hh"
+#include "Event.hh"
+#include "PhotonSD.hh"
+#include "PhotonHit.hh"
 #ifdef WITH_G4CXOPTICKS
 #  include "U4.hh"
-#  include "ConfigurationManager.hh"
+#  include "SEvt.hh"
+#  include "G4CXOpticks.hh"
 #endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+namespace
+{
+  G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
+}
 
 SteppingAction::SteppingAction() {}
 
@@ -126,6 +143,41 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             GenStepcounter++;
           }
         }
+      }
+      if(Photoncounter > ConfigurationManager::getInstance()->getMaxPhotons())
+      {
+        std::cout << "------------------------------" << std::endl;
+        std::cout << "SteppingAction: " << Photoncounter << std::endl;
+        std::cout << "------------------------------" << std::endl;
+        G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
+        G4int inum_genstep = SEvt::GetNumGenstepFromGenstep();
+        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
+        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        G4AutoLock lock(&opticks_mutex);
+        G4CXOpticks::Get()->simulate();
+        cudaDeviceSynchronize();
+        unsigned int num_hits = SEvt::GetNumHit();
+        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
+        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
+        if(num_hits > 0)
+        {
+          G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+          for(G4int i = 0; i < hctable->entries(); ++i)
+          {
+            std::string sdn   = hctable->GetSDname(i);
+            std::size_t found = sdn.find("Photondetector");
+            if(found != std::string::npos)
+            {
+              //          std::cout << "Photondetector: " << sdn << std::endl;
+              PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
+              aSD->AddOpticksHits();
+            }
+          }
+        }
+
+        SteppingAction::ResetPhotoncounter();
+        SteppingAction::ResetGenStepcounter();
       }
     }
   }

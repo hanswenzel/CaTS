@@ -1,7 +1,7 @@
 /CaTS/verbose false
-/CaTS/dumpgdml true
+/CaTS/dumpgdml false
 /CaTS/GDMLFileName dump.gdml
-/CaTS/writeHits false
+/CaTS/writeHits true
 /CaTS/fname NewHits_G4_point
 /process/optical/scintillation/setStackPhotons true
 /process/optical/cerenkov/setStackPhotons true
@@ -16,4 +16,4 @@
 /gun/energy 2 GeV
 /gun/position 0. 0. -105. cm
 /gun/direction 0. 0. 1.
-/run/beamOn 10
+/run/beamOn 5
