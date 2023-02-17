@@ -79,7 +79,6 @@
 #endif
 #ifdef WITH_G4CXOPTICKS
 // #  include "Opticks.hh"
-#  include "OPTICKS_LOG.hh"
 #  include "OpticksCfg.hh"
 #  include "SEventConfig.hh"
 #  //include "OContext.hh"
@@ -178,7 +177,7 @@ int main(int argc, char** argv)
   OPTICKS_LOG(argc, argv);
 #endif
 #ifdef WITH_G4CXOPTICKS
-  SEventConfig::SetMaxPhoton(50000000);
+  SEventConfig::SetMaxPhoton(30000000);
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   //  std::cout << OpticksCfg::getRTX() << std::endl;
   std::cout << SEventConfig::Desc() << std::endl;
