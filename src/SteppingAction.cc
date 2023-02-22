@@ -64,6 +64,7 @@
 #  include "G4CXOpticks.hh"
 #endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 namespace
 {
   G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;

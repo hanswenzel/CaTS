@@ -80,12 +80,12 @@
 #  include "NP.hh"
 #  include "G4CXOpticks.hh"
 #endif
-
+/*
 namespace
 {
   G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
 }
-
+*/
 MCEventAction ::MCEventAction()
   : G4UserEventAction()
 {
@@ -333,7 +333,9 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
         G4cout << "SD type: " << Classname << " unknown" << G4endl;
       }
     }
+    /*
     G4AutoLock lock(&opticks_mutex);
+    */
     RootIO::GetInstance()->Write(CaTSEvt);
     CaTSEvt->Reset();
     delete CaTSEvt;
