@@ -32,9 +32,7 @@
 //            (Fermi National Accelerator Laboratory)
 //
 // History
-//   October  18th, 2021 : first implementation
-//   November 10th, 2021 : implement writing one file
-//                         per worker thread which are then merged
+//   October 18th, 2021 : first implementation
 //
 // ********************************************************************
 //
@@ -42,159 +40,77 @@
 /// \brief Implementation of the CaTS::RootIO class
 
 #ifdef WITH_ROOT
-// Project headers
-#  include "RootIO.hh"
-#  include "ConfigurationManager.hh"
-#  include "Event.hh"
-// Geant4 headers
-#  include <G4String.hh>
-#  include <G4ios.hh>
-#  include <G4Threading.hh>
-#  include <G4RunManager.hh>
-// Root headers
-#  include "TBranch.h"
-#  include "TFile.h"
-#  include "TObject.h"
-#  include "TSystem.h"
-#  include "TTree.h"
-#  include "TROOT.h"
-// c++ headers
-#  include <string>
-#  include <stdio.h>
+#include "RootIO.hh"
+#include <G4String.hh>
+#include <G4ios.hh>
+#include <string>
+#include "ConfigurationManager.hh"
+#include "Event.hh"
+#include "TBranch.h"
+#include "TFile.h"
+#include "TObject.h"
+#include "TSystem.h"
+#include "TTree.h"
+#include "TROOT.h"
+#include "ROOT/TBufferMerger.hxx"
+//-----------------------
+#include <random>
+#include <thread>
+//-----------------------
+static RootIO* instance = 0;
+//using ROOT::TBufferMerger;
 
-G4ThreadLocal RootIO* RootIO::fgInstance = nullptr;
-// mutex in a file scope
-namespace
-{
-  // Mutex to lock RootIO constructor
-  G4Mutex RootIOMutex = G4MUTEX_INITIALIZER;
-}  // namespace
 RootIO::RootIO()
 {
-  G4AutoLock lock(&RootIOMutex);
   TSystem ts;
   gSystem->Load("libCaTSClassesDict");
-  if(G4Threading::IsMultithreadedApplication())
-  {
-    if(G4Threading::IsWorkerThread())
-    {
-      G4String fFilename = ConfigurationManager::getInstance()->getfname() + "_Thread_" +
-                           std::to_string(G4Threading::G4GetThreadId()) + ".root";
-      G4cout << "RootIO:: Opening File: " << fFilename << G4endl;
-      fFile = new TFile(fFilename.c_str(), "RECREATE");
-      // fFile->SetCompressionLevel(9);
-      // TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
-      //  Create a ROOT Tree and one superbranch
-      ftree          = new TTree("Events", "ROOT tree containing Hit collections");
-      Long64_t autos = -300000000;
-      ftree->SetAutoSave(autos);
-      Int_t branchStyle = 1;
-      TTree::SetBranchStyle(branchStyle);
-      // ftree->Print();
-    }
-  }
-  else
-  {
-    G4String fFilename = ConfigurationManager::getInstance()->getfname() + ".root";
-    G4cout << "RootIO:: Opening File: " << fFilename << G4endl;
-    fFile = new TFile(fFilename.c_str(), "RECREATE");
-    TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
-    // Create a ROOT Tree and one superbranch
-    ftree          = new TTree("Events", "ROOT tree containing Hit collections");
-    Long64_t autos = -300000000;
-    ftree->SetAutoSave(autos);
+  G4String FileName = ConfigurationManager::getInstance()->getfname();
+  G4cout << "Opening File: " << FileName << G4endl;
+  ROOT::EnableThreadSafety();
+  merger = new ROOT::TBufferMerger(std::unique_ptr<TMemFile>(new TMemFile(FileName.c_str(), "RECREATE")));
+  fFile = merger->GetFile();
+  TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
+  // Create a ROOT Tree and one superbranch
+  ftree = new TTree("Events", "ROOT tree containing Hit collections");
+  ftree->ResetBit(kMustCleanup);
+  int flush = 32;
+  ftree->SetAutoFlush(-(flush) * 1024 * 1024); // Flush at exceeding 32MB
+  Int_t branchStyle = 1;
+  TTree::SetBranchStyle(branchStyle);
+}
 
-    // ftree->SetAutoSave(1000000000); // autosave when 1 Gbyte written
-    Int_t branchStyle = 1;
-    TTree::SetBranchStyle(branchStyle);
-    // ftree->Print();
-  }
+RootIO::~RootIO() {
+  G4cout << "RootIO destructor !!!!!!"<< G4endl;
+  // delete merger;
 }
 
 RootIO* RootIO::GetInstance()
 {
-  if(fgInstance == nullptr)
+  if(instance == 0)
   {
-    static G4ThreadLocalSingleton<RootIO> inst;
-    fgInstance = inst.Instance();
+    instance = new RootIO();
   }
-  return fgInstance;
+  return instance;
 }
 
 void RootIO::Write(Event* fevent)
 {
+  G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
   if(ConfigurationManager::getInstance()->isEnable_verbose())
     G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
-  // if((fevent->GetEventNumber()) % 1000 == 0)
-  G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
+  if((fevent->GetEventNumber()) % 1000 == 0)
+    G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
   if(!fevtinitialized)
   {
-    Int_t bufsize = 128000;
-    fevtbranch    = ftree->Branch("event.", &fevent, bufsize, 99);
+    Int_t bufsize = 64000;
+    fevtbranch    = ftree->Branch("event.", &fevent, bufsize, 0);
     fevtbranch->SetAutoDelete(kFALSE);
     fevtinitialized = true;
-    // ftree->Print();
   }
-  fFile = ftree->GetCurrentFile();  // just in case we switched to a new file
   fnb += ftree->Fill();
-  // ftree->Print();
   fFile->Write("", TObject::kOverwrite);
 }
-
-void RootIO::Close()
-{
-  G4cout << " Closing File: " << G4endl;
-  fFile = ftree->GetCurrentFile();
-  fFile->Close();
-}
-
-void RootIO::Merge()
-{
-  if(G4Threading::IsMasterThread())
-  {
-    unsigned int nthreads = G4RunManager::GetRunManager()->GetNumberOfThreads();
-    G4cout << "RootIO::Merging: " << nthreads << " threads" << G4endl;
-    G4String filename = ConfigurationManager::getInstance()->getfname();
-    G4String tmpfn;
-    std::vector<TFile*> filevec;
-    std::vector<Event*> evtvec;
-    std::vector<TTree*> treevec;
-    std::vector<TBranch*> branchvec;
-    TList* list = new TList;
-    TTree* newtree;
-    for(unsigned int i = 0; i < nthreads; i++)
-    {
-      tmpfn = filename + "_Thread_" + std::to_string(i) + ".root";
-      filevec.push_back(new TFile(tmpfn.c_str()));
-      treevec.push_back((TTree*) (filevec[i]->Get("Events")));
-      list->Add(treevec[i]);
-      if(i == nthreads - 1)
-      {
-        G4String tmpfn2 = filename + "_Merged.root";
-        TFile* fm       = new TFile(tmpfn2.c_str(), "RECREATE");
-        newtree         = TTree::MergeTrees(list);
-        newtree->SetName("Events");
-        Event* eventm = new Event();
-        newtree->SetBranchAddress("event.", &eventm);
-        TBranch* fevtbranchm = newtree->GetBranch("event.");
-        int neventm          = fevtbranchm->GetEntries();
-        G4cout << "Nr. of Events:  " << neventm << G4endl;
-        newtree->Write();
-        fm->Close();
-      }
-    }
-    for(unsigned int i = 0; i < nthreads; i++)
-    {
-      tmpfn = filename + "_Thread_" + std::to_string(i) + ".root";
-      if(remove(tmpfn.c_str()) != 0)
-      {
-        G4cout << "Error deleting file: " << tmpfn << G4endl;
-      }
-      else
-      {
-        G4cout << "File: " << tmpfn << " successfully deleted" << G4endl;
-      }
-    }
-  }
+void RootIO::Close() {
+  G4cout << "closing !!!!!"<<G4endl;
 }
 #endif

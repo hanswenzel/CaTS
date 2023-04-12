@@ -41,6 +41,7 @@
 
 #include <G4UserRunAction.hh>
 #include "G4Run.hh"
+#include "G4Threading.hh"
 #ifdef WITH_G4OPTICKS
 #include "G4TransportationManager.hh"
 #include "G4Opticks.hh"
@@ -139,7 +140,7 @@ void RunAction::EndOfRunAction(const G4Run*) {
     }
     if (ConfigurationManager::getInstance()->isWriteHits()) {
         if (G4Threading::IsMultithreadedApplication()) {
-            RootIO::GetInstance()->Merge();
+	  //RootIO::GetInstance()->Merge();
         } else {
             RootIO::GetInstance()->Close();
         }

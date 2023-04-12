@@ -42,35 +42,34 @@
 /// \brief Definition of the CaTS::RootIO class
 
 #ifdef WITH_ROOT
-#pragma once
+#  pragma once
 
-#include "RtypesCore.h"
-#include <G4Types.hh>
-#include "G4ThreadLocalSingleton.hh"
-
-class TFile;
+#  include "RtypesCore.h"
+#  include <G4Types.hh>
+#include "ROOT/TBufferMerger.hxx"
+//class TBufferMergerFile;
 class TTree;
 class TBranch;
 class Event;
 
-class RootIO {
-    friend class G4ThreadLocalSingleton< RootIO >;
-public:
-    virtual ~RootIO()= default;
-    static RootIO* GetInstance();
-    void Write(Event*);
-    void Close();
-    void Merge();
-protected:
-    RootIO();
+class RootIO
+{
+ public:
+  virtual ~RootIO();
+  static RootIO* GetInstance();
+  void Write(Event*);
+  void Close();
 
-private:
-    TFile* fFile{ nullptr };
-    G4int fNevents{ 0 };
-    TTree* ftree{ nullptr };
-    TBranch* fevtbranch{ nullptr };
-    Long64_t fnb{ 0 };
-    G4bool fevtinitialized{ false };
-    static G4ThreadLocal RootIO* fgInstance;
+ protected:
+  RootIO();
+
+ private:
+  ROOT::TBufferMerger* merger{ nullptr };
+  std::shared_ptr<ROOT::TBufferMergerFile> fFile{ nullptr };
+  G4int fNevents{ 0 };
+  TTree* ftree{ nullptr };
+  TBranch* fevtbranch{ nullptr };
+  Long64_t fnb{ 0 };
+  G4bool fevtinitialized{ false };
 };
 #endif /* WITH_ROOT */

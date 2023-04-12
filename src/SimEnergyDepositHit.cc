@@ -23,7 +23,6 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-//
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -37,69 +36,75 @@
 //
 // ********************************************************************
 //
-/// \file SimEnergyDeposit.hh
-/// \brief Definition of the CaTS::SimEnergyDeposit class
+/// \file SimEnergyDepositHit.cc
+/// \brief Implementation of the CaTS::SimEnergyDepositHit class
+// Geant4 headers
+#include "G4VVisManager.hh"
+#include "G4Circle.hh"
+#include "G4Colour.hh"
+#include "G4VisAttributes.hh"
+#include "SimEnergyDepositHit.hh"
+G4ThreadLocal G4Allocator<SimEnergyDepositHit>* SimEnergyDepositHitAllocator = nullptr;
+SimEnergyDepositHit::SimEnergyDepositHit()
+  : G4VHit()
+{}
 
-#pragma once
-#include "globals.hh"
-#include "G4VHit.hh"
-#include "G4THitsCollection.hh"
-#include "G4Allocator.hh"
-class SimEnergyDeposit : public G4VHit
+SimEnergyDepositHit::SimEnergyDepositHit(unsigned int znph, unsigned int znelec, unsigned int ztid,
+                                   float zx, float zy, float zz, float zxe, float zye, float zze,
+                                   double zt, double zte, float zedep)
+  : nph(znph)
+  , nelec(znelec)
+  , tid(ztid)
+  , x(zx)
+  , y(zy)
+  , z(zz)
+  , xe(zxe)
+  , ye(zye)
+  , ze(zze)
+  , t(zt)
+  , te(zte)
+  , edep(zedep)
+{}
+
+SimEnergyDepositHit::SimEnergyDepositHit(const SimEnergyDepositHit& right)
 {
- public:
-  const SimEnergyDeposit& operator=(const SimEnergyDeposit&);
-  bool operator==(const SimEnergyDeposit&) const;
-  SimEnergyDeposit();
-  SimEnergyDeposit(unsigned int znph, unsigned int znelec, unsigned int ztid, float zx, float zy,
-                   float zz, float zxe, float zye, float zze, double zt, double zte, float zedep);
-  SimEnergyDeposit(const SimEnergyDeposit&);
-  ~SimEnergyDeposit() = default;
-  inline void* operator new(size_t);
-  inline void operator delete(void*);
-  void Draw() final;
-  void SetEdep(float edep);
-  inline float GetEdep() const { return edep; };
-  void SetT(float t);
-  inline float GetT() const { return t; };
-  void SetZ(float z);
-  inline float GetZ() const { return z; };
-  void SetY(float y);
-  inline float GetY() const { return y; };
-  void SetX(float x);
-  inline float GetX() const { return x; }
-  double GetTe() const { return te; };
-  float GetZe() const { return ze; };
-  float GetYe() const { return ye; };
-  float GetXe() const { return xe; };
-
- private:
-  unsigned int nph{ 0 };
-  unsigned int nelec{ 0 };
-  unsigned int tid{ 0 };
-  float x{ 0.0 };
-  float y{ 0.0 };
-  float z{ 0.0 };
-  float xe{ 0.0 };
-  float ye{ 0.0 };
-  float ze{ 0.0 };
-  double t{ 0.0 };
-  double te{ 0.0 };
-  float edep{ 0.0 };
-};
-using SimEnergyDepositCollection = G4THitsCollection<SimEnergyDeposit>;
-extern G4ThreadLocal G4Allocator<SimEnergyDeposit>* SimEnergyDepositAllocator;
-
-inline void* SimEnergyDeposit::operator new(size_t)
-{
-  if(!SimEnergyDepositAllocator)
-  {
-    SimEnergyDepositAllocator = new G4Allocator<SimEnergyDeposit>;
-  }
-  return (void*) SimEnergyDepositAllocator->MallocSingle();
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
 }
 
-inline void SimEnergyDeposit::operator delete(void* aHit)
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+const SimEnergyDepositHit& SimEnergyDepositHit::operator=(const SimEnergyDepositHit& right)
 {
-  SimEnergyDepositAllocator->FreeSingle((SimEnergyDeposit*) aHit);
+  nph   = right.nph;
+  nelec = right.nelec;
+  tid   = right.tid;
+  x     = right.x;
+  y     = right.y;
+  z     = right.z;
+  xe    = right.xe;
+  ye    = right.ye;
+  ze    = right.ze;
+  t     = right.t;
+  te    = right.te;
+  edep  = right.edep;
+  return *this;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+bool SimEnergyDepositHit::operator==(const SimEnergyDepositHit& right) const
+{
+  return (this == &right) ? true : false;
+}
+void SimEnergyDepositHit::Draw() {}

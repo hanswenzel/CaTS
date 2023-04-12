@@ -57,7 +57,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 // project headers
-#include "SimEnergyDeposit.hh"
+#include "SimEnergyDepositHit.hh"
 #include "SimEnergyDepositSD.hh"
 #include "ConfigurationManager.hh"
 #define UNUSED(expr)                                                                               \
@@ -83,7 +83,7 @@ SimEnergyDepositSD::SimEnergyDepositSD(G4String name)
 void SimEnergyDepositSD::Initialize(G4HCofThisEvent* hce)
 {
   fSimEnergyDepositCollection =
-    new SimEnergyDepositCollection(SensitiveDetectorName, collectionName[0]);
+    new SimEnergyDepositHitCollection(SensitiveDetectorName, collectionName[0]);
   if(fHCID < 0)
   {
     if(verbose)
@@ -103,7 +103,7 @@ G4bool SimEnergyDepositSD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
     return false;
   G4Track* aTrack        = aStep->GetTrack();
   G4int TrackID          = aTrack->GetTrackID();
-  SimEnergyDeposit* sdep = new SimEnergyDeposit(
+  SimEnergyDepositHit* sdep = new SimEnergyDepositHit(
     0, 0, TrackID, (float) aStep->GetPreStepPoint()->GetPosition().getX() / CLHEP::cm,
     (float) aStep->GetPreStepPoint()->GetPosition().getY() / CLHEP::cm,
     (float) aStep->GetPreStepPoint()->GetPosition().getZ() / CLHEP::cm,

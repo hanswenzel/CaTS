@@ -31,7 +31,7 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	          \       /    systems                                    *
+//*	      \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
 //*	             ( (                                                  *
 //*	              ) )                                                 *
@@ -54,7 +54,7 @@
 #include "TTree.h"
 // Project headers
 #include "Event.hh"
-#include "SimEnergyDeposit.hh"
+#include "SimEnergyDepositHit.hh"
 
 int main(int argc, char** argv)
 {
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
         double tote = 0.0;
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          SimEnergyDeposit* simEnergyDeposit = dynamic_cast<SimEnergyDeposit*>(hits.at(ii));
+          SimEnergyDepositHit* simEnergyDeposit = dynamic_cast<SimEnergyDepositHit*>(hits.at(ii));
           tote                               = tote + simEnergyDeposit->GetEdep();
         }
         energy->Fill(tote);

@@ -63,7 +63,7 @@
 #include "CalorimeterHit.hh"
 #include "DRCalorimeterHit.hh"
 #include "SimTrajectory.hh"
-#include "SimEnergyDeposit.hh"
+#include "SimEnergyDepositHit.hh"
 #ifdef WITH_ROOT
 #  include "RootIO.hh"
 #endif
