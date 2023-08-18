@@ -91,7 +91,8 @@ MCEventAction ::MCEventAction()
   : G4UserEventAction()
 {
 #ifdef WITH_ROOT
-  RootIO::GetInstance();
+  if (ConfigurationManager::getInstance()->isWriteHits())
+    {RootIO::GetInstance();}
 #endif
 }  // namespace MCEventAction::MCEventAction()
 
@@ -115,17 +116,17 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   {
     G4CXOpticks* g4cxok = G4CXOpticks::Get();
     G4int eventid       = event->GetEventID();
-    SEvt::SetIndex(eventid);
-    G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-    G4int num_photon  = SEvt::GetNumPhotonCollected();
+    //static void SEvt::SetIndex(eventid);
+    //G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
+    //G4int num_photon  = SEvt::GetNumPhotonCollected();
     if(verbose)
     {
-      G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
-      G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
+      // G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
+      //G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
     }
     if(num_photon > 0)
     {
-      g4cxok->simulate();
+      g4cxok->simulate(eventid);
       //      cudaDeviceSynchronize();
     }
     unsigned int num_hits = SEvt::GetNumHit();
