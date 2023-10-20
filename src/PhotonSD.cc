@@ -46,6 +46,8 @@
 #include "G4SDManager.hh"
 #include "G4Step.hh"
 #include "G4VProcess.hh"
+#  include "G4Event.hh"
+#  include "G4RunManager.hh"
 // project headers
 #include "PhotonSD.hh"
 #ifdef WITH_G4OPTICKS
@@ -178,14 +180,17 @@ void PhotonSD::AddOpticksHits()
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
 {
-  unsigned int num_hits = SEvt::GetNumHit();
+  unsigned int num_hits = SEvt::GetNumHit(0);
   U4Hit hit;
   U4HitExtra hit_extra;
   int theCreationProcessid;
   // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
+  G4RunManager* rm     = G4RunManager::GetRunManager();
+  const G4Event* event = rm->GetCurrentEvent();
+     G4int eventid        = event->GetEventID();
   for(int idx = 0; idx < int(num_hits); idx++)
   {
-    U4HitGet::FromEvt(hit, idx);
+    U4HitGet::FromEvt(hit, idx,eventid);
     /*
     std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
               << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier

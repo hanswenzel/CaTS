@@ -55,6 +55,8 @@
 #include <G4VHitsCollection.hh>
 #include "G4SDManager.hh"
 #include "ConfigurationManager.hh"
+#  include "G4Event.hh"
+#  include "G4RunManager.hh"
 #include "Event.hh"
 #include "PhotonSD.hh"
 #include "PhotonHit.hh"
@@ -150,17 +152,20 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         std::cout << "------------------------------" << std::endl;
         std::cout << "SteppingAction: " << Photoncounter << std::endl;
         std::cout << "------------------------------" << std::endl;
-        G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
-        G4int inum_genstep = SEvt::GetNumGenstepFromGenstep();
+        G4int inum_photon  = SEvt::GetNumPhotonFromGenstep(0);
+        //G4int inum_genstep = SEvt::GetNumGenstepFromGenstep();
         std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
-        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        //std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
         G4AutoLock lock(&opticks_mutex);
-        G4CXOpticks::Get()->simulate();
+	G4RunManager* rm     = G4RunManager::GetRunManager();
+	const G4Event* event = rm->GetCurrentEvent();
+	G4int eventid        = event->GetEventID();
+        G4CXOpticks::Get()->simulate(eventid);
         cudaDeviceSynchronize();
-        unsigned int num_hits = SEvt::GetNumHit();
+        unsigned int num_hits = SEvt::GetNumHit(0);
         std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
-        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
-        std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
+	//  std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        //std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
         if(num_hits > 0)
         {
           G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();

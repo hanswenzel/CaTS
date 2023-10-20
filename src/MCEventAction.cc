@@ -118,7 +118,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     G4int eventid       = event->GetEventID();
     //static void SEvt::SetIndex(eventid);
     //G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-    //G4int num_photon  = SEvt::GetNumPhotonCollected();
+    G4int num_photon  = SEvt::GetNumPhotonCollected(0);
     if(verbose)
     {
       // G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
@@ -129,13 +129,13 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       g4cxok->simulate(eventid);
       //      cudaDeviceSynchronize();
     }
-    unsigned int num_hits = SEvt::GetNumHit();
+    unsigned int num_hits = SEvt::GetNumHit(0);
     //  SEvt* sev             = SEvt::Get();
     if(verbose)
     {
       G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
       G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
-      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
+      //      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
       // std::cout << sev->descFull();
     }
     /*

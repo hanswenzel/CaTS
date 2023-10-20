@@ -79,7 +79,7 @@
 #endif
 #ifdef WITH_G4CXOPTICKS
 // #  include "Opticks.hh"
-#  include "OpticksCfg.hh"
+//#  include "OpticksCfg.hh"
 #  include "SEventConfig.hh"
 #  //include "OContext.hh"
 #endif

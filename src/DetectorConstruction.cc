@@ -438,7 +438,8 @@ void DetectorConstruction::ReadGDML()
     cudaDeviceReset();
     // SEventConfig::SetMaxPhoton(100000000);
     // G4CXOpticks* g4cx =
-    G4CXOpticks::SetGeometry(World);
+    //if (opticksMode != 0)
+      G4CXOpticks::SetGeometry(World);
     // gx.setGeometry(World);
     // SEventConfig::SetMaxPhoton(100000000);
     std::cout << SEventConfig::Desc() << std::endl;
