@@ -33,9 +33,9 @@
 //*           /       \    for the simulation of various detector     *
 //*	      \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	         ( (                                                  *
-//*	          ) )                                                 *
-//*              (_(                                                  *
+//*               ( (                                                  *
+//*	           ) )                                                 *
+//*               (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
 //* optical photons.                                                  *
@@ -66,7 +66,6 @@
 #include "DetectorConstruction.hh"
 #include "PhysicsConfigurator.hh"
 // Geant4 headers:
-// #include "G4RunManager.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4Timer.hh"
 #include "G4UIExecutive.hh"
@@ -78,10 +77,7 @@
 #  include "OPTICKS_LOG.hh"
 #endif
 #ifdef WITH_G4CXOPTICKS
-// #  include "Opticks.hh"
-//#  include "OpticksCfg.hh"
 #  include "SEventConfig.hh"
-#  //include "OContext.hh"
 #endif
 
 #include "TROOT.h"
@@ -177,6 +173,7 @@ int main(int argc, char** argv)
   OPTICKS_LOG(argc, argv);
 #endif
 #ifdef WITH_G4CXOPTICKS
+  G4cout << "************************** Calling SEventConfig ***************************" << G4endl;
   SEventConfig::SetMaxPhoton(30000000);
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   //  std::cout << OpticksCfg::getRTX() << std::endl;
@@ -189,8 +186,11 @@ int main(int argc, char** argv)
   DetectorConstruction* dc = new DetectorConstruction(gdmlfile);
   // Run manager
   auto* rm = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
-
+#ifdef WITH_G4CXOPTICKS
   // G4RunManagerFactory::CreateRunManager(G4RunManagerType::SerialOnly);
+  G4cout << "************************** U4Recorder ***************************" << G4endl;
+  // U4Recorder* fRecorder = new U4Recorder();
+#endif
 #ifdef G4MULTITHREADED
   // number of threads not set so use number of cores
   if(nThreads == 0)

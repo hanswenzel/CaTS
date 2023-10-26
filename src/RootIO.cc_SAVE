@@ -1,0 +1,172 @@
+//
+// ********************************************************************
+// * License and Disclaimer                                           *
+// *                                                                  *
+// * The  Geant4 software  is  copyright of the Copyright Holders  of *
+// * the Geant4 Collaboration.  It is provided  under  the terms  and *
+// * conditions of the Geant4 Software License,  included in the file *
+// * LICENSE and available at  http://cern.ch/geant4/license .  These *
+// * include a list of copyright holders.                             *
+// *                                                                  *
+// * Neither the authors of this software system, nor their employing *
+// * institutes,nor the agencies providing financial support for this *
+// * work  make  any representation or  warranty, express or implied, *
+// * regarding  this  software system or assume any liability for its *
+// * use.  Please see the license in the file  LICENSE  and URL above *
+// * for the full disclaimer and the limitation of liability.         *
+// *                                                                  *
+// * This  code  implementation is the result of  the  scientific and *
+// * technical work of the GEANT4 collaboration.                      *
+// * By using,  copying,  modifying or  distributing the software (or *
+// * any work based  on the software)  you  agree  to acknowledge its *
+// * use  in  resulting  scientific  publications,  and indicate your *
+// * acceptance of all terms of the Geant4 Software license.          *
+// ********************************************************************
+//
+// ********************************************************************
+//
+//  CaTS (Calorimetry and Tracking Simulation)
+//
+//  Authors : Hans Wenzel
+//            Soon Yung Jun
+//            (Fermi National Accelerator Laboratory)
+//
+// History
+//   October 18th, 2021 : first implementation
+//
+// ********************************************************************
+//
+/// \file RootIO.cc
+/// \brief Implementation of the CaTS::RootIO class
+
+#ifdef WITH_ROOT
+#include "RootIO.hh"
+#include <G4String.hh>
+#include <G4ios.hh>
+#include <string>
+#include "ConfigurationManager.hh"
+#include "Event.hh"
+#include "TBranch.h"
+#include "TFile.h"
+#include "TObject.h"
+#include "TSystem.h"
+#include "TTree.h"
+#include "TROOT.h"
+#include "ROOT/TBufferMerger.hxx"
+//-----------------------
+#include <random>
+#include <thread>
+//-----------------------
+static RootIO* instance = 0;
+//using ROOT::TBufferMerger;
+//void pythia_tbm(TBufferMerger *m, size_t nEvents);
+G4ThreadLocal RootIO* RootIO::instance = nullptr;
+// mutex in a file scope
+namespace {
+    // Mutex to lock RootIO constructor
+    G4Mutex RootIOMutex = G4MUTEX_INITIALIZER;
+} // namespace
+
+
+RootIO::RootIO()
+{
+      G4AutoLock lock(&RootIOMutex);
+  TSystem ts;
+  gSystem->Load("libCaTSClassesDict");
+  G4String FileName = ConfigurationManager::getInstance()->getfname();
+  G4cout << "Opening File: " << FileName << G4endl;
+  ROOT::EnableThreadSafety();
+  //  merger = new ROOT::TBufferMerger(std::unique_ptr<TMemFile>(new TMemFile(FileName.c_str(), "RECREATE")));
+  //ROOT::TBufferMerger* merger=  new ROOT::TBufferMerger("hans.root","recreate");
+  size_t nWorkers = std::thread::hardware_concurrency();
+  if (nWorkers > 1)
+  ROOT::EnableImplicitMT(nWorkers);
+  merger=  new ROOT::TBufferMerger("hans.root","recreate");
+  //  fFile = merger->GetFile();
+  //G4cout << "ffile:  "<< fFile<< G4endl;
+  //TTree::SetMaxTreeSize(1000 * Long64_t(2000000000));
+  // Create a ROOT Tree and one superbranch
+  ftree = new TTree("Events", "ROOT tree containing Hit collections");
+  //ftree->ResetBit(kMustCleanup);
+  //int flush = 32;
+  //ftree->SetAutoFlush(-(flush) * 1024 * 1024); // Flush at exceeding 32MB
+  //Int_t branchStyle = 1;
+  //TTree::SetBranchStyle(branchStyle);
+}
+
+RootIO::~RootIO() {
+  G4cout << "RootIO destructor !!!!!!"<< G4endl;
+  //  delete merger;
+}
+
+RootIO* RootIO::GetInstance()
+{
+  //  if(instance == nullptr)
+  //{
+  //  instance = new RootIO();
+  // }
+      if (instance == nullptr) {
+        static G4ThreadLocalSingleton<RootIO> inst;
+        instance = inst.Instance();
+    }
+  return instance;
+}
+
+void RootIO::Write(Event* fevent)
+{
+  //    G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
+    std::map<G4String, std::vector<G4VHit*>>* map=fevent-> GetHCMap();
+    
+    G4cout << "size of map:  "<<map->size()<<G4endl;
+    std::map<G4String, std::vector<G4VHit*>>::iterator it;
+   for(it=map->begin(); it!=map->end(); ++it){
+     G4cout << it->first << "   size:  " << it->second.size() <<G4endl;
+   }
+  //if(ConfigurationManager::getInstance()->isEnable_verbose())
+  //  G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
+  // if((fevent->GetEventNumber()) % 1000 == 0)
+  //  G4cout << "writing Event: " << fevent->GetEventNumber() << G4endl;
+  if(!fevtinitialized)
+    {
+      G4cout << "-------------------------------------"<<G4endl;
+      //Int_t bufsize = 64000;
+      //      fevtbranch    = ftree->Branch("event.", &fevent, bufsize, 0);
+      fevtbranch    = ftree->Branch("event.", &fevent);
+      //fevtbranch->SetAutoDelete(kFALSE);
+      fevtinitialized = true;
+  }
+  fnb += ftree->Fill();  
+  G4cout << "tree size:  "<< ftree->GetEntries()<<G4endl;
+  //  fFile->Write("", TObject::kOverwrite);
+  //ftree->Write();
+   G4cout << "ffile:  "<< fFile<< G4endl;
+   //  G4cout << "---------------------------------writing !!!!!"<<G4endl;
+    // fFile->Write();
+}
+void RootIO::Close() {
+  //G4cout << "---------------------------------writing !!!!!"<<G4endl;
+    G4cout << "ffile:  "<< fFile<< G4endl;
+    //fFile->Write();
+      auto f = merger->GetFile();
+          G4cout << "f:  "<< f<< G4endl;
+      f->Write();
+      f->Reset();
+      //delete f;
+    size_t nWorkers = std::thread::hardware_concurrency();
+    //for (auto&& worker : nWorkers)
+    //worker.join();
+    G4cout << " workers:  "<<nWorkers<<G4endl;
+    //  std::vector<std::thread> workers;
+    //for (size_t i = 0; i < nWorkers; ++i)
+    //workers.emplace_back(pythia_tbm, &merger, 2);
+    //for (auto&& worker : workers)
+    //  worker.join();
+    //delete fFile->Delete();
+    //delete f;
+    //delete fFile.get();
+    //delete   fFile;
+    delete merger;
+  G4cout << "closing !!!!!"<<G4endl;
+  //fFile->Close();
+}
+#endif

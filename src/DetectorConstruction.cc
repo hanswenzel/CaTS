@@ -78,11 +78,28 @@
 #  include "RadiatorSD.hh"
 #endif
 #ifdef WITH_G4CXOPTICKS
-// #  include "OPTICKS_LOG.hh"
 #  include "G4CXOpticks.hh"
-// #  include "OpticksMode.hh"
 #  include <cuda_runtime.h>
 #  include "SEventConfig.hh"
+#  include "U4VolumeMaker.hh"
+
+#  include "OPTICKS_LOG.hh"
+#  include "SEvt.hh"
+#  include "SSim.hh"
+#  include "ssys.h"
+// #include "SEventConfig.hh"
+#  include "sframe.h"
+class U4Recorder;
+class U4VolumeMaker;
+#  include "U4Material.hh"
+// #include "U4VolumeMaker.hh"
+#  include "U4Recorder.hh"
+#  include "U4Random.hh"
+#  include "U4Physics.hh"
+#  include "U4VPrimaryGenerator.h"
+
+#  include "G4CXOpticks.hh"
+
 #endif
 
 #include "TrackerSD.hh"
@@ -91,6 +108,8 @@
 #include "SimEnergyDepositSD.hh"
 // c++ headers
 #include <iostream>
+#include <sstream>
+
 DetectorConstruction::DetectorConstruction(G4String fname)
   : G4VUserDetectorConstruction()
   , gdmlFile(fname)
@@ -425,27 +444,42 @@ void DetectorConstruction::ReadGDML()
   fReader = new ColorReader;
   parser  = new G4GDMLParser(fReader);
   parser->Read(gdmlFile, false);
-  G4VPhysicalVolume* World = parser->GetWorldVolume();
+  const G4VPhysicalVolume* World = parser->GetWorldVolume();
   //----- GDML parser makes world invisible, this is a hack to make it
   // visible again...
-  G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
+  const G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
 #ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
+    // const G4VPhysicalVolume* pv_ = U4VolumeMaker::PV();
+    //   LOG_IF(fatal, pv_ == nullptr) << " FAILED TO CREATE PV : CHECK GEOM envvar ";
+
+    // G4VPhysicalVolume* pv  = const_cast<G4VPhysicalVolume*>(pv_);
+    // G4VPhysicalVolume* fPV = pv;
+    //  LOG(LEVEL) << " fPV " << (fPV ? fPV->GetName() : "ERR-NO-PV");
+
     // G4CXOpticks gx;  // Simulate is the default RGMode
     // if(opticksMode != 0)
-    std::cout << "DetectorConstruction setGeometry" << std::endl;
+    // std::cout << "DetectorConstruction setGeometry" << std::endl;
     cudaDeviceReset();
     // SEventConfig::SetMaxPhoton(100000000);
     // G4CXOpticks* g4cx =
-    //if (opticksMode != 0)
       G4CXOpticks::SetGeometry(World);
     // gx.setGeometry(World);
     // SEventConfig::SetMaxPhoton(100000000);
+
+    G4cout
+      << "************************** Calling G4CXOpticks::SetGeometry***************************"
+      << G4endl;
+    G4CXOpticks::SetGeometry(World);
+    // G4CXOpticks::SetGeometry();
+    //   gx.setGeometry(World);
+    //   SEventConfig::SetMaxPhoton(100000000);
+>>>>>>> 0482f1c (adjust to the new opticks API (uncomplete) reverse rootio to the old scheme)
     std::cout << SEventConfig::Desc() << std::endl;
   }
 #endif
-  pWorldLogical->SetVisAttributes(0);
+  // pWorldLogical->SetVisAttributes(0);
   if(verbose)
   {
     G4cout << "Found World:  " << World->GetName() << G4endl;

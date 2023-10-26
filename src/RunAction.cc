@@ -61,6 +61,7 @@ RunAction::RunAction()
 }
 
 void RunAction::BeginOfRunAction(const G4Run* aRun) {
+  G4cout << "\n\n###[ RunAction::BeginOfRunAction G4Opticks.setGeometry\n\n"<<G4endl;
 #ifdef G4ANALYSIS_USE
     if (ConfigurationManager::getInstance()->isdoAnalysis()) {
         // Create the generic analysis manager
@@ -121,6 +122,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun) {
 }
 
 void RunAction::EndOfRunAction(const G4Run*) {
+  G4cout << "############## RunAction::EndOfRunAction" << G4endl;
 #ifdef WITH_G4OPTICKS
     if (ConfigurationManager::getInstance()->isEnable_opticks()) {
         if (ConfigurationManager::getInstance()->isEnable_verbose()) {
@@ -135,14 +137,14 @@ void RunAction::EndOfRunAction(const G4Run*) {
     }
 #endif
 #ifdef WITH_ROOT
-    if (ConfigurationManager::getInstance()->isEnable_verbose()) {
-        G4cout << "##############RunAction::EndOfRunAction" << G4endl;
-    }
     if (ConfigurationManager::getInstance()->isWriteHits()) {
         if (G4Threading::IsMultithreadedApplication()) {
-	  //RootIO::GetInstance()->Merge();
+	  RootIO::GetInstance()->Merge();
+	  //RootIO::GetInstance()->Close();
+	  //delete  RootIO::GetInstance();
         } else {
             RootIO::GetInstance()->Close();
+	    // delete  RootIO::GetInstance();
         }
     }
 #ifdef G4ANALYSIS_USE

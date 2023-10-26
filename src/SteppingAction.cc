@@ -83,6 +83,7 @@ SteppingAction::~SteppingAction() {}
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
 #ifdef WITH_G4CXOPTICKS
+  /*
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
     G4int fNumPhotons = 0;  // number of scintillation photons this step
@@ -186,6 +187,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         SteppingAction::ResetGenStepcounter();
       }
     }
+   
   }
+  */
 #endif
 }

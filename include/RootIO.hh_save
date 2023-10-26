@@ -23,6 +23,8 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
+//
+
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -36,30 +38,39 @@
 //
 // ********************************************************************
 //
-/// \file ActionInitialization.cc
-/// \brief Implementation of the CaTS::ActionInitialization class
+/// \file RootIO.hh
+/// \brief Definition of the CaTS::RootIO class
 
-// Geant4 headers
-#include <G4VUserActionInitialization.hh>
-// project headers
-#include "ActionInitialization.hh"
-#include "MCEventAction.hh"
-#include "PrimaryGeneratorAction.hh"
-#include "RunAction.hh"
-#include "StackingAction.hh"
-#include "SteppingAction.hh"
+#ifdef WITH_ROOT
+#  pragma once
 
-ActionInitialization::ActionInitialization()
-  : G4VUserActionInitialization()
-{}
+#  include "RtypesCore.h"
+#  include <G4Types.hh>
+#include "ROOT/TBufferMerger.hxx"
+//class TBufferMergerFile;
+class TTree;
+class TBranch;
+class Event;
 
-void ActionInitialization::BuildForMaster() const { SetUserAction(new RunAction); }
-
-void ActionInitialization::Build() const
+class RootIO
 {
-  SetUserAction(new RunAction());
-  SetUserAction(new PrimaryGeneratorAction());
-  SetUserAction(new StackingAction());
-  SetUserAction(new MCEventAction());
-  SetUserAction(new SteppingAction());
-}
+ public:
+  virtual ~RootIO();
+  static RootIO* GetInstance();
+  void Write(Event*);
+  void Close();
+
+ protected:
+  RootIO();
+
+ private:
+  ROOT::TBufferMerger* merger{ nullptr };
+  std::shared_ptr<ROOT::TBufferMergerFile> fFile{ nullptr };
+  // TBufferMergerFile * fFile;
+  G4int fNevents{ 0 };
+  TTree* ftree{ nullptr };
+  TBranch* fevtbranch{ nullptr };
+  Long64_t fnb{ 0 };
+  G4bool fevtinitialized{ false };
+};
+#endif /* WITH_ROOT */

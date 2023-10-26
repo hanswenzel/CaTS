@@ -31,7 +31,7 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	          \       /    systems                                    *
+//*	      \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
 //*	         ( (                                                  *
 //*	          ) )                                                 *
@@ -98,6 +98,7 @@ int main(int argc, char** argv)
     auto* hcmap = event->GetHCMap();
     for(const auto& ele : *hcmap)
     {
+      G4cout<< ele.first<<"  "<<CollectionName<<G4endl;
       auto hits = ele.second;
       if(ele.first.compare(CollectionName) == 0)
       {

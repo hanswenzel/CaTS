@@ -114,11 +114,12 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 #ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
-    G4CXOpticks* g4cxok = G4CXOpticks::Get();
-    G4int eventid       = event->GetEventID();
+    //hjw   G4CXOpticks* g4cxok = G4CXOpticks::Get();
+    //hjw G4int eventid       = event->GetEventID();
     //static void SEvt::SetIndex(eventid);
     //G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-    G4int num_photon  = SEvt::GetNumPhotonCollected(0);
+    //G4int num_photon  = SEvt::GetNumPhotonCollected();
+    /* hjw
     if(verbose)
     {
       // G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
@@ -138,6 +139,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       //      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
       // std::cout << sev->descFull();
     }
+    hjw */ 
     /*
     const NP* hits     = sev->getHit();
     G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
@@ -146,6 +148,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     G4cout << "McEndOfEventAction: GetNumGenstepFromGenstep: " << inum_genstep << G4endl;
 */
     //
+      /* hjw
     if(num_hits > 0)
     {
       G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
@@ -161,14 +164,14 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
         }
       }
     }
-
+hjw */
     // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
 
     //     const std::string EvDescr = SEvt::desc();
     //  const NP* getPhoton() const ;
     //     std::cout << SEvt::descFull();
   }
-#endif
+#endif  //  WITH_G4CXOPTICKS
 
 #ifdef WITH_G4OPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
@@ -199,7 +202,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
              << G4endl;
       G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
              << " Gensteps: " << g4ok->getNumGensteps()
-             << "  Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
+             << " Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
       G4cout << " MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
       G4cout << g4ok->dbgdesc() << G4endl;
     }
@@ -209,7 +212,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       G4cout << "========================== After reset: " << G4endl;
       G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
              << " Gensteps: " << g4ok->getNumGensteps()
-             << "  Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
+             << " Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
       G4cout << "MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
       G4cout << g4ok->dbgdesc() << G4endl;
       G4cout << "***********************************************************"
