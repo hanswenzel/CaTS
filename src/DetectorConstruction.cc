@@ -471,7 +471,7 @@ void DetectorConstruction::ReadGDML()
     G4cout
       << "************************** Calling G4CXOpticks::SetGeometry***************************"
       << G4endl;
-    G4CXOpticks::SetGeometry(World);
+    //    G4CXOpticks::SetGeometry(World);
     // G4CXOpticks::SetGeometry();
     //   gx.setGeometry(World);
     //   SEventConfig::SetMaxPhoton(100000000);

@@ -1,6 +1,6 @@
 /CaTS/verbose false
 /CaTS/dumpgdml false
-/CaTS/writeHits true
+/CaTS/writeHits false
 /CaTS/fname TimeCats
 /run/initialize 
 #
