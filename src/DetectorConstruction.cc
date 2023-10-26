@@ -475,7 +475,6 @@ void DetectorConstruction::ReadGDML()
     // G4CXOpticks::SetGeometry();
     //   gx.setGeometry(World);
     //   SEventConfig::SetMaxPhoton(100000000);
->>>>>>> 0482f1c (adjust to the new opticks API (uncomplete) reverse rootio to the old scheme)
     std::cout << SEventConfig::Desc() << std::endl;
   }
 #endif
