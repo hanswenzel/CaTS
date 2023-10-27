@@ -151,20 +151,34 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       
       if(Photoncounter > ConfigurationManager::getInstance()->getMaxPhotons())
       {
-        std::cout << "------------------------------" << std::endl;
-        std::cout << "SteppingAction: " << Photoncounter << std::endl;
-        std::cout << "------------------------------" << std::endl;
 
-        G4int inum_photon  = SEvt::GetNumPhotonFromGenstep(0);
-        G4int inum_genstep = SEvt::GetNumGenstepFromGenstep(0);
-        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
-        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
+        G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
+	G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
+	G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
+	G4int num_Hit              = SEvt::GetNumHit(0);
+	std::cout << "------------------------------------------------------------------" << std::endl;
+        std::cout << "SteppingAction: PhotonCounter: "           << Photoncounter         << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon           << std::endl;
+	std::cout << "SteppingAction: GetNumGenstepFromGenstep: "<< inum_genstep          << std::endl;
+	std::cout << "SteppingAction: GetNumPhotonCollected:  "  << num_PhotonCollected   << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonGenstepMax: "  << num_PhotonGenstepMax  << std::endl;
+	std::cout << "SteppingAction: GetNumHit:            "    << num_Hit               << std::endl;
+	std::cout << "------------------------------------------------------------------" << std::endl;
+	//	G4int GetNumHit_EGPU() ; 
+	//G4int GetNumHit_ECPU() ;
 
+
+
+
+
+	
+        //cudaDeviceSynchronize();
 	//        G4AutoLock lock(&opticks_mutex);
 	G4RunManager* rm     = G4RunManager::GetRunManager();
 	const G4Event* event = rm->GetCurrentEvent();
 	G4int eventid        = event->GetEventID();
-	//       G4CXOpticks::Get()->simulate(eventid);
+	G4CXOpticks::Get()->simulate(eventid);
 }
 /*
         cudaDeviceSynchronize();
