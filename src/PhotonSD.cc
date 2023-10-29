@@ -50,13 +50,6 @@
 #  include "G4RunManager.hh"
 // project headers
 #include "PhotonSD.hh"
-#ifdef WITH_G4OPTICKS
-#  include "G4Opticks.hh"
-#  include "G4OpticksHit.hh"
-#  include "OpticksFlags.hh"
-#  include "OpticksGenstep.h"
-#  include "TrackInfo.hh"
-#endif
 #ifdef WITH_G4CXOPTICKS
 #  include "scuda.h"
 #  include "SEvt.hh"
@@ -139,44 +132,6 @@ void PhotonSD::EndOfEvent(G4HCofThisEvent*)
   }
   */
 }
-#ifdef WITH_G4OPTICKS
-void PhotonSD::AddOpticksHits()
-{
-  G4Opticks* g4ok   = G4Opticks::Get();
-  bool way_enabled  = g4ok->isWayEnabled();
-  unsigned num_hits = g4ok->getNumHit();
-  if(verbose)
-    G4cout << "PhotonSD::AddOpticksHits PhotonHits:  " << num_hits << G4endl;
-  G4OpticksHit hit;
-  G4OpticksHitExtra hit_extra;
-  G4OpticksHitExtra* hit_extra_ptr = way_enabled ? &hit_extra : NULL;
-  int theCreationProcessid;
-  for(unsigned i = 0; i < num_hits; i++)
-  {
-    g4ok->getHit(i, &hit, hit_extra_ptr);
-    if(hit.is_cerenkov)
-    {
-      theCreationProcessid = 0;
-    }
-    else if(hit.is_reemission)
-    {
-      theCreationProcessid = 1;
-    }
-    else
-    {
-      theCreationProcessid = -1;
-    }
-
-    PhotonHit* newHit =
-      new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
-                    hit.global_position, hit.global_direction, hit.global_polarization);
-    fPhotonHitsCollection->insert(newHit);
-  }
-  if(verbose)
-    G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
-}
-#endif
-
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
 {

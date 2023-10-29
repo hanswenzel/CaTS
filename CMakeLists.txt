@@ -1,19 +1,10 @@
 cmake_minimum_required(VERSION 3.16...3.21)
 
-if(WITH_G4OPTICKS AND WITH_G4CXOPTICKS)
-  message(FATAL_ERROR "CaTS cmake illegal set of parameters. One can't use opticks and legacy opticks at the same time. Either -DWITH_G4OPTICKS or -DWITH_G4CXOPTICKS must be set to off and can't be set on at the same time.
-the following combinations are allowed:
--DWITH_G4OPTICKS=OFF -DWITH_G4CXOPTICKS=OFF : no opticks just Geant4 optical physics
--DWITH_G4OPTICKS=ON  -DWITH_G4CXOPTICKS=OFF : build using legacy opticks based on NVIDIA OptiX 6
--DWITH_G4OPTICKS=OFF -DWITH_G4CXOPTICKS=ON  : build using current opticks based on NVIDIA OptiX > 7
-")
-endif()
 
 set(name CaTS)
 project(${name} VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 option(WITH_ROOT "Build example with ROOT" ON)
-option(WITH_G4OPTICKS "Build example with OPTICKS" OFF)
 option(WITH_G4CXOPTICKS "Build example with OPTICKS" OFF)
 option(G4ANALYSIS_USE "Build example with Analysis" ON)
 
@@ -45,14 +36,7 @@ if(NOT Geant4_shared_FOUND)
   message(FATAL_ERROR "CaTS must use Geant4 shared libraries")
 endif()
 
-if(WITH_G4OPTICKS)
-  message(STATUS "WITH_G4OPTICKS is set")
-  list(APPEND CMAKE_MODULE_PATH "$ENV{OPTICKS_HOME}/cmake/Modules")
-  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
-  include(OpticksBuildOptions)
-  # find_package(G4OK CONFIG REQUIRED)
-  include(CaTSCXXFlags)
-elseif(WITH_G4CXOPTICKS)
+if(WITH_G4CXOPTICKS)
   message(STATUS "WITH_G4CXOPTICKS is set")
   list(APPEND CMAKE_MODULE_PATH "$ENV{OPTICKS_HOME}/cmake/Modules")
   list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
@@ -123,12 +107,7 @@ file(GLOB scripts ${PROJECT_SOURCE_DIR}/scripts/*)
 file(GLOB macros ${PROJECT_SOURCE_DIR}/macros/*.mac)
 file(GLOB runscripts ${PROJECT_SOURCE_DIR}/scripts/run.sh ${PROJECT_SOURCE_DIR}/scripts/check.sh)
 
-if(WITH_G4OPTICKS)
-  add_executable(${name} ${name}.cc ${sources} ${headers})
-  target_compile_definitions(${name} PRIVATE WITH_G4OPTICKS WITH_ROOT)
-  target_link_libraries(${name} CaTSClassesDict ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
-  add_test(${name}Test ${name} -g simpleLArTPC.gdml -m test_G4.mac)
-elseif(WITH_G4CXOPTICKS)
+if(WITH_G4CXOPTICKS)
   add_executable(${name} ${name}.cc ${sources} ${headers})
   target_compile_definitions(${name} PRIVATE WITH_G4CXOPTICKS WITH_ROOT) 
   target_link_libraries(${name} CaTSClassesDict Opticks::G4CX Opticks::U4   ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
@@ -183,6 +162,5 @@ if(WITH_ROOT)
 endif()
 
 message(STATUS "G4ANALYSIS_USE:   ${G4ANALYSIS_USE}")
-message(STATUS "WITH_G4OPTICKS:   ${WITH_G4OPTICKS}")
 message(STATUS "WITH_G4CXOPTICKS: ${WITH_G4CXOPTICKS}")
 message(STATUS "WITH_ROOT:        ${WITH_ROOT}")

@@ -278,7 +278,6 @@
             <solidref ref="TPCActive" />
             <colorref ref="green" />
             <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
-            <auxiliary auxtype="SensDet" auxvalue="Radiator" />
         </volume> <!-- "volTPCActive" -->
         <!-- [4.1] Wire volume definition for wires on first and second plane  - - -->
         <!-- omitted -->

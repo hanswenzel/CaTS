@@ -80,7 +80,6 @@
             <solidref ref="lArgonBox" />
             <colorref ref="blue" />
             <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
-            <auxiliary auxtype="SensDet" auxvalue="Radiator" />
             <physvol name="pvDet2" copynumber="2">
                 <volumeref ref="lvDet" />
                 <position name="Det2" unit="mm" x="497.5" y="0" z="0" />

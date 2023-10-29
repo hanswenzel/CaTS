@@ -99,7 +99,7 @@ void ConfigurationManager::DefineCommands()
   fnameCmd.SetDefaultValue("Hits");
 #endif
   //
-  // Commands enabling G4Opticks and frequency calling it:
+  // Commands enabling G4CXOpticks and frequency calling it:
   //
   auto& enable_opticksCmd =
     fMessenger->DeclareProperty("enable_opticks", fenable_opticks);
@@ -109,7 +109,7 @@ void ConfigurationManager::DefineCommands()
   enable_opticksCmd.SetStates(G4State_PreInit, G4State_Init, G4State_Idle);
   auto& MaxPhotonsCmd = fMessenger->DeclareProperty("MaxPhotons", fMaxPhotons);
   MaxPhotonsCmd.SetGuidance(
-    "set number of photons to be collecetd befores invoking G4Opticks");
+    "set number of photons to be collecetd befores invoking G4CXOpticks");
   MaxPhotonsCmd.SetDefaultValue("1000000");
   MaxPhotonsCmd.SetStates(G4State_PreInit, G4State_Init, G4State_Idle);
   //

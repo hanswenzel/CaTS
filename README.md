@@ -36,7 +36,6 @@ Sensitive Detectors:        (+ corresponding Hit classes)
     MsCSD(Hit) used to study multiple scattering on a thin layer
     PhotonSD(Hit) sensitive detector that registers optical photons.
     lArTPCSD(Hit) sensitive detector that registers ionization and collects Gensteps (Scintillation and Cerenkov) to be processed by Opticks.
-    RadiatorSD no Hits just collection of Gensteps  (Scintillation and Cerenkov) to be processed by Opticks.
 
 
 This requires the opticks environment to be set up properly see: [Instructions](Instructions.md)
@@ -59,7 +58,7 @@ mkdir CaTS-build
 cd CaTS-build
 
 cmake -GNinja -DCMAKE_BUILD_TYPE=Release \
-  -DWITH_G4OPTICKS=ON \
+  -DWITH_G4CXOPTICKS=ON \
   -DCMAKE_PREFIX_PATH="${LOCAL_BASE}/opticks/externals;${LOCAL_BASE}/opticks" \
   -DOPTICKS_PREFIX=${LOCAL_BASE}/opticks \
   -DCMAKE_MODULE_PATH=${OPTICKS_HOME}/cmake/Modules \
@@ -76,7 +75,7 @@ The command line variables are
 -t 'n number of Geant4 threads'
 
 Note! Only the -g command line variable is mandatory! If you don't specify the macro file interactive mode is assumed:
-Note! For the moment one can use only 1 Geant4 thread when using G4Opticks'
+Note! For the moment one can use only 1 Geant4 thread when using G4CXOpticks'
 
 ./CaTS -g simpleLArTPC.gdml -pl 'FTFP_BERT+OPTICAL+STEPLIMIT'
 
@@ -85,7 +84,7 @@ Note! For the moment one can use only 1 Geant4 thread when using G4Opticks'
 to compile CaTS without Opticks do:
 
 ```bash
-cmake  -GNinja -DCMAKE_BUILD_TYPE=Release  -DWITH_G4OPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
+cmake  -GNinja -DCMAKE_BUILD_TYPE=Release  -DWITH_G4CXOPTICKS=OFF      -DCMAKE_MODULE_PATH="../CaTS/cmake/Modules"   -DCMAKE_INSTALL_PREFIX=../CaTS-install   ../CaTS
 ```
 if you don't provide the -pl argument the default physics list configuration:
 'FTFP_BERT+OPTICAL+STEPLIMIT'

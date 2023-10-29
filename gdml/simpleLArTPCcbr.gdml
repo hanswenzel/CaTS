@@ -87,7 +87,6 @@ copy<?xml version="1.0" encoding="UTF-8"?>
             <solidref ref="Obj" />
             <colorref ref="blue" />
             <auxiliary auxtype="StepLimit" auxvalue="0.4" auxunit="mm" />
-            <auxiliary auxtype="SensDet" auxvalue="Radiator" />
             <auxiliary auxtype="SensitiveRegion" auxvalue="0.1" auxunit="mm" />
             <physvol name="Det2" copynumber="2">
                 <volumeref ref="Det" />

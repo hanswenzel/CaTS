@@ -59,9 +59,6 @@ class PhotonSD : public G4VSensitiveDetector
   ~PhotonSD() = default;
   void Initialize(G4HCofThisEvent*) final;
   G4bool ProcessHits(G4Step*, G4TouchableHistory* ROhist) final;
-#ifdef WITH_G4OPTICKS
-  void AddOpticksHits();
-#endif
 #ifdef WITH_G4CXOPTICKS
   void AddOpticksHits();
 #endif

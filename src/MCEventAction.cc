@@ -71,11 +71,6 @@
 #include <istream>
 #include <string>
 
-#ifdef WITH_G4OPTICKS
-#  include "OpticksFlags.hh"
-#  include "G4Opticks.hh"
-#  include "G4OpticksHit.hh"
-#endif
 #ifdef WITH_G4CXOPTICKS
 #  include "SEvt.hh"
 #  include "NP.hh"
@@ -173,54 +168,7 @@ hjw */
   }
 #endif  //  WITH_G4CXOPTICKS
 
-#ifdef WITH_G4OPTICKS
-  if(ConfigurationManager::getInstance()->isEnable_opticks())
-  {
-    G4Opticks* g4ok = G4Opticks::Get();
-    G4int eventid   = event->GetEventID();
-    g4ok->propagateOpticalPhotons(eventid);
-    unsigned num_hits = g4ok->getNumHit();
-    G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
-    if(num_hits > 0)
-    {
-      G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
-      for(G4int i = 0; i < hctable->entries(); ++i)
-      {
-        std::string sdn   = hctable->GetSDname(i);
-        std::size_t found = sdn.find("Photondetector");
-        if(found != std::string::npos)
-        {
-          PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
-          aSD->AddOpticksHits();
-        }
-      }
-    }
-    if(verbose)
-    {
-      G4cout << "***********************************************************"
-                "********************************************************"
-             << G4endl;
-      G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
-             << " Gensteps: " << g4ok->getNumGensteps()
-             << " Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
-      G4cout << " MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
-      G4cout << g4ok->dbgdesc() << G4endl;
-    }
-    g4ok->reset();
-    if(verbose)
-    {
-      G4cout << "========================== After reset: " << G4endl;
-      G4cout << " MCEndOfEventAction: numphotons:   " << g4ok->getNumPhotons()
-             << " Gensteps: " << g4ok->getNumGensteps()
-             << " Maxgensteps:  " << g4ok->getMaxGensteps() << G4endl;
-      G4cout << "MCEndOfEventAction: num_hits: " << g4ok->getNumHit() << G4endl;
-      G4cout << g4ok->dbgdesc() << G4endl;
-      G4cout << "***********************************************************"
-                "********************************************************"
-             << G4endl;
-    }
-  }     // end isEnable_opticks
-#endif  // end   WITH_G4OPTICKS
+
   //
   // Now we deal with the Geant4 Hit collections.
   //

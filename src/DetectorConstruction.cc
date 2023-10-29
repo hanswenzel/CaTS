@@ -74,9 +74,6 @@
 #include "InteractionSD.hh"
 #include "MscSD.hh"
 #include "PhotonSD.hh"
-#ifdef WITH_G4OPTICKS
-#  include "RadiatorSD.hh"
-#endif
 #ifdef WITH_G4CXOPTICKS
 #  include "G4CXOpticks.hh"
 #  include <cuda_runtime.h>
@@ -103,7 +100,6 @@ class U4VolumeMaker;
 #endif
 
 #include "TrackerSD.hh"
-#include "lArTPCSD.hh"
 #include "SimTrajectorySD.hh"
 #include "SimEnergyDepositSD.hh"
 // c++ headers
@@ -281,8 +277,7 @@ void DetectorConstruction::ConstructSDandField()
   std::map<std::string, int> mapofSensedets = { { "PhotonDetector", 0 },   { "Target", 1 },
                                                 { "Tracker", 2 },          { "SimTrajectory", 3 },
                                                 { "SimEnergyDeposit", 4 }, { "Msc", 5 },
-                                                { "lArTPC", 6 },           { "Radiator", 7 },
-                                                { "Calorimeter", 8 },      { "DRCalorimeter", 9 } };
+                                                { "Calorimeter", 6 },      { "DRCalorimeter", 7 } };
   enum SensDet
   {
     PhotonDetector,
@@ -291,8 +286,6 @@ void DetectorConstruction::ConstructSDandField()
     SimTrajectory,
     SimEnergyDeposit,
     Msc,
-    lArTPC,
-    Radiator,
     Calorimeter,
     DRCalorimeter
   };
@@ -358,22 +351,6 @@ void DetectorConstruction::ConstructSDandField()
               logVol->SetSensitiveDetector(aMscSD);
               break;
             }
-            case lArTPC: {
-              name                = logVol->GetName() + "_lArTPC";
-              lArTPCSD* alArTPCSD = new lArTPCSD(name);
-              SDman->AddNewDetector(alArTPCSD);
-              logVol->SetSensitiveDetector(alArTPCSD);
-              break;
-            }
-#ifdef WITH_G4OPTICKS
-            case Radiator: {
-              name                    = logVol->GetName() + "_Radiator";
-              RadiatorSD* aRadiatorSD = new RadiatorSD(name);
-              SDman->AddNewDetector(aRadiatorSD);
-              logVol->SetSensitiveDetector(aRadiatorSD);
-              break;
-            }
-#endif
             case Calorimeter: {
               name                          = logVol->GetName() + "_Calorimeter";
               CalorimeterSD* aCalorimeterSD = new CalorimeterSD(name);

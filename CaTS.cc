@@ -73,9 +73,6 @@
 #include "G4VModularPhysicsList.hh"
 #include "G4VisExecutive.hh"
 #include <G4Threading.hh>
-#ifdef WITH_G4OPTICKS
-#  include "OPTICKS_LOG.hh"
-#endif
 #ifdef WITH_G4CXOPTICKS
 #  include "SEventConfig.hh"
 #endif
@@ -169,12 +166,10 @@ int main(int argc, char** argv)
   }
   G4Timer* eventTimer = new G4Timer;
   eventTimer->Start();
-#ifdef WITH_G4OPTICKS
-  OPTICKS_LOG(argc, argv);
-#endif
+
 #ifdef WITH_G4CXOPTICKS
   G4cout << "************************** Calling SEventConfig ***************************" << G4endl;
-  SEventConfig::SetMaxPhoton(30000000);
+  SEventConfig::SetMaxPhoton(10000000);
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   //  std::cout << OpticksCfg::getRTX() << std::endl;
   std::cout << SEventConfig::Desc() << std::endl;
