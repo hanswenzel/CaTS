@@ -110,7 +110,7 @@ void ConfigurationManager::DefineCommands()
   auto& MaxPhotonsCmd = fMessenger->DeclareProperty("MaxPhotons", fMaxPhotons);
   MaxPhotonsCmd.SetGuidance(
     "set number of photons to be collecetd befores invoking G4CXOpticks");
-  MaxPhotonsCmd.SetDefaultValue("1000000");
+  MaxPhotonsCmd.SetDefaultValue("100000");
   MaxPhotonsCmd.SetStates(G4State_PreInit, G4State_Init, G4State_Idle);
   //
   // general command to control verbosity and writing out geometry to a gdml

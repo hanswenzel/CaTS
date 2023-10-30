@@ -170,9 +170,11 @@ int main(int argc, char** argv)
 #ifdef WITH_G4CXOPTICKS
   G4cout << "************************** Calling SEventConfig ***************************" << G4endl;
   SEventConfig::SetMaxPhoton(10000000);
+  SEventConfig::SetStandardFullDebug(); // controls which and dimensions of SEvt arrays 
+
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   //  std::cout << OpticksCfg::getRTX() << std::endl;
-  std::cout << SEventConfig::Desc() << std::endl;
+  //std::cout << SEventConfig::Desc() << std::endl;
   // OPTICKS_LOG(argc, argv);
 #endif
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
@@ -182,7 +184,7 @@ int main(int argc, char** argv)
   // Run manager
   auto* rm = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 #ifdef WITH_G4CXOPTICKS
-  // G4RunManagerFactory::CreateRunManager(G4RunManagerType::SerialOnly);
+  //G4RunManagerFactory::CreateRunManager(G4RunManagerType::SerialOnly);
   G4cout << "************************** U4Recorder ***************************" << G4endl;
   // U4Recorder* fRecorder = new U4Recorder();
 #endif

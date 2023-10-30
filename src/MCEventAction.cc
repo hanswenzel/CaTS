@@ -71,11 +71,11 @@
 #include <istream>
 #include <string>
 
-#ifdef WITH_G4CXOPTICKS
-#  include "SEvt.hh"
-#  include "NP.hh"
-#  include "G4CXOpticks.hh"
-#endif
+//#ifdef WITH_G4CXOPTICKS
+//#  include "SEvt.hh"
+//#  include "NP.hh"
+//#  include "G4CXOpticks.hh"
+//#endif
 
 namespace
 {
@@ -106,9 +106,9 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   CaTSEvt->SetEventNr(event->GetEventID());
   std::map<G4String, std::vector<G4VHit*>>* hcmap = CaTSEvt->GetHCMap();
 #endif  // end WITH_ROOT
-#ifdef WITH_G4CXOPTICKS
-  if(ConfigurationManager::getInstance()->isEnable_opticks())
-  {
+  //#ifdef WITH_G4CXOPTICKS
+  //if(ConfigurationManager::getInstance()->isEnable_opticks())
+  //{
     //hjw   G4CXOpticks* g4cxok = G4CXOpticks::Get();
     //hjw G4int eventid       = event->GetEventID();
     //static void SEvt::SetIndex(eventid);
@@ -165,8 +165,8 @@ hjw */
     //     const std::string EvDescr = SEvt::desc();
     //  const NP* getPhoton() const ;
     //     std::cout << SEvt::descFull();
-  }
-#endif  //  WITH_G4CXOPTICKS
+  //  }
+  //#endif  //  WITH_G4CXOPTICKS
 
 
   //

@@ -173,7 +173,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
 
 	
-        //cudaDeviceSynchronize();
+        cudaDeviceSynchronize();
 	//        G4AutoLock lock(&opticks_mutex);
 	G4RunManager* rm     = G4RunManager::GetRunManager();
 	const G4Event* event = rm->GetCurrentEvent();

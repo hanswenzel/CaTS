@@ -77,25 +77,23 @@
 #ifdef WITH_G4CXOPTICKS
 #  include "G4CXOpticks.hh"
 #  include <cuda_runtime.h>
-#  include "SEventConfig.hh"
-#  include "U4VolumeMaker.hh"
+//#  include "SEventConfig.hh"
+//#  include "U4VolumeMaker.hh"
 
-#  include "OPTICKS_LOG.hh"
-#  include "SEvt.hh"
-#  include "SSim.hh"
-#  include "ssys.h"
+//#  include "OPTICKS_LOG.hh"
+//#  include "SEvt.hh"
+//#  include "SSim.hh"
+//#  include "ssys.h"
 // #include "SEventConfig.hh"
-#  include "sframe.h"
-class U4Recorder;
-class U4VolumeMaker;
-#  include "U4Material.hh"
+//#  include "sframe.h"
+//class U4Recorder;
+//class U4VolumeMaker;
+//#  include "U4Material.hh"
 // #include "U4VolumeMaker.hh"
-#  include "U4Recorder.hh"
-#  include "U4Random.hh"
-#  include "U4Physics.hh"
-#  include "U4VPrimaryGenerator.h"
-
-#  include "G4CXOpticks.hh"
+//#  include "U4Recorder.hh"
+//#  include "U4Random.hh"
+//#  include "U4Physics.hh"
+//#  include "U4VPrimaryGenerator.h"
 
 #endif
 
@@ -437,22 +435,13 @@ void DetectorConstruction::ReadGDML()
 
     // G4CXOpticks gx;  // Simulate is the default RGMode
     // if(opticksMode != 0)
-    // std::cout << "DetectorConstruction setGeometry" << std::endl;
     cudaDeviceReset();
-    // SEventConfig::SetMaxPhoton(100000000);
     // G4CXOpticks* g4cx =
       G4CXOpticks::SetGeometry(World);
-    // gx.setGeometry(World);
-    // SEventConfig::SetMaxPhoton(100000000);
-
     G4cout
       << "************************** Calling G4CXOpticks::SetGeometry***************************"
       << G4endl;
-    //    G4CXOpticks::SetGeometry(World);
-    // G4CXOpticks::SetGeometry();
-    //   gx.setGeometry(World);
-    //   SEventConfig::SetMaxPhoton(100000000);
-    std::cout << SEventConfig::Desc() << std::endl;
+    //std::cout << SEventConfig::Desc() << std::endl;
   }
 #endif
   // pWorldLogical->SetVisAttributes(0);

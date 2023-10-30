@@ -51,10 +51,10 @@
 // project headers
 #include "PhotonSD.hh"
 #ifdef WITH_G4CXOPTICKS
-#  include "scuda.h"
-#  include "SEvt.hh"
+//#  include "scuda.h"
+//#  include "SEvt.hh"
 #  include "G4CXOpticks.hh"
-#  include "U4HitGet.h"
+//#  include "U4HitGet.h"
 #endif
 
 PhotonSD::PhotonSD(G4String name)

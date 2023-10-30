@@ -62,7 +62,7 @@ RunAction::RunAction()
 }
 
 void RunAction::BeginOfRunAction(const G4Run* aRun) {
-  G4cout << "\n\n###[ RunAction::BeginOfRunAction G4CXOpticks.setGeometry\n\n"<<G4endl;
+  //  G4cout << "\n\n###[ RunAction::BeginOfRunAction G4CXOpticks.setGeometry\n\n"<<G4endl;
 #ifdef G4ANALYSIS_USE
     if (ConfigurationManager::getInstance()->isdoAnalysis()) {
         // Create the generic analysis manager
@@ -98,7 +98,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun) {
                     ->GetWorldVolume();
             assert(world);
             bool standardize_geant4_materials = false; // required for alignment
-            G4CXOpticks* g4ok = G4CXOpticks::Get();
+	               G4CXOpticks* g4ok = G4CXOpticks::Get();
 	    // g4ok->setGeometry(world, standardize_geant4_materials);
 	    //hjw            const std::vector<G4PVPlacement*>& sensor_placements =
 	    //hjw                    g4ok->getSensorPlacements();
