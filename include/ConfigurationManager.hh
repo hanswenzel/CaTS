@@ -62,9 +62,11 @@ class ConfigurationManager
   G4bool fwriteHits{ false };  // variable determines if hits are written out into Root File
   G4String fname{ "Hits" };    // full File name for root io
 #endif
-  G4bool fenable_opticks{ true };  // use opticks if available
+#ifdef WITH_G4CXOPTICKS 
+  G4bool fenable_opticks{ false };  // use opticks if available
   unsigned int fMaxPhotons{ 100000 };
-  G4bool fenable_verbose{ false };  // switch on/off diagnostic printouts
+#endif  
+  G4bool fenable_verbose{ false };  // switch on/off diagnostic printouts  
   G4bool fdumpgdml{ false };        // write out Detector to gdml file
   G4String fGDMLFileName{ "dump.gdml_G4" };
   ConfigurationManager();
@@ -88,8 +90,10 @@ class ConfigurationManager
   inline void setfname(G4String name) { fname = name; }
   inline G4String getfname() const { return fname; }
 #endif
+#ifdef WITH_G4CXOPTICKS
   inline G4bool isEnable_opticks() const { return fenable_opticks; };
   inline unsigned int getMaxPhotons() const { return fMaxPhotons; }
+#endif
   inline G4bool isEnable_verbose() const { return fenable_verbose; };
   inline G4String getGDMLFileName() const { return fGDMLFileName; }
   inline void setGDMLFileName(G4String GDMLFileName) { fGDMLFileName = GDMLFileName; }

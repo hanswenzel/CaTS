@@ -67,10 +67,12 @@ void ConfigurationManager::Print()
   G4cout << "fdoAnalysis:       " << fdoAnalysis << G4endl;
   G4cout << "fHistoFileName:    " << fHistoFileName << G4endl;
   G4cout << "fwriteHits:        " << fwriteHits << G4endl;
-  G4cout << "fname:            " << fname << G4endl;
+  G4cout << "fname:             " << fname << G4endl;
 #endif
+#ifdef WITH_G4CXOPTICKS  
   G4cout << "fenable_opticks:   " << fenable_opticks << G4endl;
-  G4cout << "fMaxPhotons:       " << fMaxPhotons << G4endl;
+  if(fenable_opticks) G4cout << "fMaxPhotons:       " << fMaxPhotons << G4endl;
+#endif  
   G4cout << "--------------------------------------------------" << G4endl;
 }
 
@@ -101,6 +103,7 @@ void ConfigurationManager::DefineCommands()
   //
   // Commands enabling G4CXOpticks and frequency calling it:
   //
+#ifdef WITH_G4CXOPTICKS  
   auto& enable_opticksCmd =
     fMessenger->DeclareProperty("enable_opticks", fenable_opticks);
   enable_opticksCmd.SetGuidance(
@@ -112,6 +115,7 @@ void ConfigurationManager::DefineCommands()
     "set number of photons to be collecetd befores invoking G4CXOpticks");
   MaxPhotonsCmd.SetDefaultValue("100000");
   MaxPhotonsCmd.SetStates(G4State_PreInit, G4State_Init, G4State_Idle);
+#endif
   //
   // general command to control verbosity and writing out geometry to a gdml
   // file:
