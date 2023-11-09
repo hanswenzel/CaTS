@@ -109,25 +109,24 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 #ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
-
-
-        G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
-        G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
-	G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
-	G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
-	G4int num_Hit              = SEvt::GetNumHit(0);
-	std::cout << "------------------------------------------------------------------" << std::endl;
-	//        std::cout << "SteppingAction: PhotonCounter: "           << Photoncounter         << std::endl;
-        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon           << std::endl;
-	std::cout << "SteppingAction: GetNumGenstepFromGenstep: "<< inum_genstep          << std::endl;
-	std::cout << "SteppingAction: GetNumPhotonCollected:  "  << num_PhotonCollected   << std::endl;
-        std::cout << "SteppingAction: GetNumPhotonGenstepMax: "  << num_PhotonGenstepMax  << std::endl;
-	std::cout << "SteppingAction: GetNumHit:            "    << num_Hit               << std::endl;
-	std::cout << "------------------------------------------------------------------" << std::endl;
-	//	G4int GetNumHit_EGPU() ; 
-	//G4int GetNumHit_ECPU() ;
-
-
+	if(ConfigurationManager::getInstance()->isEnable_verbose())
+	  {
+	    G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
+	    G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
+	    G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
+	    G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
+	    G4int num_Hit              = SEvt::GetNumHit(0);
+	    std::cout << "------------------------------------------------------------------" << std::endl;
+	    //        std::cout << "MCEventAction: PhotonCounter: "           << Photoncounter         << std::endl;
+	    std::cout << "MCEventAction: GetNumPhotonFromGenstep: " << inum_photon           << std::endl;
+	    std::cout << "MCEventAction: GetNumGenstepFromGenstep: "<< inum_genstep          << std::endl;
+	    std::cout << "MCEventAction: GetNumPhotonCollected:  "  << num_PhotonCollected   << std::endl;
+	    std::cout << "MCEventAction: GetNumPhotonGenstepMax: "  << num_PhotonGenstepMax  << std::endl;
+	    std::cout << "MCEventAction: GetNumHit:            "    << num_Hit               << std::endl;
+	    std::cout << "------------------------------------------------------------------" << std::endl;
+	    //	G4int GetNumHit_EGPU() ; 
+	    //G4int GetNumHit_ECPU() ;
+	  }
 
 
 

@@ -10,7 +10,7 @@
         <color name="yellow" R="1.0" G="1.0" B="0.0" A="1.0" />
     </extension>
     <define>
-        <matrix name="SY" coldim="1" values="5/MeV" />
+        <matrix name="SY" coldim="1" values="500/MeV" />
         <matrix name="RS" coldim="1" values="1.0" />
         <matrix name="FTC" coldim="1" values="7.*ns" />
         <matrix name="STC" coldim="1" values="1400.*ns" />
