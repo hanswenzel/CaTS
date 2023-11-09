@@ -74,6 +74,7 @@
 #include "G4VisExecutive.hh"
 #include <G4Threading.hh>
 #ifdef WITH_G4CXOPTICKS
+#  include "OPTICKS_LOG.hh"
 #  include "SEventConfig.hh"
 #endif
 
@@ -174,8 +175,8 @@ int main(int argc, char** argv)
 
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   // std::cout << OpticksCfg::getRTX() << std::endl;
-  // std::cout << SEventConfig::Desc() << std::endl;
-  // OPTICKS_LOG(argc, argv);
+  std::cout << SEventConfig::Desc() << std::endl;
+  OPTICKS_LOG(argc, argv);
 #endif
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
   G4String DumpFilename       = gdmlfile + "_G4";
