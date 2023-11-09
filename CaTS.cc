@@ -169,7 +169,7 @@ int main(int argc, char** argv)
 
 #ifdef WITH_G4CXOPTICKS
   G4cout << "************************** Calling SEventConfig ***************************" << G4endl;
-  SEventConfig::SetMaxPhoton(10000000);
+  SEventConfig::SetMaxPhoton(1000000);
   SEventConfig::SetStandardFullDebug(); // controls which and dimensions of SEvt arrays 
 
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
