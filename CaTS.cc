@@ -33,9 +33,9 @@
 //*           /       \    for the simulation of various detector     *
 //*	      \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*               ( (                                                  *
-//*	           ) )                                                 *
-//*               (_(                                                  *
+//*              ( (                                                  *
+//*	          ) )                                                 *
+//*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
 //* optical photons.                                                  *
@@ -173,8 +173,8 @@ int main(int argc, char** argv)
   SEventConfig::SetStandardFullDebug(); // controls which and dimensions of SEvt arrays 
 
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
-  //  std::cout << OpticksCfg::getRTX() << std::endl;
-  //std::cout << SEventConfig::Desc() << std::endl;
+  // std::cout << OpticksCfg::getRTX() << std::endl;
+  // std::cout << SEventConfig::Desc() << std::endl;
   // OPTICKS_LOG(argc, argv);
 #endif
   G4VModularPhysicsList* phys = PhysicsConfigurator::getInstance()->Construct(physicsconf);
