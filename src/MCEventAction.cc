@@ -96,8 +96,7 @@ void MCEventAction ::BeginOfEventAction(const G4Event* anEvent) {}
 void MCEventAction ::EndOfEventAction(const G4Event* event)
 {
   G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
-  //  if(verbose) 
-  //    G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  if(verbose) G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
   if(HCE == nullptr)
     return;
@@ -108,14 +107,48 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 #endif  // end WITH_ROOT
 
 #ifdef WITH_G4CXOPTICKS
-  //if(ConfigurationManager::getInstance()->isEnable_opticks())
-  //{
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
+  {
+
+
+        G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
+        G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
+	G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
+	G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
+	G4int num_Hit              = SEvt::GetNumHit(0);
+	std::cout << "------------------------------------------------------------------" << std::endl;
+	//        std::cout << "SteppingAction: PhotonCounter: "           << Photoncounter         << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon           << std::endl;
+	std::cout << "SteppingAction: GetNumGenstepFromGenstep: "<< inum_genstep          << std::endl;
+	std::cout << "SteppingAction: GetNumPhotonCollected:  "  << num_PhotonCollected   << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonGenstepMax: "  << num_PhotonGenstepMax  << std::endl;
+	std::cout << "SteppingAction: GetNumHit:            "    << num_Hit               << std::endl;
+	std::cout << "------------------------------------------------------------------" << std::endl;
+	//	G4int GetNumHit_EGPU() ; 
+	//G4int GetNumHit_ECPU() ;
+
+
+
+
+
+	
+        cudaDeviceSynchronize();
+	//        G4AutoLock lock(&opticks_mutex);
+	//G4RunManager* rm     = G4RunManager::GetRunManager();
+	//const G4Event* event = rm->GetCurrentEvent();
+	G4int eventid        = event->GetEventID();
+	G4CXOpticks::Get()->simulate(eventid);
+
+
+
+	/*
+
     //hjw   G4CXOpticks* g4cxok = G4CXOpticks::Get();
     G4int eventid       = event->GetEventID();
-    //    static void SEvt::SetIndex(eventid);
+    //static void SEvt::SetIndex(eventid);
     G4int num_genstep = SEvt::GetNumGenstepFromGenstep(0);
     G4int num_photon  = SEvt::GetNumPhotonCollected(0);
-    //     if(verbose)
+    if(verbose)
     {
       G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
       G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
@@ -125,24 +158,25 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
        G4CXOpticks::Get()->simulate(eventid);
       //      cudaDeviceSynchronize();
     }
-    unsigned int num_hits = SEvt::GetNumHit(0);
+*/
+    //unsigned int num_hits = SEvt::GetNumHit(0);
     //  SEvt* sev             = SEvt::Get();
-    //    if(verbose)
+/*
+    if(verbose)
     {
+        G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
+        G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
+	G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
+	G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
+	G4int num_Hit              = SEvt::GetNumHit(0);
       G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
       G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
       //      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
       // std::cout << sev->descFull();
     }
-    /*
-    const NP* hits     = sev->getHit();
-    G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
-    G4int inum_genstep = SEvt::GetNumGenstepFromGenstep();
-    G4cout << "MCEndOfEventAction: GetNumPhotonFromGenstep: " << inum_photon << G4endl;
-    G4cout << "McEndOfEventAction: GetNumGenstepFromGenstep: " << inum_genstep << G4endl;
 */
-    //
-      /* hjw
+    
+/*  
     if(num_hits > 0)
     {
       G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
@@ -158,13 +192,13 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
         }
       }
     }
-hjw */
+*/
     // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
 
     //     const std::string EvDescr = SEvt::desc();
     //  const NP* getPhoton() const ;
     //     std::cout << SEvt::descFull();
-  //  }
+    }
 #endif  //  WITH_G4CXOPTICKS
 
 
