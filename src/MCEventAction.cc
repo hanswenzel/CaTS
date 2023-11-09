@@ -71,11 +71,11 @@
 #include <istream>
 #include <string>
 
-//#ifdef WITH_G4CXOPTICKS
-//#  include "SEvt.hh"
-//#  include "NP.hh"
-//#  include "G4CXOpticks.hh"
-//#endif
+#ifdef WITH_G4CXOPTICKS
+#  include "SEvt.hh"
+#  include "NP.hh"
+#  include "G4CXOpticks.hh"
+#endif
 
 namespace
 {
@@ -96,8 +96,8 @@ void MCEventAction ::BeginOfEventAction(const G4Event* anEvent) {}
 void MCEventAction ::EndOfEventAction(const G4Event* event)
 {
   G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
-  if(verbose)
-    G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  //  if(verbose) 
+  //    G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
   if(HCE == nullptr)
     return;
@@ -106,35 +106,34 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
   CaTSEvt->SetEventNr(event->GetEventID());
   std::map<G4String, std::vector<G4VHit*>>* hcmap = CaTSEvt->GetHCMap();
 #endif  // end WITH_ROOT
-  //#ifdef WITH_G4CXOPTICKS
+
+#ifdef WITH_G4CXOPTICKS
   //if(ConfigurationManager::getInstance()->isEnable_opticks())
   //{
     //hjw   G4CXOpticks* g4cxok = G4CXOpticks::Get();
-    //hjw G4int eventid       = event->GetEventID();
-    //static void SEvt::SetIndex(eventid);
-    //G4int num_genstep = SEvt::GetNumGenstepFromGenstep();
-    //G4int num_photon  = SEvt::GetNumPhotonCollected();
-    /* hjw
-    if(verbose)
+    G4int eventid       = event->GetEventID();
+    //    static void SEvt::SetIndex(eventid);
+    G4int num_genstep = SEvt::GetNumGenstepFromGenstep(0);
+    G4int num_photon  = SEvt::GetNumPhotonCollected(0);
+    //     if(verbose)
     {
-      // G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
-      //G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
+      G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
+      G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
     }
     if(num_photon > 0)
     {
-      g4cxok->simulate(eventid);
+       G4CXOpticks::Get()->simulate(eventid);
       //      cudaDeviceSynchronize();
     }
     unsigned int num_hits = SEvt::GetNumHit(0);
     //  SEvt* sev             = SEvt::Get();
-    if(verbose)
+    //    if(verbose)
     {
       G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
       G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
       //      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
       // std::cout << sev->descFull();
     }
-    hjw */ 
     /*
     const NP* hits     = sev->getHit();
     G4int inum_photon  = SEvt::GetNumPhotonFromGenstep();
@@ -166,7 +165,7 @@ hjw */
     //  const NP* getPhoton() const ;
     //     std::cout << SEvt::descFull();
   //  }
-  //#endif  //  WITH_G4CXOPTICKS
+#endif  //  WITH_G4CXOPTICKS
 
 
   //
