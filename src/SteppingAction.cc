@@ -55,8 +55,8 @@
 #include <G4VHitsCollection.hh>
 #include "G4SDManager.hh"
 #include "ConfigurationManager.hh"
-#  include "G4Event.hh"
-#  include "G4RunManager.hh"
+#include "G4Event.hh"
+#include "G4RunManager.hh"
 #include "Event.hh"
 #include "PhotonSD.hh"
 #include "PhotonHit.hh"
@@ -83,7 +83,7 @@ SteppingAction::~SteppingAction() {}
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
 #ifdef WITH_G4CXOPTICKS
-  
+
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
     G4int fNumPhotons = 0;  // number of scintillation photons this step
@@ -148,66 +148,63 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
           }
         }
       }
-      
+
       if(Photoncounter > ConfigurationManager::getInstance()->getMaxPhotons())
       {
-
         G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
         G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
-	G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0); 
-	G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0); 
-	G4int num_Hit              = SEvt::GetNumHit(0);
-	std::cout << "-------------------------------------------------------------------" << std::endl;
-	std::cout << "SteppingAction: GenStepcounter:           " << GenStepcounter        << std::endl;
-	std::cout << "SteppingAction: PhotonCounter:            " << Photoncounter         << std::endl;
-        std::cout << "SteppingAction: GetNumPhotonFromGenstep:  " << inum_photon           << std::endl;
-	std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep          << std::endl;
-	std::cout << "SteppingAction: GetNumPhotonCollected:    " << num_PhotonCollected   << std::endl;
-        std::cout << "SteppingAction: GetNumPhotonGenstepMax:   " << num_PhotonGenstepMax  << std::endl;
-	std::cout << "SteppingAction: GetNumHit:                " << num_Hit               << std::endl;
-	std::cout << "-------------------------------------------------------------------" << std::endl;
-	//	G4int GetNumHit_EGPU() ; 
-	//G4int GetNumHit_ECPU() ;
+        G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0);
+        G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0);
+        G4int num_Hit              = SEvt::GetNumHit(0);
+        // SEvt::Save();
+        std::cout << "-------------------------------------------------------------------"
+                  << std::endl;
+        std::cout << "SteppingAction: GenStepcounter:           " << GenStepcounter << std::endl;
+        std::cout << "SteppingAction: PhotonCounter:            " << Photoncounter << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonFromGenstep:  " << inum_photon << std::endl;
+        std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonCollected:    " << num_PhotonCollected
+                  << std::endl;
+        std::cout << "SteppingAction: GetNumPhotonGenstepMax:   " << num_PhotonGenstepMax
+                  << std::endl;
+        std::cout << "SteppingAction: GetNumHit:                " << num_Hit << std::endl;
+        std::cout << "-------------------------------------------------------------------"
+                  << std::endl;
 
-
-
-
-
-	
         cudaDeviceSynchronize();
-	//        G4AutoLock lock(&opticks_mutex);
-	G4RunManager* rm     = G4RunManager::GetRunManager();
-	const G4Event* event = rm->GetCurrentEvent();
-	G4int eventid        = event->GetEventID();
-	G4CXOpticks::Get()->simulate(eventid);
-}
-/*
-        cudaDeviceSynchronize();
-        unsigned int num_hits = SEvt::GetNumHit(0);
-        std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
-	//  std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
-        //std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
-        if(num_hits > 0)
-        {
-          G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
-          for(G4int i = 0; i < hctable->entries(); ++i)
-          {
-            std::string sdn   = hctable->GetSDname(i);
-            std::size_t found = sdn.find("Photondetector");
-            if(found != std::string::npos)
-            {
-              //          std::cout << "Photondetector: " << sdn << std::endl;
-              PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
-              aSD->AddOpticksHits();
-            }
-          }
-        }
-
-        SteppingAction::ResetPhotoncounter();
-        SteppingAction::ResetGenStepcounter();
+        //        G4AutoLock lock(&opticks_mutex);
+        G4RunManager* rm     = G4RunManager::GetRunManager();
+        const G4Event* event = rm->GetCurrentEvent();
+        G4int eventid        = event->GetEventID();
+        G4CXOpticks::Get()->simulate(eventid);
       }
-*/
-    }   
+      /*
+              cudaDeviceSynchronize();
+              unsigned int num_hits = SEvt::GetNumHit(0);
+              std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
+        //  std::cout << "SteppingAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+              //std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
+              if(num_hits > 0)
+              {
+                G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+                for(G4int i = 0; i < hctable->entries(); ++i)
+                {
+                  std::string sdn   = hctable->GetSDname(i);
+                  std::size_t found = sdn.find("Photondetector");
+                  if(found != std::string::npos)
+                  {
+                    //          std::cout << "Photondetector: " << sdn << std::endl;
+                    PhotonSD* aSD = (PhotonSD*)
+        G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn); aSD->AddOpticksHits();
+                  }
+                }
+              }
+
+              SteppingAction::ResetPhotoncounter();
+              SteppingAction::ResetGenStepcounter();
+            }
+      */
+    }
   }
 
 #endif

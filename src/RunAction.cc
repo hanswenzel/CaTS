@@ -44,67 +44,65 @@
 #include "G4Threading.hh"
 #include "G4PVPlacement.hh"
 #ifdef WITH_G4CXOPTICKS
-#include "G4TransportationManager.hh"
-#include "G4CXOpticks.hh"
+#  include "G4TransportationManager.hh"
+#  include "G4CXOpticks.hh"
 #endif
 #ifdef WITH_ROOT
-#include "RootIO.hh"
+#  include "RootIO.hh"
 #endif
 #ifdef ANALYSIS_USE
-#include "G4AnalysisManager.hh"
+#  include "G4AnalysisManager.hh"
 #endif
 // project headers
 #include "RunAction.hh"
 #include "ConfigurationManager.hh"
 
 RunAction::RunAction()
-: G4UserRunAction() {
-}
+  : G4UserRunAction()
+{}
 
-void RunAction::BeginOfRunAction(const G4Run* aRun) {
-  //  G4cout << "\n\n###[ RunAction::BeginOfRunAction G4CXOpticks.setGeometry\n\n"<<G4endl;
+void RunAction::BeginOfRunAction(const G4Run* aRun)
+{
 #ifdef G4ANALYSIS_USE
-    if (ConfigurationManager::getInstance()->isdoAnalysis()) {
-        // Create the generic analysis manager
-        auto analysisManager = G4AnalysisManager::Instance();
-#ifdef WITH_ROOT
-        analysisManager->SetDefaultFileType("root");
-#endif	
-        G4cout << "Using " << analysisManager->GetType() << G4endl;
-        analysisManager->SetVerboseLevel(1);
-        G4String HistoFileName =
-                ConfigurationManager::getInstance()->getHistoFileName();
-        G4cout << "Opening Analysis output File: " << HistoFileName << G4endl;
-        analysisManager->SetFileName(HistoFileName);
-        analysisManager->OpenFile();
-        //
-        // Book histograms, ntuple
-        //
-        // Creating 1D histograms
-        analysisManager->CreateH1("ENeutron", "Energy of created Neutrons", 200, 0,
-                100);
-        analysisManager->CreateH1("EProton", "Energy of created Protons", 200, 0,
-                100);
-    }
+  if(ConfigurationManager::getInstance()->isdoAnalysis())
+  {
+    // Create the generic analysis manager
+    auto analysisManager = G4AnalysisManager::Instance();
+#  ifdef WITH_ROOT
+    analysisManager->SetDefaultFileType("root");
+#  endif
+    G4cout << "Using " << analysisManager->GetType() << G4endl;
+    analysisManager->SetVerboseLevel(1);
+    G4String HistoFileName = ConfigurationManager::getInstance()->getHistoFileName();
+    G4cout << "Opening Analysis output File: " << HistoFileName << G4endl;
+    analysisManager->SetFileName(HistoFileName);
+    analysisManager->OpenFile();
+    //
+    // Book histograms, ntuple
+    //
+    // Creating 1D histograms
+    analysisManager->CreateH1("ENeutron", "Energy of created Neutrons", 200, 0, 100);
+    analysisManager->CreateH1("EProton", "Energy of created Protons", 200, 0, 100);
+  }
 #endif
 #ifdef WITH_G4CXOPTICKS
-    if (ConfigurationManager::getInstance()->isEnable_opticks()) {
-        if (!geo_initialized) {
-            G4cout << "\n\n###[ RunAction::BeginOfRunAction G4CXOpticks.setGeometry\n\n"
-                    << G4endl;
-            G4VPhysicalVolume* world =
-                    G4TransportationManager::GetTransportationManager()
-                    ->GetNavigatorForTracking()
-                    ->GetWorldVolume();
-            assert(world);
-            bool standardize_geant4_materials = false; // required for alignment
-	               G4CXOpticks* g4ok = G4CXOpticks::Get();
-	    // g4ok->setGeometry(world, standardize_geant4_materials);
-	    //hjw            const std::vector<G4PVPlacement*>& sensor_placements =
-	    //hjw                    g4ok->getSensorPlacements();
-	    //hjw            G4cout << "sensor_placements.size():  " << sensor_placements.size()
-            //hjw        << G4endl;
-	    /*
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
+  {
+    if(!geo_initialized)
+    {
+      G4cout << "\n\n###[ RunAction::BeginOfRunAction\n\n" << G4endl;
+      G4VPhysicalVolume* world = G4TransportationManager::GetTransportationManager()
+                                   ->GetNavigatorForTracking()
+                                   ->GetWorldVolume();
+      assert(world);
+      bool standardize_geant4_materials = false;  // required for alignment
+      G4CXOpticks* g4ok                 = G4CXOpticks::Get();
+      // g4ok->setGeometry(world, standardize_geant4_materials);
+      // hjw            const std::vector<G4PVPlacement*>& sensor_placements =
+      // hjw                    g4ok->getSensorPlacements();
+      // hjw            G4cout << "sensor_placements.size():  " << sensor_placements.size()
+      // hjw        << G4endl;
+      /*
             for (unsigned i = 0; i < sensor_placements.size(); i++) {
                 float efficiency_1 = 0.5f;
                 float efficiency_2 = 1.0f;
@@ -118,44 +116,51 @@ void RunAction::BeginOfRunAction(const G4Run* aRun) {
             G4cout << "\n\n###] RunAction::BeginOfRunAction G4CXOpticks.setGeometry\n\n"
                     << G4endl;
             geo_initialized = true;
-	    */
-        }
+      */
     }
+  }
 #endif
 }
 
-void RunAction::EndOfRunAction(const G4Run*) {
+void RunAction::EndOfRunAction(const G4Run*)
+{
   G4cout << "############## RunAction::EndOfRunAction" << G4endl;
 #ifdef WITH_G4CXOPTICKS
-    if (ConfigurationManager::getInstance()->isEnable_opticks()) {
-        if (ConfigurationManager::getInstance()->isEnable_verbose()) {
-            G4cout << "\n\n###[ RunAction::EndOfRunAction G4CXOpticks.Finalize\n\n"
-                    << G4endl;
-        }
-        G4CXOpticks::Finalize();
-        if (ConfigurationManager::getInstance()->isEnable_verbose()) {
-            G4cout << "\n\n###] RunAction::EndOfRunAction G4CXOpticks.Finalize\n\n"
-                    << G4endl;
-        }
+  if(ConfigurationManager::getInstance()->isEnable_opticks())
+  {
+    if(ConfigurationManager::getInstance()->isEnable_verbose())
+    {
+      G4cout << "\n\n###[ RunAction::EndOfRunAction G4CXOpticks.Finalize\n\n" << G4endl;
     }
+    G4CXOpticks::Finalize();
+    if(ConfigurationManager::getInstance()->isEnable_verbose())
+    {
+      G4cout << "\n\n###] RunAction::EndOfRunAction G4CXOpticks.Finalize\n\n" << G4endl;
+    }
+  }
 #endif
 #ifdef WITH_ROOT
-    if (ConfigurationManager::getInstance()->isWriteHits()) {
-        if (G4Threading::IsMultithreadedApplication()) {
-	  RootIO::GetInstance()->Merge();
-	  //RootIO::GetInstance()->Close();
-	  //delete  RootIO::GetInstance();
-        } else {
-            RootIO::GetInstance()->Close();
-	    // delete  RootIO::GetInstance();
-        }
+  if(ConfigurationManager::getInstance()->isWriteHits())
+  {
+    if(G4Threading::IsMultithreadedApplication())
+    {
+      RootIO::GetInstance()->Merge();
+      // RootIO::GetInstance()->Close();
+      // delete  RootIO::GetInstance();
     }
-#ifdef G4ANALYSIS_USE
-    if (ConfigurationManager::getInstance()->isdoAnalysis()) {
-        auto analysisManager = G4AnalysisManager::Instance();
-        analysisManager->Write();
-        analysisManager->CloseFile();
+    else
+    {
+      RootIO::GetInstance()->Close();
+      // delete  RootIO::GetInstance();
     }
-#endif    
+  }
+#  ifdef G4ANALYSIS_USE
+  if(ConfigurationManager::getInstance()->isdoAnalysis())
+  {
+    auto analysisManager = G4AnalysisManager::Instance();
+    analysisManager->Write();
+    analysisManager->CloseFile();
+  }
+#  endif
 #endif
 }

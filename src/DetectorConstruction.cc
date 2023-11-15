@@ -76,25 +76,8 @@
 #include "PhotonSD.hh"
 #ifdef WITH_G4CXOPTICKS
 #  include "G4CXOpticks.hh"
+#  include "SEvt.hh"
 #  include <cuda_runtime.h>
-//#  include "SEventConfig.hh"
-//#  include "U4VolumeMaker.hh"
-
-//#  include "OPTICKS_LOG.hh"
-//#  include "SEvt.hh"
-//#  include "SSim.hh"
-//#  include "ssys.h"
-// #include "SEventConfig.hh"
-//#  include "sframe.h"
-//class U4Recorder;
-//class U4VolumeMaker;
-//#  include "U4Material.hh"
-// #include "U4VolumeMaker.hh"
-//#  include "U4Recorder.hh"
-//#  include "U4Random.hh"
-//#  include "U4Physics.hh"
-//#  include "U4VPrimaryGenerator.h"
-
 #endif
 
 #include "TrackerSD.hh"
@@ -424,24 +407,17 @@ void DetectorConstruction::ReadGDML()
   // visible again...
   const G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
 #ifdef WITH_G4CXOPTICKS
+  G4cout << " ##############ConfigurationManager::getInstance()->isEnable_opticks()):  "
+         << ConfigurationManager::getInstance()->isEnable_opticks() << G4endl;
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
-    // const G4VPhysicalVolume* pv_ = U4VolumeMaker::PV();
-    //   LOG_IF(fatal, pv_ == nullptr) << " FAILED TO CREATE PV : CHECK GEOM envvar ";
-
-    // G4VPhysicalVolume* pv  = const_cast<G4VPhysicalVolume*>(pv_);
-    // G4VPhysicalVolume* fPV = pv;
-    //  LOG(LEVEL) << " fPV " << (fPV ? fPV->GetName() : "ERR-NO-PV");
-
-    // G4CXOpticks gx;  // Simulate is the default RGMode
-    // if(opticksMode != 0)
     cudaDeviceReset();
     // G4CXOpticks* g4cx =
-      G4CXOpticks::SetGeometry(World);
-    G4cout
-      << "************************** Calling G4CXOpticks::SetGeometry***************************"
-      << G4endl;
-    //std::cout << SEventConfig::Desc() << std::endl;
+    G4cout << "************************** DetectorConstruction: Calling "
+              "G4CXOpticks::SetGeometry***************************"
+           << G4endl;
+    G4CXOpticks::SetGeometry(World);
+    SEvt::Clear();
   }
 #endif
   // pWorldLogical->SetVisAttributes(0);
