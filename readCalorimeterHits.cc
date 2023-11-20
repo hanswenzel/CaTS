@@ -63,9 +63,7 @@ int main(int argc, char** argv)
   gSystem->Load("libCaTSClassesDict");
   if(argc < 3)
   {
-    G4cout
-      << "Program requires 2 arguments: name of input file, name of output file"
-      << G4endl;
+    G4cout << "Program requires 2 arguments: name of input file, name of output file" << G4endl;
     exit(1);
   }
   TFile* outfile = new TFile(argv[2], "RECREATE");
@@ -93,9 +91,8 @@ int main(int argc, char** argv)
         G4int NbHits = hits.size();
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          CalorimeterHit* drcaloHit =
-            dynamic_cast<CalorimeterHit*>(hits.at(ii));
-          const double ed = drcaloHit->GetEdep();
+          CalorimeterHit* drcaloHit = dynamic_cast<CalorimeterHit*>(hits.at(ii));
+          const double ed           = drcaloHit->GetEdep();
           if(ed > max)
             max = ed;
           if(ed < min)
@@ -105,8 +102,8 @@ int main(int argc, char** argv)
     }
   }
   outfile->cd();
-  TH1F* hedep =
-    new TH1F("energy", "edep", 100, min - 0.1 * min, max + 0.1 * max);
+  TH1F* hedep = new TH1F("energy", "edep", 100, 0., 0.5);
+  // new TH1F("energy", "edep", 100, min - 0.1 * min, max + 0.1 * max);
   for(Int_t i = 0; i < nevent; i++)
   {
     fevtbranch->GetEntry(i);
@@ -119,8 +116,7 @@ int main(int argc, char** argv)
         G4int NbHits = hits.size();
         for(G4int ii = 0; ii < NbHits; ii++)
         {
-          CalorimeterHit* drcaloHit =
-            dynamic_cast<CalorimeterHit*>(hits.at(ii));
+          CalorimeterHit* drcaloHit = dynamic_cast<CalorimeterHit*>(hits.at(ii));
           hedep->Fill(drcaloHit->GetEdep());
         }
       }

@@ -170,7 +170,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         std::cout << "SteppingAction: GetNumHit:                " << num_Hit << std::endl;
         std::cout << "-------------------------------------------------------------------"
                   << std::endl;
-
+        SEvt::Check(0);
         cudaDeviceSynchronize();
         //        G4AutoLock lock(&opticks_mutex);
         G4RunManager* rm     = G4RunManager::GetRunManager();

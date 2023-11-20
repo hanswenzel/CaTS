@@ -207,44 +207,61 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
           logVol->SetVisAttributes(visatt);
         }
       }
+      if(auxtype.type == "ExcitationEnergy")
+      {
+        G4String ExcitationEnergy_category = "Energy";
+        if(provided_category == ExcitationEnergy_category)
+        {
+          G4cout << "Valid ExcitationEnergy unit category obtained: " << provided_category.c_str()
+                 << G4endl;
+          G4cout << " unit Value:" << val_unit << "  Value:  " << value << G4endl;
+          // -- convert energy to eV
+          // value = (value / CLHEP::eV) * CLHEP::eV;
+          G4cout << " unit Value:" << val_unit << "  Value:  " << value / CLHEP::eV << " eV"
+                 << G4endl;
+          logVol->GetMaterial()->GetIonisation()->SetMeanExcitationEnergy(value);
+          G4cout << " Mean Ionization energy:  "
+                 << logVol->GetMaterial()->GetIonisation()->GetMeanExcitationEnergy() << G4endl;
+        }
+      }
     }
-  }
-  G4VPhysicalVolume* worldPhysVol = parser->GetWorldVolume();
-  if(ConfigurationManager::getInstance()->isDumpgdml())
-  {
-    std::ifstream ifile;
-    ifile.open(ConfigurationManager::getInstance()->getGDMLFileName());
-    if(ifile)
+    G4VPhysicalVolume* worldPhysVol = parser->GetWorldVolume();
+    if(ConfigurationManager::getInstance()->isDumpgdml())
     {
-      G4cout << "****************************************************" << G4endl;
-      G4cout << ConfigurationManager::getInstance()->getGDMLFileName() << " already exists!!!"
-             << G4endl;
-      G4cout << "No new gdml dump created!!!" << G4endl;
-      G4cout << "****************************************************" << G4endl;
+      std::ifstream ifile;
+      ifile.open(ConfigurationManager::getInstance()->getGDMLFileName());
+      if(ifile)
+      {
+        G4cout << "****************************************************" << G4endl;
+        G4cout << ConfigurationManager::getInstance()->getGDMLFileName() << " already exists!!!"
+               << G4endl;
+        G4cout << "No new gdml dump created!!!" << G4endl;
+        G4cout << "****************************************************" << G4endl;
+      }
+      else
+      {
+        G4cout << "Writing: " << ConfigurationManager::getInstance()->getGDMLFileName() << G4endl;
+        parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
+      }
     }
-    else
-    {
-      G4cout << "Writing: " << ConfigurationManager::getInstance()->getGDMLFileName() << G4endl;
-      parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
-    }
-  }
-  /*
-//
-// dump material properties:
-//
 
-const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
-G4int nMaterials                     = G4Material::GetNumberOfMaterials();
-for(G4int m = 0; m < nMaterials; m++)
-{
-  const G4Material* aMaterial = (*materialTable)[m];
-  G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
-  G4MaterialPropertiesTable* aMaterialPropertiesTable =
-aMaterial->GetMaterialPropertiesTable(); if(aMaterialPropertiesTable != nullptr)
-    aMaterialPropertiesTable->DumpTable();
-}
-*/
-  return worldPhysVol;
+    //
+    // dump material properties:
+    //
+    /*
+      const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
+      G4int nMaterials                     = G4Material::GetNumberOfMaterials();
+      for(G4int m = 0; m < nMaterials; m++)
+      {
+        const G4Material* aMaterial = (*materialTable)[m];
+        G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
+        G4MaterialPropertiesTable* aMaterialPropertiesTable =
+      aMaterial->GetMaterialPropertiesTable(); if(aMaterialPropertiesTable != nullptr)
+          aMaterialPropertiesTable->DumpTable();
+      }
+      */
+    return worldPhysVol;
+  }
 }
 void DetectorConstruction::ConstructSDandField()
 {
@@ -359,7 +376,8 @@ void DetectorConstruction::ConstructSDandField()
   /*
   G4MagneticField* magField;
   magField                 = new G4UniformMagField(G4ThreeVector(0., 3.0 * tesla, 0.0));
-  G4FieldManager* fieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
+  G4FieldManager* fieldMgr =
+  G4TransportationManager::GetTransportationManager()->GetFieldManager();
   fieldMgr->SetDetectorField(magField);
   fieldMgr->CreateChordFinder(magField);
 */
