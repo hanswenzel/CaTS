@@ -34,7 +34,7 @@
 //*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
 //*              ( (                                                  *
-//*	          ) )                                                 *
+//*	              ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
 //* opticks from within Geant4 for the creation and propagation of    *
@@ -171,7 +171,7 @@ int main(int argc, char** argv)
 #ifdef WITH_G4CXOPTICKS
   G4cout << "************************** Calling SEventConfig ***************************" << G4endl;
   SEventConfig::SetMaxPhoton(1000000);
-  SEventConfig::SetStandardFullDebug();  // controls which and dimensions of SEvt arrays
+  // SEventConfig::SetStandardFullDebug();  // controls which and dimensions of SEvt arrays
   OPTICKS_LOG(argc, argv);
   // OpticksCfg<Opticks>* m_cfg = m_opticks->getCfg();
   // std::cout << OpticksCfg::getRTX() << std::endl;

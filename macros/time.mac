@@ -4,7 +4,7 @@
 /CaTS/fname TimeCats
 /CaTS/enable_opticks true
 /CaTS/doAnalysis false
-/CaTS/MaxPhotons 1
+#/CaTS/MaxPhotons 1
 /run/initialize 
 #
 # the scintillation process is needed even when we run on GPU but we don't put optical photons on the stack

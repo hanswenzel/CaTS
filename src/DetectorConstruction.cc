@@ -225,43 +225,44 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         }
       }
     }
-    G4VPhysicalVolume* worldPhysVol = parser->GetWorldVolume();
-    if(ConfigurationManager::getInstance()->isDumpgdml())
-    {
-      std::ifstream ifile;
-      ifile.open(ConfigurationManager::getInstance()->getGDMLFileName());
-      if(ifile)
-      {
-        G4cout << "****************************************************" << G4endl;
-        G4cout << ConfigurationManager::getInstance()->getGDMLFileName() << " already exists!!!"
-               << G4endl;
-        G4cout << "No new gdml dump created!!!" << G4endl;
-        G4cout << "****************************************************" << G4endl;
-      }
-      else
-      {
-        G4cout << "Writing: " << ConfigurationManager::getInstance()->getGDMLFileName() << G4endl;
-        parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
-      }
-    }
-
-    //
-    // dump material properties:
-    //
-    /*
-      const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
-      G4int nMaterials                     = G4Material::GetNumberOfMaterials();
-      for(G4int m = 0; m < nMaterials; m++)
-      {
-        const G4Material* aMaterial = (*materialTable)[m];
-        G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
-        G4MaterialPropertiesTable* aMaterialPropertiesTable =
-      aMaterial->GetMaterialPropertiesTable(); if(aMaterialPropertiesTable != nullptr)
-          aMaterialPropertiesTable->DumpTable();
-      }
-      */
-    return worldPhysVol;
   }
+  G4VPhysicalVolume* worldPhysVol = parser->GetWorldVolume();
+  if(ConfigurationManager::getInstance()->isDumpgdml())
+  {
+    std::ifstream ifile;
+    ifile.open(ConfigurationManager::getInstance()->getGDMLFileName());
+    if(ifile)
+    {
+      G4cout << "****************************************************" << G4endl;
+      G4cout << ConfigurationManager::getInstance()->getGDMLFileName() << " already exists!!!"
+             << G4endl;
+      G4cout << "No new gdml dump created!!!" << G4endl;
+      G4cout << "****************************************************" << G4endl;
+    }
+    else
+    {
+      G4cout << "Writing: " << ConfigurationManager::getInstance()->getGDMLFileName() << G4endl;
+      parser->Write(ConfigurationManager::getInstance()->getGDMLFileName(), worldPhysVol);
+    }
+  }
+
+  //
+  // dump material properties:
+  //
+  /*
+    const G4MaterialTable* materialTable = G4Material::GetMaterialTable();
+    G4int nMaterials                     = G4Material::GetNumberOfMaterials();
+    for(G4int m = 0; m < nMaterials; m++)
+    {
+      const G4Material* aMaterial = (*materialTable)[m];
+      G4cout << "Material Name:  " << aMaterial->GetName() << G4endl;
+      G4MaterialPropertiesTable* aMaterialPropertiesTable =
+    aMaterial->GetMaterialPropertiesTable(); if(aMaterialPropertiesTable != nullptr)
+        aMaterialPropertiesTable->DumpTable();
+    }
+    */
+
+  return worldPhysVol;
 }
 void DetectorConstruction::ConstructSDandField()
 {
@@ -423,7 +424,7 @@ void DetectorConstruction::ReadGDML()
   const G4VPhysicalVolume* World = parser->GetWorldVolume();
   //----- GDML parser makes world invisible, this is a hack to make it
   // visible again...
-  const G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
+  // const G4LogicalVolume* pWorldLogical = World->GetLogicalVolume();
 #ifdef WITH_G4CXOPTICKS
   G4cout << " ##############ConfigurationManager::getInstance()->isEnable_opticks()):  "
          << ConfigurationManager::getInstance()->isEnable_opticks() << G4endl;
@@ -435,7 +436,7 @@ void DetectorConstruction::ReadGDML()
               "G4CXOpticks::SetGeometry***************************"
            << G4endl;
     G4CXOpticks::SetGeometry(World);
-    SEvt::Clear();
+    // SEvt::Clear();
   }
 #endif
   // pWorldLogical->SetVisAttributes(0);
