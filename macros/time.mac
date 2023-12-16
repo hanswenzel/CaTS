@@ -1,4 +1,4 @@
-/CaTS/verbose true
+/CaTS/verbose false
 /CaTS/dumpgdml false
 /CaTS/writeHits false
 /CaTS/fname TimeCats
