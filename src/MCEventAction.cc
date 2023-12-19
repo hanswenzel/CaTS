@@ -93,13 +93,16 @@ MCEventAction ::MCEventAction()
 #endif
 }  // namespace MCEventAction::MCEventAction()
 
-void MCEventAction ::BeginOfEventAction(const G4Event* anEvent) {}
+void MCEventAction ::BeginOfEventAction(const G4Event* anEvent)
+{  // if(verbose)
+  G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+}
 
 void MCEventAction ::EndOfEventAction(const G4Event* event)
 {
   G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
-  if(verbose)
-    G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  // if(verbose)
+  G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
   if(HCE == nullptr)
     return;
