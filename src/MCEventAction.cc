@@ -93,16 +93,14 @@ MCEventAction ::MCEventAction()
 #endif
 }  // namespace MCEventAction::MCEventAction()
 
-void MCEventAction ::BeginOfEventAction(const G4Event* anEvent)
+void MCEventAction ::BeginOfEventAction(const G4Event* event)
 {  // if(verbose)
-  G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  G4cout << "MCEventAction BeginOfEventAction Event:   " << event->GetEventID() << G4endl;
 }
 
 void MCEventAction ::EndOfEventAction(const G4Event* event)
 {
-  G4bool verbose = ConfigurationManager::getInstance()->isEnable_verbose();
-  // if(verbose)
-  G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
+  G4bool verbose       = ConfigurationManager::getInstance()->isEnable_verbose();
   G4HCofThisEvent* HCE = event->GetHCofThisEvent();
   if(HCE == nullptr)
     return;
@@ -337,6 +335,8 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     delete CaTSEvt;
   }  // end enableio
 #endif
+  // if(verbose)
+  G4cout << "MCEventAction EndOfEventAction Event:   " << event->GetEventID() << G4endl;
 }
 
 std::vector<std::string>& MCEventAction::split(const std::string& s, char delim,
