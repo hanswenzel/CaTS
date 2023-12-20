@@ -136,7 +136,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     // G4RunManager* rm     = G4RunManager::GetRunManager();
     // const G4Event* event = rm->GetCurrentEvent();
     G4int eventid = event->GetEventID();
-    G4CXOpticks::Get()->simulate(eventid);
+    G4CXOpticks::Get()->simulate(eventid, true);
 
     /*
 

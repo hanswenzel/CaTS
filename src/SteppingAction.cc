@@ -39,7 +39,6 @@
 //
 /// \file SteppingAction.cc
 /// \brief Implementation of the SteppingAction class
-
 #include "SteppingAction.hh"
 #include "G4Step.hh"
 #include "G4EventManager.hh"
@@ -66,24 +65,17 @@
 #  include "G4CXOpticks.hh"
 #endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 namespace
 {
   G4Mutex opticks_mutex = G4MUTEX_INITIALIZER;
 }
-
 SteppingAction::SteppingAction() {}
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 SteppingAction::~SteppingAction() {}
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
 #ifdef WITH_G4CXOPTICKS
-
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
     G4int fNumPhotons = 0;  // number of scintillation photons this step
@@ -129,7 +121,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             GenStepcounter++;
           }
         }
-
         if((*procPost)[i3]->GetProcessName() == "Scintillation")
         {
           G4Scintillation* proc1 = (G4Scintillation*) (*procPost)[i3];
@@ -148,7 +139,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
           }
         }
       }
-
       if(Photoncounter > ConfigurationManager::getInstance()->getMaxPhotons())
       {
         G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
@@ -180,9 +170,12 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         const G4Event* event = rm->GetCurrentEvent();
         G4int eventid        = event->GetEventID();
         if(inum_photon > 0)
-          G4CXOpticks::Get()->simulate(eventid);
-
-        cudaDeviceSynchronize();
+        {
+          // if(ConfigurationManager::getInstance()->isEnable_verbose())
+          std::cout << "SteppingAction: Launch Opticks: " << std::endl;
+          G4CXOpticks::Get()->simulate(eventid, true);
+          cudaDeviceSynchronize();
+        }
         unsigned int num_hits = SEvt::GetNumHit(0);
         if(ConfigurationManager::getInstance()->isEnable_verbose())
         {
@@ -205,7 +198,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             }
           }
         }
-
         SteppingAction::ResetPhotoncounter();
         SteppingAction::ResetGenStepcounter();
       }
