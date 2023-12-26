@@ -46,15 +46,15 @@
 #include "G4SDManager.hh"
 #include "G4Step.hh"
 #include "G4VProcess.hh"
-#  include "G4Event.hh"
-#  include "G4RunManager.hh"
+#include "G4Event.hh"
+#include "G4RunManager.hh"
 // project headers
 #include "PhotonSD.hh"
 #ifdef WITH_G4CXOPTICKS
-//#  include "scuda.h"
-//#  include "SEvt.hh"
+#  include "scuda.h"
+#  include "SEvt.hh"
 #  include "G4CXOpticks.hh"
-//#  include "U4HitGet.h"
+#  include "U4HitGet.h"
 #endif
 
 PhotonSD::PhotonSD(G4String name)
@@ -135,58 +135,58 @@ void PhotonSD::EndOfEvent(G4HCofThisEvent*)
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
 {
-  //  unsigned int num_hits = SEvt::GetNumHit(0);
-  // U4Hit hit;
-  //U4HitExtra hit_extra;
-  int theCreationProcessid;
-  // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
+  unsigned int num_hits = SEvt::GetNumHit(0);
+  U4Hit hit;
+  U4HitExtra hit_extra;
+  // int theCreationProcessid;
+  //  U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
   G4RunManager* rm     = G4RunManager::GetRunManager();
   const G4Event* event = rm->GetCurrentEvent();
   G4int eventid        = event->GetEventID();
-  //  for(int idx = 0; idx < int(num_hits); idx++)
-  //{
-  //  U4HitGet::FromEvt(hit, idx,eventid);
-  //hjw unsigned int num_hits = SEvt::GetNumHit();
-  //hjw U4Hit hit;
-  //hjw U4HitExtra hit_extra;
-  //hjw int theCreationProcessid;
-  // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
-  //hjw for(int idx = 0; idx < int(num_hits); idx++)
-  //hjw {
-  //hjw  U4HitGet::FromEvt(hit, idx);
-
-    /*
-    std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
-              << "  weight:  " << hit.weight << " sensor identifier:  " << hit.sensor_identifier
-              << "  sensor id:  " << hit.sensorIndex;
-  */
-    //hjw if(hit.is_cerenkov)
-    //hjw {
-    //hjw   theCreationProcessid = 0;
-  //hjw  }
-  //hjw else if(hit.is_reemission)
-  //hjw {
-  //hjw   theCreationProcessid = 1;
-  //hjw   }
-  //hjw  else
-  //hjw   {
-  //hjw    theCreationProcessid = -1;
-  //hjw  }
-    //    std::cout << "  process id:  " << theCreationProcessid << std::endl;
-  //hjw PhotonHit* newHit =
-  //hjw    new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
-  //hjw                  hit.global_position, hit.global_direction, hit.global_polarization);
-  //hjw  fPhotonHitsCollection->insert(newHit);
-
-    // if(verbose)
-    //       G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
-
-    /*
-    collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
-    if(idx < 20 && LEVEL == info)
-      ss << descHit(idx, &hit, hit_extra_ptr) << std::endl;
+  for(int idx = 0; idx < int(num_hits); idx++)
+  {
+    U4HitGet::FromEvt(hit, idx, eventid);
+    unsigned int num_hits = SEvt::GetNumHit(0);
+    U4Hit hit;
+    U4HitExtra hit_extra;
+    int theCreationProcessid;
+    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
+    for(int idx = 0; idx < int(num_hits); idx++)
+    {
+      U4HitGet::FromEvt(hit, idx, eventid);
+      /*
+            std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
+                      << "  weight:  " << hit.weight << " sensor identifier:  " <<
+         hit.sensor_identifier
+                      << "  sensor id:  " << hit.sensorIndex;
       */
+      if(hit.is_cerenkov)
+      {
+        theCreationProcessid = 0;
+      }
+      else if(hit.is_reemission)
+      {
+        theCreationProcessid = 1;
+      }
+      else
+      {
+        theCreationProcessid = -1;
+      }
+      //    std::cout << "  process id:  " << theCreationProcessid << std::endl;
+      PhotonHit* newHit =
+        new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
+                      hit.global_position, hit.global_direction, hit.global_polarization);
+      fPhotonHitsCollection->insert(newHit);
 
-  //hjw  }
+      // if(verbose)
+      //       G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
+
+      /*
+      collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
+      if(idx < 20 && LEVEL == info)
+        ss << descHit(idx, &hit, hit_extra_ptr) << std::endl;
+        */
+    }
+  }
 }
 #endif
