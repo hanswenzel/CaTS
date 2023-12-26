@@ -113,9 +113,10 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
 #ifdef WITH_G4CXOPTICKS
   if(ConfigurationManager::getInstance()->isEnable_opticks())
   {
+    G4int inum_photon = SEvt::GetNumPhotonFromGenstep(0);
     if(ConfigurationManager::getInstance()->isEnable_verbose())
     {
-      G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
+      // G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
       G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
       G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0);
       G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0);
@@ -131,70 +132,43 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
                 << std::endl;
     }
 
-    cudaDeviceSynchronize();
-    //        G4AutoLock lock(&opticks_mutex);
-    // G4RunManager* rm     = G4RunManager::GetRunManager();
-    // const G4Event* event = rm->GetCurrentEvent();
-    G4int eventid = event->GetEventID();
-    G4CXOpticks::Get()->simulate(eventid, true);
-
-    /*
-
-      //hjw   G4CXOpticks* g4cxok = G4CXOpticks::Get();
-      G4int eventid       = event->GetEventID();
-      //static void SEvt::SetIndex(eventid);
-      G4int num_genstep = SEvt::GetNumGenstepFromGenstep(0);
-      G4int num_photon  = SEvt::GetNumPhotonCollected(0);
-      if(verbose)
+    // cudaDeviceSynchronize();
+    //         G4AutoLock lock(&opticks_mutex);
+    //  G4RunManager* rm     = G4RunManager::GetRunManager();
+    //  const G4Event* event = rm->GetCurrentEvent();
+    // G4int eventid = event->GetEventID();
+    if(inum_photon > 0)
+    {
+      G4int eventid = event->GetEventID();
+      // if(ConfigurationManager::getInstance()->isEnable_verbose())
+      std::cout << "MCEventAction: Launch Opticks: " << std::endl;
+      G4CXOpticks::Get()->simulate(eventid, false);
+      cudaDeviceSynchronize();
+      unsigned int num_hits = SEvt::GetNumHit(0);
+      std::cout << "MCEventAction: NumHits:  " << num_hits << std::endl;
+      if(ConfigurationManager::getInstance()->isEnable_verbose())
       {
-        G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
-        G4cout << "MCEndOfEventAction: num_genstep: " << num_genstep << G4endl;
+        std::cout << "MCEventAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;
+        // std::cout << "MCEventAction: GetNumGenstepFromGenstep: " << inum_genstep << std::endl;
+        std::cout << "MCEventAction: NumHits:  " << num_hits << std::endl;
       }
-      if(num_photon > 0)
+      if(num_hits > 0)
       {
-         G4CXOpticks::Get()->simulate(eventid);
-        //      cudaDeviceSynchronize();
-      }
-  */
-    // unsigned int num_hits = SEvt::GetNumHit(0);
-    //   SEvt* sev             = SEvt::Get();
-    /*
-        if(verbose)
+        G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
+        for(G4int i = 0; i < hctable->entries(); ++i)
         {
-            G4int inum_photon          = SEvt::GetNumPhotonFromGenstep(0);
-            G4int inum_genstep         = SEvt::GetNumGenstepFromGenstep(0);
-      G4int num_PhotonCollected  = SEvt::GetNumPhotonCollected(0);
-      G4int num_PhotonGenstepMax = SEvt::GetNumPhotonGenstepMax(0);
-      G4int num_Hit              = SEvt::GetNumHit(0);
-          G4cout << "MCEndOfEventAction: num_hits: " << num_hits << G4endl;
-          G4cout << "MCEndOfEventAction: num_photon: " << num_photon << G4endl;
-          //      G4cout << "McEndOfEventAction: num_genstep: " << num_genstep << G4endl;
-          // std::cout << sev->descFull();
-        }
-    */
-
-    /*
-        if(num_hits > 0)
-        {
-          G4HCtable* hctable = G4SDManager::GetSDMpointer()->GetHCtable();
-          for(G4int i = 0; i < hctable->entries(); ++i)
+          std::string sdn   = hctable->GetSDname(i);
+          std::size_t found = sdn.find("Photondetector");
+          if(found != std::string::npos)
           {
-            std::string sdn   = hctable->GetSDname(i);
-            std::size_t found = sdn.find("Photondetector");
-            if(found != std::string::npos)
-            {
-              //          std::cout << "Photondetector: " << sdn << std::endl;
-              PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
-              aSD->AddOpticksHits();
-            }
+            //          std::cout << "Photondetector: " << sdn << std::endl;
+            PhotonSD* aSD = (PhotonSD*) G4SDManager::GetSDMpointer()->FindSensitiveDetector(sdn);
+            aSD->AddOpticksHits();
           }
         }
-    */
-    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
-
-    //     const std::string EvDescr = SEvt::desc();
-    //  const NP* getPhoton() const ;
-    //     std::cout << SEvt::descFull();
+      }
+      G4CXOpticks::Get()->reset(eventid);
+    }
   }
 #endif  //  WITH_G4CXOPTICKS
 
