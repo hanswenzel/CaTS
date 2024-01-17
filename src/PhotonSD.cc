@@ -64,8 +64,8 @@ PhotonSD::PhotonSD(G4String name)
   collectionName.insert(HCname);
   G4cout << collectionName.size() << "   PhotonSD name:  " << name << " collection Name: " << HCname
          << G4endl;
-  fHCID   = -1;
-  verbose = ConfigurationManager::getInstance()->isEnable_verbose();
+  fHCID = -1;
+  //  verbose = ConfigurationManager::getInstance()->isEnable_verbose();
 }
 
 void PhotonSD::Initialize(G4HCofThisEvent* hce)
@@ -73,7 +73,7 @@ void PhotonSD::Initialize(G4HCofThisEvent* hce)
   fPhotonHitsCollection = new PhotonHitsCollection(SensitiveDetectorName, collectionName[0]);
   if(fHCID < 0)
   {
-    if(verbose)
+    if(ConfigurationManager::getInstance()->isEnable_verbose())
       G4cout << "PhotonSD::Initialize:  " << SensitiveDetectorName << "   " << collectionName[0]
              << G4endl;
     fHCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
@@ -124,13 +124,11 @@ G4bool PhotonSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 void PhotonSD::EndOfEvent(G4HCofThisEvent*)
 {
-  /*
-  if(verbose)
-  {
-    G4int NbHits = fPhotonHitsCollection->entries();
-    G4cout << " PhotonSD::EndOfEvent Number of PhotonHits:  " << NbHits << G4endl;
-  }
-  */
+  // if(ConfigurationManager::getInstance()->isEnable_verbose())
+  //{
+  G4int NbHits = fPhotonHitsCollection->entries();
+  G4cout << " PhotonSD::EndOfEvent Number of PhotonHits:  " << NbHits << G4endl;
+  //}
 }
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
@@ -138,82 +136,22 @@ void PhotonSD::AddOpticksHits()
   SEvt* sev             = SEvt::Get_EGPU();
   unsigned int num_hits = sev->GetNumHit(0);
 
-  // G4RunManager* rm     = G4RunManager::GetRunManager();
-  // const G4Event* event = rm->GetCurrentEvent();
-  //  G4int eventid        = event->GetEventID();
-  /*
-    std::cout << "PhotonSD:  "
-              << " eventID " << eventid << " num_gensteps " << SEvt::GetNumGenstepFromGenstep(0)
-              << " num_photons " << SEvt::GetNumPhotonFromGenstep(0) << " num_hit " << num_hits
-              << std::endl;
-  */
   for(int idx = 0; idx < int(num_hits); idx++)
   {
     sphoton hit;
     sev->getHit(hit, idx);
-
     G4ThreeVector position     = G4ThreeVector(hit.pos.x, hit.pos.y, hit.pos.z);
     G4ThreeVector direction    = G4ThreeVector(hit.mom.x, hit.mom.y, hit.mom.z);
     G4ThreeVector polarization = G4ThreeVector(hit.pol.x, hit.pol.y, hit.pol.z);
     PhotonHit* newHit = new PhotonHit(hit.iindex, hit.iindex, hit.wavelength, hit.time, position,
                                       direction, polarization);
     fPhotonHitsCollection->insert(newHit);
+    //
+    G4cout << " PhotonSD  pos.:" << hit.pos.x << "  " << hit.pos.y << "  "
+           << "  " << hit.pos.z << "  mom.:  " << hit.mom.x << "  " << hit.mom.y << "  "
+           << hit.mom.z << "  pol.:  " << hit.pol.x << "  "
+           << "  " << hit.pol.y << "  " << hit.pol.z << " iiindex: " << hit.iindex << "  "
+           << "  wavel.:  " << hit.wavelength << "  time:  " << hit.time << G4endl;
   }
-  /*hjw
-  unsigned int num_hits = SEvt::GetNumHit(0);
-  U4Hit hit;
-  U4HitExtra hit_extra;
-  // int theCreationProcessid;
-  //  U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
-  G4RunManager* rm     = G4RunManager::GetRunManager();
-  const G4Event* event = rm->GetCurrentEvent();
-  G4int eventid        = event->GetEventID();
-  for(int idx = 0; idx < int(num_hits); idx++)
-  {
-    U4HitGet::FromEvt(hit, idx, eventid);
-    unsigned int num_hits = SEvt::GetNumHit(0);
-    U4Hit hit;
-    U4HitExtra hit_extra;
-    int theCreationProcessid;
-    // U4HitExtra* hit_extra_ptr = way_enabled ? &hit_extra : nullptr;
-    for(int idx = 0; idx < int(num_hits); idx++)
-    {
-      U4HitGet::FromEvt(hit, idx, eventid);
-      */
-  /*
-        std::cout << "wavelength:  " << hit.wavelength << "  time:  " << hit.time
-                  << "  weight:  " << hit.weight << " sensor identifier:  " <<
-     hit.sensor_identifier
-                  << "  sensor id:  " << hit.sensorIndex;
-  */
-  /*hjw
-   if(hit.is_cerenkov)
-   {
-     theCreationProcessid = 0;
-   }
-   else if(hit.is_reemission)
-   {
-     theCreationProcessid = 1;
-   }
-   else
-   {
-     theCreationProcessid = -1;
-   }
-   //    std::cout << "  process id:  " << theCreationProcessid << std::endl;
-   PhotonHit* newHit =
-     new PhotonHit(hit.sensorIndex, theCreationProcessid, hit.wavelength, hit.time,
-                   hit.global_position, hit.global_direction, hit.global_polarization);
-   fPhotonHitsCollection->insert(newHit);
-
-   // if(verbose)
-   G4cout << "AddOpticksHits size:  " << fPhotonHitsCollection->entries() << G4endl;
-*/
-  /*
-  collectHit(&hit, hit_extra_ptr, merged_count, savehit_count);
-  if(idx < 20 && LEVEL == info)
-    ss << descHit(idx, &hit, hit_extra_ptr) << std::endl;
-    */
-  //}
-  //}
 }
 #endif
