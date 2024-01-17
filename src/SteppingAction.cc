@@ -172,11 +172,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         if(inum_photon > 0)
         {
           // if(ConfigurationManager::getInstance()->isEnable_verbose())
-          std::cout << "SteppingAction: Launch Opticks: " << std::endl;
+          // std::cout << "SteppingAction: Launch Opticks: " << std::endl;
           G4CXOpticks::Get()->simulate(eventid, false);
           cudaDeviceSynchronize();
           unsigned int num_hits = SEvt::GetNumHit(0);
-          std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
+          // std::cout << "SteppingAction: NumHits:  " << num_hits << std::endl;
           if(ConfigurationManager::getInstance()->isEnable_verbose())
           {
             std::cout << "SteppingAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;

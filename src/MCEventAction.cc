@@ -204,8 +204,8 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
       {
         std::vector<G4VHit*> hitsVector;
         G4int NbHits = hc->GetSize();
-        if(verbose)
-          G4cout << "Photondetector size: " << hc->GetSize() << G4endl;
+        // if(verbose)
+        G4cout << "Photondetector size: " << hc->GetSize() << G4endl;
         for(G4int ii = 0; ii < NbHits; ii++)
         {
           G4VHit* hit     = hc->GetHit(ii);
@@ -303,7 +303,7 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
         G4cout << "SD type: " << Classname << " unknown" << G4endl;
       }
     }
-    G4AutoLock lock(&opticks_mutex);
+    // G4AutoLock lock(&opticks_mutex);
     RootIO::GetInstance()->Write(CaTSEvt);
     CaTSEvt->Reset();
     delete CaTSEvt;

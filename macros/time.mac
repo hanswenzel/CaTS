@@ -1,6 +1,6 @@
 /CaTS/verbose false
 /CaTS/dumpgdml false
-/CaTS/writeHits false
+/CaTS/writeHits true
 /CaTS/fname TimeCats
 /CaTS/enable_opticks true
 /CaTS/doAnalysis false
