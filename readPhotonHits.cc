@@ -72,12 +72,12 @@ int main(int argc, char** argv)
   TFile* outfile = new TFile(argv[2], "RECREATE");
   outfile->cd();
   TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
-  TH1F* time  = new TH1F("time", "timing of photon hits", 100, 0., 2.);
-  TH1F* time0 = new TH1F("time0", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time1 = new TH1F("time1", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time2 = new TH1F("time2", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time3 = new TH1F("time3", "timing of photon hits", 1000, 0., 250.);
-  TH1F* time4 = new TH1F("time4", "timing of photon hits", 1000, 0., 250.);
+  TH1F* time  = new TH1F("time", "timing of photon hits", 1000, 0., 2500);
+  TH1F* time0 = new TH1F("time0", "timing of photon hits", 1000, 0., 2500.);
+  TH1F* time1 = new TH1F("time1", "timing of photon hits", 1000, 0., 2500.);
+  TH1F* time2 = new TH1F("time2", "timing of photon hits", 1000, 0., 2500.);
+  TH1F* time3 = new TH1F("time3", "timing of photon hits", 1000, 0., 2500.);
+  TH1F* time4 = new TH1F("time4", "timing of photon hits", 1000, 0., 2500.);
   TH1F* wl    = new TH1F("wl", "wavelength of detected photons", 1000, 0., 1000.);
   TH1F* wlce  = new TH1F("wlce", "wavelength of detected Cerenkov photons", 1000, 0., 1000.);
   TH1F* wlsc  = new TH1F("wlsc", "wavelength of detected Scintillation photons", 1000, 0., 1000.);
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     auto* hcmap = event->GetHCMap();
     for(const auto& ele : *hcmap)
     {
-      G4cout<< ele.first<<"  "<<CollectionName<<G4endl;
+      G4cout << ele.first << "  " << CollectionName << G4endl;
       auto hits = ele.second;
       if(ele.first.compare(CollectionName) == 0)
       {
@@ -111,7 +111,7 @@ int main(int argc, char** argv)
           PhotonHit* photonHit = dynamic_cast<PhotonHit*>(hits.at(ii));
           time->Fill(photonHit->GetTime());
           wl->Fill(photonHit->GetWavelength());
-	  std::cout << "sensor ID: "<< photonHit->GetId()<<std::endl;
+          std::cout << "sensor ID: " << photonHit->GetId() << std::endl;
           switch(photonHit->GetId())
           {
             case 0:
@@ -138,8 +138,8 @@ int main(int argc, char** argv)
             case 1:
               wlsc->Fill(photonHit->GetWavelength());
               break;
-	    default:
-	    wl->Fill(photonHit->GetWavelength());  
+            default:
+              wl->Fill(photonHit->GetWavelength());
           }
           pos2->Fill(photonHit->GetPosition().getZ(), photonHit->GetPosition().getY());
         }

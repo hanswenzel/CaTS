@@ -147,11 +147,13 @@ void PhotonSD::AddOpticksHits()
                                       direction, polarization);
     fPhotonHitsCollection->insert(newHit);
     //
+    /*
     G4cout << " PhotonSD  pos.:" << hit.pos.x << "  " << hit.pos.y << "  "
            << "  " << hit.pos.z << "  mom.:  " << hit.mom.x << "  " << hit.mom.y << "  "
            << hit.mom.z << "  pol.:  " << hit.pol.x << "  "
            << "  " << hit.pol.y << "  " << hit.pol.z << " iiindex: " << hit.iindex << "  "
            << "  wavel.:  " << hit.wavelength << "  time:  " << hit.time << G4endl;
+           */
   }
 }
 #endif

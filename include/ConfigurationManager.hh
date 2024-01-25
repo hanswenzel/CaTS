@@ -62,11 +62,11 @@ class ConfigurationManager
   G4bool fwriteHits{ false };  // variable determines if hits are written out into Root File
   G4String fname{ "Hits" };    // full File name for root io
 #endif
-#ifdef WITH_G4CXOPTICKS 
+#ifdef WITH_G4CXOPTICKS
   G4bool fenable_opticks{ false };  // use opticks if available
-  unsigned int fMaxPhotons{ 100000 };
-#endif  
-  G4bool fenable_verbose{ false };  // switch on/off diagnostic printouts  
+  unsigned int fMaxPhotons{ 500000 };
+#endif
+  G4bool fenable_verbose{ false };  // switch on/off diagnostic printouts
   G4bool fdumpgdml{ false };        // write out Detector to gdml file
   G4String fGDMLFileName{ "dump.gdml_G4" };
   ConfigurationManager();
