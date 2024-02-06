@@ -46,6 +46,7 @@
 #include "G4VSensitiveDetector.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4PhysicalConstants.hh"
+#include "G4ThreeVector.hh"
 #include "PhotonHit.hh"
 #include <G4String.hh>
 #include <G4Types.hh>
@@ -68,7 +69,6 @@ class PhotonSD : public G4VSensitiveDetector
   PhotonHitsCollection* fPhotonHitsCollection{ 0 };
   G4int fHCID{ 0 };
   static constexpr G4double hc = (h_Planck * c_light) / (CLHEP::eV * CLHEP::nm);
-  G4bool verbose{ false };
   inline G4double etolambda(G4double E)
   {
     // input photon energy in eV
@@ -78,4 +78,7 @@ class PhotonSD : public G4VSensitiveDetector
     return hc / E;
   }
   inline G4int DetectorID(G4VPhysicalVolume* pV) { return pV->GetCopyNo(); }
+#ifdef WITH_G4OPTICKS
+  G4int DetectorID(G4ThreeVector* pos);
+#endif
 };

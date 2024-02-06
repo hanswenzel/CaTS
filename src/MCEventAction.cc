@@ -140,12 +140,13 @@ void MCEventAction ::EndOfEventAction(const G4Event* event)
     if(inum_photon > 0)
     {
       G4int eventid = event->GetEventID();
-      // if(ConfigurationManager::getInstance()->isEnable_verbose())
-      std::cout << "MCEventAction: Launch Opticks: " << std::endl;
+      if(ConfigurationManager::getInstance()->isEnable_verbose())
+      {
+        std::cout << "MCEventAction: Launch Opticks: " << std::endl;
+      }
       G4CXOpticks::Get()->simulate(eventid, false);
       cudaDeviceSynchronize();
       unsigned int num_hits = SEvt::GetNumHit(0);
-      std::cout << "MCEventAction: NumHits:  " << num_hits << std::endl;
       if(ConfigurationManager::getInstance()->isEnable_verbose())
       {
         std::cout << "MCEventAction: GetNumPhotonFromGenstep: " << inum_photon << std::endl;

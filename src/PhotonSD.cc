@@ -143,17 +143,66 @@ void PhotonSD::AddOpticksHits()
     G4ThreeVector position     = G4ThreeVector(hit.pos.x, hit.pos.y, hit.pos.z);
     G4ThreeVector direction    = G4ThreeVector(hit.mom.x, hit.mom.y, hit.mom.z);
     G4ThreeVector polarization = G4ThreeVector(hit.pol.x, hit.pol.y, hit.pol.z);
-    PhotonHit* newHit = new PhotonHit(hit.iindex, hit.iindex, hit.wavelength, hit.time, position,
-                                      direction, polarization);
+    int theCreationProcessid;
+    if(OpticksPhoton::HasCerenkovFlag(hit.flagmask))
+    {
+      theCreationProcessid = 0;
+    }
+    else if(OpticksPhoton::HasScintillationFlag(hit.flagmask))
+    {
+      theCreationProcessid = 1;
+    }
+    else
+    {
+      theCreationProcessid = -1;
+    }
+
+    PhotonHit* newHit = new PhotonHit(hit.iindex, theCreationProcessid, hit.wavelength, hit.time,
+                                      position, direction, polarization);
     fPhotonHitsCollection->insert(newHit);
     //
-    /*
-    G4cout << " PhotonSD  pos.:" << hit.pos.x << "  " << hit.pos.y << "  "
+
+    G4cout << " Process ID: " << theCreationProcessid << " PhotonSD  pos.:" << hit.pos.x << "  "
+           << hit.pos.y << "  "
            << "  " << hit.pos.z << "  mom.:  " << hit.mom.x << "  " << hit.mom.y << "  "
            << hit.mom.z << "  pol.:  " << hit.pol.x << "  "
            << "  " << hit.pol.y << "  " << hit.pol.z << " iiindex: " << hit.iindex << "  "
-           << "  wavel.:  " << hit.wavelength << "  time:  " << hit.time << G4endl;
-           */
+           << "  wavel.:  " << hit.wavelength << "  time:  " << hit.time
+           << "  boundary flag:  " << hit.boundary_flag << "  identy:  " << hit.identity
+           << "  orient_idx: " << hit.orient_idx << "  flagmask:  " << hit.flagmask << G4endl;
   }
+}
+#endif
+#ifdef WITH_CXG4OPTICKS
+G4int PhotonSD::DetectorID(G4ThreeVector* pos)
+{
+  const G4double rmax       = 30.;
+  const G4double rmaxsquare = rmax * rmax;
+  const G4double zpos[5]    = { -950., 950., 0.0, -950., 950 };
+  const G4double ypos[5]    = { 450., 450., 0.0, -450., 450 };
+  if((pos.Y() - ypos[0])(pos.Y() - ypos[0]) + (pos.Z() - zpos[0])(pos.Z() - zpos[0]) < rmaxsquare)
+  {
+    return 0;
+  }
+  else if((pos.Y() - ypos[1])(pos.Y() - ypos[1]) + (pos.Z() - zpos[1])(pos.Z() - zpos[1]) <
+          rmaxsquare)
+  {
+    return 1;
+  }
+  else if((pos.Y() - ypos[2])(pos.Y() - ypos[2]) + (pos.Z() - zpos[2])(pos.Z() - zpos[2]) <
+          rmaxsquare)
+  {
+    return 2;
+  }
+ else if ( (pos.Y()-ypos[3])(pos.Y()-ypos[3])+(pos.Z()-zpos[3])(pos.Z()-zpos[3]])<rmaxsquare)
+ {
+   return 3;
+ }
+ else if((pos.Y() - ypos[4])(pos.Y() - ypos[4]) + (pos.Z() - zpos[4])(pos.Z() - zpos[4]) <
+         rmaxsquare)
+ {
+   return 4;
+ }
+ return -1;
 }
 #endif
