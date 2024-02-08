@@ -31,9 +31,9 @@
 //*            /     \     CaTS: Calorimeter and Tracker Simulation   *
 //*            |     |     is a flexible and extend-able framework    *
 //*           /       \    for the simulation of various detector     *
-//*	      \       /    systems                                    *
+//*	          \       /    systems                                    *
 //*            \__  _/     https://github.com/hanswenzel/CaTS         *
-//*	         ( (                                                  *
+//*	           ( (                                                  *
 //*	          ) )                                                 *
 //*              (_(                                                  *
 //* CaTS also serves as an example that demonstrates how to use       *
@@ -72,6 +72,7 @@ int main(int argc, char** argv)
   TFile* outfile = new TFile(argv[2], "RECREATE");
   outfile->cd();
   TH2F* pos2  = new TH2F("position", "position of Photon Hits", 400, -1000., 1000., 400, -500, 500);
+  TH1F* pos0  = new TH1F("position0", "position of Photon Hits", 400, -100., 100.);
   TH1F* time  = new TH1F("time", "timing of photon hits", 1000, 0., 2500);
   TH1F* time0 = new TH1F("time0", "timing of photon hits", 1000, 0., 2500.);
   TH1F* time1 = new TH1F("time1", "timing of photon hits", 1000, 0., 2500.);
@@ -142,6 +143,7 @@ int main(int argc, char** argv)
               wl->Fill(photonHit->GetWavelength());
           }
           pos2->Fill(photonHit->GetPosition().getZ(), photonHit->GetPosition().getY());
+          pos0->Fill(photonHit->GetPosition().getZ());
         }
       }
     }

@@ -78,7 +78,43 @@ class PhotonSD : public G4VSensitiveDetector
     return hc / E;
   }
   inline G4int DetectorID(G4VPhysicalVolume* pV) { return pV->GetCopyNo(); }
-#ifdef WITH_G4OPTICKS
-  G4int DetectorID(G4ThreeVector* pos);
-#endif
+  // #ifdef WITH_G4OPTICKS
+  inline G4int DetectorID(G4ThreeVector pos)
+  {
+    const G4double rmax       = 31.;
+    const G4double rmaxsquare = rmax * rmax;
+    const G4double zpos[5]    = { -950., 950., 0.0, -950., 950. };
+    const G4double ypos[5]    = { 450., 450., 0.0, -450., -450. };
+    if((pos.y() - ypos[0]) * (pos.y() - ypos[0]) + (pos.z() - zpos[0]) * (pos.z() - zpos[0]) <
+       rmaxsquare)
+    {
+      return 0;
+    }
+    else if((pos.y() - ypos[1]) * (pos.y() - ypos[1]) + (pos.z() - zpos[1]) * (pos.z() - zpos[1]) <
+            rmaxsquare)
+    {
+      return 1;
+    }
+    else if((pos.y() - ypos[2]) * (pos.y() - ypos[2]) + (pos.z() - zpos[2]) * (pos.z() - zpos[2]) <
+            rmaxsquare)
+    {
+      return 2;
+    }
+    else if((pos.y() - ypos[3]) * (pos.y() - ypos[3]) + (pos.z() - zpos[3]) * (pos.z() - zpos[3]) <
+            rmaxsquare)
+    {
+      return 3;
+    }
+    else if((pos.y() - ypos[4]) * (pos.y() - ypos[4]) + (pos.z() - zpos[4]) * (pos.z() - zpos[4]) <
+            rmaxsquare)
+    {
+      return 4;
+    }
+    else
+    {
+      G4cout << "x: " << pos.x() << "  y: " << pos.y() << "z: " << pos.z() << G4endl;
+      return -1;
+    }
+  }
+  // #endif
 };

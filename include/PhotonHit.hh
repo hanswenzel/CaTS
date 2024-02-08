@@ -65,23 +65,17 @@ class PhotonHit : public G4VHit
     G4cout << "Detector id: " << fid << " process id (0:Cerenkov,1:Sz,-1:unknown)  " << fpid
            << " wavelength: " << fwavelength << " time: " << ftime
            << " position X: " << fposition.getX() << " Y: " << fposition.getY()
-           << " Z: " << fposition.getZ()
-           << " direction X: " << fdirection.getX()
+           << " Z: " << fposition.getZ() << " direction X: " << fdirection.getX()
            << " Y: " << fdirection.getY() << " Z: " << fdirection.getZ()
-           << " polarization: X:" << fpolarization.getX()
-           << " Y: " << fpolarization.getY() << " Z: " << fpolarization.getZ()
-           << G4endl;
+           << " polarization: X:" << fpolarization.getX() << " Y: " << fpolarization.getY()
+           << " Z: " << fpolarization.getZ() << G4endl;
   }
 
-  PhotonHit(unsigned id, unsigned pid, G4double wavelength, G4double time,
-            G4ThreeVector position, G4ThreeVector direction,
-            G4ThreeVector polarization);
+  PhotonHit(unsigned id, unsigned pid, G4double wavelength, G4double time, G4ThreeVector position,
+            G4ThreeVector direction, G4ThreeVector polarization);
   inline void SetWavelength(G4double wavelength) { fwavelength = wavelength; }
   inline G4double GetWavelength() { return fwavelength; }
-  inline void SetPolarization(G4ThreeVector polarization)
-  {
-    fpolarization = polarization;
-  }
+  inline void SetPolarization(G4ThreeVector polarization) { fpolarization = polarization; }
   inline G4ThreeVector GetPolarization() const { return fpolarization; }
   inline void SetDirection(G4ThreeVector direction) { fdirection = direction; }
   inline G4ThreeVector GetDirection() const { return fdirection; }
@@ -95,8 +89,8 @@ class PhotonHit : public G4VHit
   inline unsigned GetId() const { return fid; }
 
  private:
-  unsigned int fid{ 0 };
-  unsigned int fpid{ 0 };
+  G4int fid{ 0 };
+  G4int fpid{ 0 };
   G4double fwavelength{ 0 };
   G4double ftime{ 0 };
   G4ThreeVector fposition{ 0, 0, 0 };
