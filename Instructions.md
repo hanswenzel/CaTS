@@ -10,9 +10,9 @@ $${\color{blue} CLHEP 2.4.6.2 }$$
 
 $${\color{blue} Root 6_28_04  }$$
 
-$${\color{blue} opticks  }$$ 
+$${\color{blue} opticks  v0.2.7}$$ 
 
-$${\color{blue} CaTS  }$$  
+$${\color{blue} CaTS  v2.0.4}$$  
 
 $${\color{blue} NVIDIA GeForce RTX  2070.  }$$ 
 
