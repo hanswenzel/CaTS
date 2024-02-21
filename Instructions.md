@@ -1,5 +1,5 @@
 # Opticks configurations
-# irago (Hans home machine)
+## irago (Hans home machine)
 using:
 Optix 7.5 (june 2022)       latest as of Aug 1 2023 7.7
 cuda 11.7 (may 2022)        latest as of Aug 1 2023 12.2
@@ -11,13 +11,9 @@ CaTS                        v2.0.3 as of Feb 13 2024
 NVIDIA GeForce RTX  2070.
 NVIDIA driver version 515.43.04
 
-OS: 
-lsb_release -a
-No LSB modules are available.
-Distributor ID:	Ubuntu
-Description:	Ubuntu 22.04.3 LTS
-Release:	22.04
-Codename:	jammy
+OS: Ubuntu 22.04.3 LTS
+
+
 # Prerequisites
 First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu (LTS 20.04, LTS 22.04) we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4 (as of 7/7/2022 we are using Geant4 v11.0.p2), nvidia cuda (11.5)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT (we are using ROOT 6.26/04). If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
 
