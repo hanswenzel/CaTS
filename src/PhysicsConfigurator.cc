@@ -64,8 +64,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   //
   G4PhysicsConstructorRegistry* g4pcr = G4PhysicsConstructorRegistry::Instance();
   G4PhysListRegistry* g4plr           = G4PhysListRegistry::Instance();
-  G4bool verbose                      = ConfigurationManager::getInstance()->isEnable_verbose();
-  if(verbose)
+  if(ConfigurationManager::getInstance()->isEnable_verbose())
   {
     G4cout << "Available Physics Constructors:  " << g4pcr->AvailablePhysicsConstructors().size()
            << G4endl;
@@ -82,14 +81,14 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   g4plr->AddPhysicsExtension("OPTICAL", "G4OpticalPhysics");
   g4plr->AddPhysicsExtension("STEPLIMIT", "G4StepLimiterPhysics");
   g4plr->AddPhysicsExtension("NEUTRONLIMIT", "G4NeutronTrackingCut");
-  if(verbose)
+  if(ConfigurationManager::getInstance()->isEnable_verbose())
   {
     g4pcr->PrintAvailablePhysicsConstructors();
     g4plr->PrintAvailablePhysLists();
   }
   g4alt::G4PhysListFactory factory;
   G4VModularPhysicsList* phys = nullptr;
-  if(verbose)
+  if(ConfigurationManager::getInstance()->isEnable_verbose())
     G4cout << "Physics configuration: " << physName << G4endl;
   //
   // currently using the Constructor names doesn't work otherwise it would be:
@@ -108,7 +107,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
     g4plr->PrintAvailablePhysLists();
     exit(EXIT_FAILURE);
   }
-  if(verbose)
+  if(ConfigurationManager::getInstance()->isEnable_verbose())
   {
     G4cout << phys->GetPhysicsTableDirectory() << G4endl;
   }
@@ -129,7 +128,7 @@ G4VModularPhysicsList* PhysicsConfigurator::Construct(G4String physName)
   G4OpticalParameters::Instance()->SetCerenkovMaxBetaChange(10.0);
   G4OpticalParameters::Instance()->SetWLSTimeProfile("exponential");
   G4OpticalParameters::Instance()->SetWLS2TimeProfile("exponential");
-  if(verbose)
+  if(ConfigurationManager::getInstance()->isEnable_verbose())
   {
     phys->DumpList();
   }

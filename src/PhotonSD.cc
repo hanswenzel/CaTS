@@ -123,11 +123,11 @@ G4bool PhotonSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 
 void PhotonSD::EndOfEvent(G4HCofThisEvent*)
 {
-  // if(ConfigurationManager::getInstance()->isEnable_verbose())
-  //{
+   if(ConfigurationManager::getInstance()->isEnable_verbose())
+  {
   G4int NbHits = fPhotonHitsCollection->entries();
   G4cout << " PhotonSD::EndOfEvent Number of PhotonHits:  " << NbHits << G4endl;
-  //}
+  }
 }
 #ifdef WITH_G4CXOPTICKS
 void PhotonSD::AddOpticksHits()
@@ -157,9 +157,7 @@ void PhotonSD::AddOpticksHits()
     }
     PhotonHit* newHit = new PhotonHit(DetectorID(position), theCreationProcessid, hit.wavelength,
                                       hit.time, position, direction, polarization);
-    // G4cout << "DetectorID: " << DetectorID(position) << G4endl;
     fPhotonHitsCollection->insert(newHit);
-    //
     if(ConfigurationManager::getInstance()->isEnable_verbose())
     {
       G4cout << " Process ID: " << theCreationProcessid << " PhotonSD  pos.:" << hit.pos.x << "  "

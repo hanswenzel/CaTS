@@ -25,7 +25,6 @@
 //
 //
 
-
 // ********************************************************************
 //
 //  CaTS (Calorimetry and Tracking Simulation)
@@ -53,11 +52,11 @@
 //    |--> minor version number
 //=============================================
 #ifndef CATSVERSION_NUMBER
-#  define CATSVERSION_NUMBER 10
+#  define CATSVERSION_NUMBER 204
 #endif
 #ifndef CATSVERSION_TAG
-#  define CATSVERSION_TAG "CaTS_1_0"
+#  define CATSVERSION_TAG "CaTS_2_0_4"
 #endif
 // as variables
-static const std::string CaTSVersion = "CaTS_1_0";
-static const std::string CaTSDate    = "(14-October-2021)";
+static const std::string CaTSVersion = "CaTS_2_0_4";
+static const std::string CaTSDate    = "(21-February-2024)";
