@@ -33,7 +33,7 @@ https://proj-clhep.web.cern.ch/proj-clhep/
 to build it from scratch using cmake (used cmake version > 3.22.0) 
 
     cd to the directory where you want to build clhep (replace version)
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-$${\color{blue} 2.4.5.1}$$ .tgz 
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep- $${\color{blue} 2.4.5.1}$$ .tgz 
     tar xzvf clhep-2.4.5.1.tgz
     cd 2.4.5.1/
     mkdir CLHEP-build
