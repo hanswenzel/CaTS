@@ -14,16 +14,17 @@ OS: Ubuntu 22.04.3 LTS
 
 
 # Prerequisites
-First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu (LTS 20.04, LTS 22.04) we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4 (as of 7/7/2022 we are using Geant4 v11.0.p2), nvidia cuda (11.5)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT (we are using ROOT 6.26/04). If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
+First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4, nvidia cuda and nvidia Optix among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
-The current version of Geant4  geant4-v11.0.2 is build on CLHEP version 2.4.5.1
+Check the release note for the required clhep version for the Geant4 release you are using. For example for Geant4 11.2 this can be found at: https://geant4.web.cern.ch/download/release-notes/notes-v11.2.0.html
+
 CLHEP can be found at:
-https://proj-clhep.web.cern.ch/proj-clhep/clhep23.html
+https://proj-clhep.web.cern.ch/proj-clhep/
 
-to build it from scratch using cmake (used cmake version 3.22.0) 
+to build it from scratch using cmake (used cmake version > 3.22.0) 
 
-    cd to the directory where you want to build clhep
+    cd to the directory where you want to build clhep 9replace version
     wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
     tar xzvf clhep-2.4.5.1.tgz
     cd 2.4.5.1/
