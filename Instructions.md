@@ -1,6 +1,6 @@
 # Opticks configurations
 ## irago (Hans home machine)
-$${\color{blue}Optix 7.5 (june 2022)       latest as of Aug 1 2023 7.7 }$$ 
+$${\color{blue} Optix 7.5 (june 2022)       latest as of Aug 1 2023 7.7 }$$ 
 cuda 11.7 (may 2022)        latest as of Aug 1 2023 12.2  
 Geant4 11.1.p02 (June 2023) latest as of Aug 1 2023 11.1.p02  
 CLHEP 2.4.6.2               latest as of Aug 1 2023 2.4.6.4  
