@@ -19,9 +19,9 @@ $${\color{blue} NVIDIA GeForce RTX  2070.  }$$
 $${\color{blue} NVIDIA driver version 515.43.04  }$$ 
 
 $${\color{blue} OS: Ubuntu 22.04.3 LTS  }$$ 
-to check version use the following command:
-ubuntu: lsb_release -a 
-cuda: nvcc --version
+to check version use the following command:  
+ubuntu: lsb_release -a   
+cuda: nvcc --version  
 
 # Prerequisites
 First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4, nvidia cuda and nvidia Optix among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT in that order assuring that all the necessary development libraries and headers are installed.   
