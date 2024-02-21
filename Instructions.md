@@ -5,12 +5,19 @@ $${\color{blue} Optix 7.5 }$$
 $${\color{blue} cuda 11.7}$$ 
 
 $${\color{blue} Geant4 11.1.p02}$$
-$${\color{blue} CLHEP 2.4.6.2 }$$ 
+
+$${\color{blue} CLHEP 2.4.6.2 }$$
+
 $${\color{blue} Root 6_28_04                latest stable  as of Aug 1 2023  6_28_04  }$$
+
 $${\color{blue} opticks                     v0.2.7 as of Jan 31 2024 }$$ 
+
 $${\color{blue} CaTS                        v2.0.4 as of Feb 21 2024}$$  
+
 $${\color{blue} NVIDIA GeForce RTX  2070.  }$$ 
+
 $${\color{blue} NVIDIA driver version 515.43.04  }$$ 
+
 $${\color{blue} OS: Ubuntu 22.04.3 LTS  }$$ 
 
 
