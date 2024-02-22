@@ -1,6 +1,6 @@
 # Opticks configurations
 ## irago (Hans home machine)
-<code style="color : name_color">text</code>
+<code style="aqua : aqua">text</code>
 $${\color{blue} Optix 7.5 }$$   
 
 $${\color{blue} cuda 11.7}$$ 
