@@ -3,7 +3,7 @@
 $${\color{red}Red}$$
 - text in red
 <code style="color : aqua">text</code>
-$${\color{blue} Optix 7.5 }$$   
+$${\color{blue} Optix\- 7.5 }$$   
 
 $${\color{blue} cuda 11.7}$$ 
 
