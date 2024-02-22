@@ -7,6 +7,7 @@ Check the release note for the required clhep version for the Geant4 release you
 
 CLHEP can be found at:
 https://proj-clhep.web.cern.ch/proj-clhep/
+so in this case the CLHEP version is 2.4.7.1
 
 to build it from scratch using cmake (used cmake version > 3.22.0) 
 
