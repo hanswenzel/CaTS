@@ -1,6 +1,21 @@
 # Opticks configurations
 ## irago (Hans home machine)
 
+<table>
+  <tr>
+    <th>First Header</th>
+    <th>Second Header</th>
+  </tr>
+  <tr>
+    <td>Content from cell 1</td>
+    <td>Content from cell 2</td>
+  </tr>
+  <tr>
+    <td>Content in the first column</td>
+    <td>Content in the second column</td>
+  </tr>
+</table>
+
 <p align="left"> $${\color{blue} Optix \ 7.5 }$$ </p>
 
 $${\color{blue} cuda \ 11.7}$$ 
