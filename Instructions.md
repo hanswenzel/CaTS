@@ -7,12 +7,43 @@
     <th>Versio</th>
   </tr>
   <tr>
+    <td>$${\color{blue} cuda}$$ </td>
+    <td>$${\color{blue} 11.7}$$</td>
+  </tr>
+  <tr>
     <td>$${\color{blue} Optix }$$ </td>
     <td>7.5</td>
   </tr>
   <tr>
-    <td>cuda</td>
-    <td>11.7</td>
+    <td>$${\color{blue} Geant4}$$ </td>
+    <td>$${\color{blue} 11.1.p02}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} CLHEP}$$ </td>
+    <td>$${\color{blue} 2.4.6.2}$$</td>
+  </tr>
+    <tr>
+    <td>$${\color{blue} Root}$$ </td>
+    <td>$${\color{blue} } \ 6 \_ 28 \_ 04 $$</td>
+  </tr>
+    <tr>
+    <td>$${\color{blue} Opticks}$$ </td>
+    <td>$${\color{blue}  v0.2.7}$$</td>
+  </tr>
+    </tr>
+    <tr>
+    <td>$${\color{blue} CaTS}$$ </td>
+    <td>$${\color{blue}  v2.0.4}$$</td>
+  </tr>
+    </tr>
+    <tr>
+    <td>$${\color{blue} Opticks}$$ </td>
+    <td>$${\color{blue} v0.2.7}$$</td>
+  </tr>
+    </tr>
+ <tr>
+    <td>$${\color{blue} GPU}$$ </td>
+    <td>$${\color{blue} NVIDIA \ GeForce \  RTX\   2070}$$</td>
   </tr>
 </table>
 
