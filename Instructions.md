@@ -3,16 +3,16 @@
 
 <table>
   <tr>
-    <th>First Header</th>
-    <th>Second Header</th>
+    <th>Product </th>
+    <th>Versio</th>
   </tr>
   <tr>
-    <td>$${\color{blue} Optix \ 7.5 }$$ </td>
+    <td>$${\color{blue} Optix }$$ </td>
     <td>7.5</td>
   </tr>
   <tr>
-    <td>Content in the first column</td>
-    <td>Content in the second column</td>
+    <td>cuda</td>
+    <td>11.7</td>
   </tr>
 </table>
 
