@@ -398,4 +398,6 @@ Instructions for building and running CaTS can be found here: [README](README.md
 to check version use the following command:  
 ubuntu: lsb_release -a   
 cuda: nvcc --version  
-
+the setup script above also defines two useful function which will print out a lot of information about your system setup_opticks.sh
+oinfo-
+dinfo-
