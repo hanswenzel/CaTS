@@ -2,6 +2,7 @@
 ## irago (Hans home machine)
 $${\color{red}Red}$$
 - text in red
+   <p align="right">text</p>
 <code style="color : aqua">text</code>
 $${\color{blue} Optix\- 7.5 }$$   
 
