@@ -3,7 +3,7 @@
 First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4, nvidia cuda and nvidia Optix among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT in that order assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
-Check the release note for the required clhep version for the Geant4 release you are using. For example for Geant4 11.2 this can be found at: https://geant4.web.cern.ch/download/release-notes/notes-v11.2.0.html
+Check the release note for the required CLHEP version for the Geant4 release you are using. For example for Geant4 11.2 this can be found at: https://geant4.web.cern.ch/download/release-notes/notes-v11.2.0.html
 so in this case the CLHEP version is 2.4.7.1.
 
 CLHEP can be found at:
@@ -12,7 +12,7 @@ https://proj-clhep.web.cern.ch/proj-clhep/
 
 to build it from scratch using cmake (used cmake version > 3.22.0) 
 
-    cd to the directory where you want to build clhep (replace version with the appropriate one e.g. 2.4.7.1)
+    cd to the directory where you want to build CLHEP (replace version with the appropriate one e.g. 2.4.7.1)
     wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-version}$$ .tgz 
     tar xzvf clhep-version.tgz
     cd version/
