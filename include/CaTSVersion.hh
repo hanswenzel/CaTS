@@ -52,11 +52,11 @@
 //    |--> minor version number
 //=============================================
 #ifndef CATSVERSION_NUMBER
-#  define CATSVERSION_NUMBER 204
+#  define CATSVERSION_NUMBER 205
 #endif
 #ifndef CATSVERSION_TAG
-#  define CATSVERSION_TAG "CaTS_2_0_4"
+#  define CATSVERSION_TAG "CaTS_2_0_5"
 #endif
 // as variables
-static const std::string CaTSVersion = "CaTS_2_0_4";
-static const std::string CaTSDate    = "(21-February-2024)";
+static const std::string CaTSVersion = "CaTS_2_0_5";
+static const std::string CaTSDate    = "(22-February-2024)";
