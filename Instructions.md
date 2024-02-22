@@ -2,9 +2,7 @@
 ## irago (Hans home machine)
 $${\color{red}Red}$$
 - text in red
-   <p align="right">text</p>
-<code style="color : aqua">text</code>
-<p align="right">$${\color{blue} Optix\- 7.5 }$$ </p>
+<p align="right"> $${\color{blue} Optix \- 7.5 }$$ </p>
 
 $${\color{blue} cuda 11.7}$$ 
 
