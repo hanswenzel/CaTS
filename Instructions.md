@@ -369,12 +369,12 @@ Instructions for building and running CaTS can be found here: [README](README.md
   </tr>
   
   <tr>
-    <td>$${\color{blue} cuda}$$ </td>
+    <td>$${\color{blue} NVIDIA \ cuda}$$ </td>
     <td>$${\color{blue} 11.7}$$</td>
   </tr>
   
   <tr>
-    <td>$${\color{blue} Optix }$$ </td>
+    <td>$${\color{blue} NVIDIA \ Optix }$$ </td>
     <td>$${\color{blue} 7.5 }$$</td>
   </tr>
   <tr>
