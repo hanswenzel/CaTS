@@ -7,19 +7,19 @@ $${\color{blue} cuda \ 11.7}$$
 
 $${\color{blue} Geant4 11.1.p02}$$
 
-$${\color{blue} CLHEP 2.4.6.2 }$$
+$${\color{blue} CLHEP \ 2.4.6.2 }$$
 
-$${\color{blue} Root 6_28_04  }$$
+$${\color{blue} Root \ 6_28_04  }$$
 
-$${\color{blue} opticks  v0.2.7}$$ 
+$${\color{blue} Opticks \  v0.2.7}$$ 
 
-$${\color{blue} CaTS  v2.0.4}$$  
+$${\color{blue} CaTS  \ v2.0.4}$$  
 
-$${\color{blue} NVIDIA GeForce RTX  2070.  }$$ 
+$${\color{blue} NVIDIA \ GeForce \  RTX\   2070.  }$$ 
 
-$${\color{blue} NVIDIA driver version 515.43.04  }$$ 
+$${\color{blue} NVIDIA \ driver \ version \  515.43.04  }$$ 
 
-$${\color{blue} OS: Ubuntu 22.04.3 LTS  }$$ 
+$${\color{blue} OS: \  Ubuntu \ 22.04.3 \ LTS  }$$ 
 to check version use the following command:  
 ubuntu: lsb_release -a   
 cuda: nvcc --version  
