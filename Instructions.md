@@ -5,7 +5,7 @@
 
 $${\color{blue} cuda \ 11.7}$$ 
 
-$${\color{blue} Geant4 11.1.p02}$$
+$${\color{blue} Geant4 \  11.1.p02}$$
 
 $${\color{blue} CLHEP \ 2.4.6.2 }$$
 
