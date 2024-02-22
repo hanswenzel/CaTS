@@ -1,17 +1,21 @@
+
 # Prerequisites
-First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu (LTS 20.04, LTS 22.04) we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4 (as of 7/7/2022 we are using Geant4 v11.0.p2), nvidia cuda (11.5)  and nvidia Optix (6.5) among other libraries. CaTS in addition will require ROOT (we are using ROOT 6.26/04). If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT assuring that all the necessary development libraries and headers are installed.   
+First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4, nvidia cuda and nvidia Optix among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT in that order assuring that all the necessary development libraries and headers are installed.   
 
 # Building CLHEP
-The current version of Geant4  geant4-v11.0.2 is build on CLHEP version 2.4.5.1
+Check the release note for the required CLHEP version for the Geant4 release you are using. For example for Geant4 11.2 this can be found at: https://geant4.web.cern.ch/download/release-notes/notes-v11.2.0.html
+so in this case the CLHEP version is 2.4.7.1.
+
 CLHEP can be found at:
-https://proj-clhep.web.cern.ch/proj-clhep/clhep23.html
+https://proj-clhep.web.cern.ch/proj-clhep/
 
-to build it from scratch using cmake (used cmake version 3.22.0) 
 
-    cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
-    tar xzvf clhep-2.4.5.1.tgz
-    cd 2.4.5.1/
+to build it from scratch using cmake (used cmake version > 3.22.0) 
+
+    cd to the directory where you want to build CLHEP (replace version with the appropriate one e.g. 2.4.7.1)
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-version}$$ .tgz 
+    tar xzvf clhep-version.tgz
+    cd version/
     mkdir CLHEP-build
     cd  CLHEP-build
     cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
@@ -21,9 +25,9 @@ to build it from scratch using cmake (used cmake version 3.22.0)
 **Note** the default install directory is /usr/local but one needs root privileges to install it there:
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
-    tar xzvf clhep-2.4.5.1.tgz
-    cd 2.4.5.1/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-version.tgz 
+    tar xzvf clhep-version.tgz
+    cd version/
     mkdir CLHEP-build
     cd  CLHEP-build
     cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
@@ -34,19 +38,19 @@ to build it from scratch using cmake (used cmake version 3.22.0)
 
 Geant4 versions are available at:
 https://geant4.web.cern.ch/support/download
-
+(replace version with the appropriate one e.g. v11.2.1)
 
     cd to the directory where you want to install Geant4
-    wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.2.tar.gz
-    tar xzvf geant4-v11.0.2.tar.gz
-    mkdir geant4-v11.0.2-build
-    cd  geant4-v11.0.2-build
+    wget https://geant4-data.web.cern.ch/releases/geant4-version.tar.gz
+    tar xzvf geant4-version.tar.gz
+    mkdir geant4-version-build
+    cd  geant4-version-build
     
-    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-v11.0.2-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-v11.0.2 
+    cmake  -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../geant4-version-install -DGEANT4_BUILD_BUILTIN_BACKTRACE=OFF -DGEANT4_BUILD_VERBOSE_CODE=OFF -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_SYSTEM_CLHEP=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_SYSTEM_EXPAT=ON -DGEANT4_USE_SYSTEM_ZLIB=ON  -DGEANT4_USE_QT=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_OPENGL_X11=ON ../geant4-version 
 
     ninja
     ninja install
-    . ../geant4-v11.0.2-install/bin/geant4.sh
+    . ../geant4-version-install/bin/geant4.sh
 
 
 check the output for any error. 
@@ -85,7 +89,7 @@ check the output for any error, install any development packages that might be n
 
 # Installing CUDA
 
-cuda (11.5) is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
+cuda is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
 
 https://developer.nvidia.com/cuda-downloads
 
@@ -115,7 +119,7 @@ After the cuda-samples are build copy them to /usr/local/cuda or create a symbol
 Two tools for monitoring Nvidia GPUs On Linux can be found here:
 https://www.linuxuprising.com/2019/06/2-tools-for-monitoring-nvidia-gpus-on.html
 
-# Installing Optix (6.5)
+# Installing Optix
 
 https://developer.nvidia.com/designworks/optix/download
 
@@ -137,33 +141,17 @@ Optix comes with precompiled samples and one might want to try them:
 # Building opticks vs. existing libraries
 
 This are instructions how to build opticks making use of preinstalled libraries available on the system. These libraries include CLHEP, xerces-c, boost and  Geant4.
-For geant 4 we use the current version at the time of writing which is Geant4.10.7.p2. We make use of the fact that the om-cmake function of om.bash is sensitive to the CMAKE_PREFIX_PATH envvar so that we can point to the directories where the libraries are installed and avoid having to rebuild them.  In principle just cut and paste the following line to a file change the envars of the different directories to match your system and source the resulting script.
+For geant 4 we use the current version at the time of writing which is Geant4.10.7.p2. We make use of the fact that the om-cmake function of om.bash is sensitive to the CMAKE_PREFIX_PATH envvar so that we can point to the directories where the libraries are installed and avoid having to rebuild them.  In principle just cut and paste the following line to a file change the envars of the different directories to match your system and source the resulting script. (replace version with the appropriate one e.g. v0.2.6)
+
 
     cd to the directory where you want to install Opticks (the WORK_DIR environmental variable will point to this directory). 
+
     
-    
-Here we are using branch of Opticks which can be found in github. It contains some adjustments that we had to do to make opticks work with Geant4 version 11 and up which introduced some changes to the Geant4 API. Also there has been some rearrangement of the cuda header files in later cuda version that needed to be accounted for.
-
-git clone https://github.com/hanswenzel/opticks opticks.v0.1.7
-git checkout  v0.1.7
-git status
-
-Tagged versions of Simon's Blyth opticks can be found in:
-
     git clone https://github.com/simoncblyth/opticks.git
     cd opticks
-    git checkout tags/v0.1.6 -b v0.1.6-branch
-    git status
-    
-The development version (a. k. a. the latest and greatest) can be found in the following repository: 
+    git checkout version
+    git fetch --all --tags
 
-    git clone https://bitbucket.org/simoncblyth/opticks.git
-    
-    
-But again here we do:
-git clone https://github.com/hanswenzel/opticks opticks.v0.1.7
-git checkout  v0.1.7
-git status
   
 change opticks/optickscore/OpticksSwitches.h
 
@@ -354,3 +342,65 @@ Also CaTS ( see instructions how to build and run CaTS below) rebuilds the geoca
 # Building CaTS
 
 Instructions for building and running CaTS can be found here: [README](README.md)
+
+# Opticks configurations
+## irago (Hans home machine)
+
+<table>
+  <tr>
+    <th>Product </th>
+    <th>Version</th>
+  </tr>
+  
+  <tr>
+    <td>$${\color{blue} NVIDIA \ cuda}$$ </td>
+    <td>$${\color{blue} 11.7}$$</td>
+  </tr>
+  
+  <tr>
+    <td>$${\color{blue} NVIDIA \ Optix }$$ </td>
+    <td>$${\color{blue} 7.5 }$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Geant4}$$ </td>
+    <td>$${\color{blue} 11.1.p02}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} CLHEP}$$ </td>
+    <td>$${\color{blue} 2.4.6.2}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Root}$$ </td>
+    <td>$${\color{blue} \ 6 \_ 28 \_ 04} $$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Opticks}$$ </td>
+    <td>$${\color{blue}  v0.2.7}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} CaTS}$$ </td>
+    <td>$${\color{blue}  v2.0.4}$$</td>
+ <tr>
+    <td>$${\color{blue} GPU}$$ </td>
+    <td>$${\color{blue} NVIDIA \ GeForce \  RTX\   2070}$$</td>
+ </tr>
+<tr>
+    <td>$${\color{blue} NVDIA \ Driver}$$ </td>
+    <td>$${\color{blue} 515.43.04}$$ </td>
+  </tr>
+ <tr>
+    <td>$${\color{blue} OS}$$ </td>
+    <td>$${\color{blue} \  Ubuntu \ 22.04.3 \ LTS }$$ </td>
+  </tr> 
+</table>
+
+
+to check version use the following command:  
+ubuntu: lsb_release -a   
+cuda: nvcc --version  
+
+the setup script setup_opticks.sh above also defines two useful functions which will print out a lot of information about your system
+
+oinfo-
+
+dinfo-
