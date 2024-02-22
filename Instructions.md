@@ -3,7 +3,7 @@
 
 <p align="left"> $${\color{blue} Optix \ 7.5 }$$ </p>
 
-$${\color{blue} cuda \ 11.7$$ 
+$${\color{blue} cuda \ 11.7}$$ 
 
 $${\color{blue} Geant4 11.1.p02}$$
 
