@@ -89,7 +89,7 @@ check the output for any error, install any development packages that might be n
 
 # Installing CUDA
 
-cuda (11.5) is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
+cuda is available at the NVIDIA web site just follow the instruction depending on the system you are using. 
 
 https://developer.nvidia.com/cuda-downloads
 
