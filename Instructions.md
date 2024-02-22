@@ -399,7 +399,8 @@ to check version use the following command:
 ubuntu: lsb_release -a   
 cuda: nvcc --version  
 
-the setup script above also defines two useful function which will print out a lot of information about your system setup_opticks.sh
+the setup script setup_opticks.sh above also defines two useful functions which will print out a lot of information about your system
 
 oinfo-
+
 dinfo-
