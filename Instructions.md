@@ -24,20 +24,18 @@
     <td>$${\color{blue} CLHEP}$$ </td>
     <td>$${\color{blue} 2.4.6.2}$$</td>
   </tr>
-    <tr>
+  <tr>
     <td>$${\color{blue} Root}$$ </td>
     <td>$${\color{blue} \ 6 \_ 28 \_ 04} $$</td>
   </tr>
-    <tr>
+  <tr>
     <td>$${\color{blue} Opticks}$$ </td>
     <td>$${\color{blue}  v0.2.7}$$</td>
   </tr>
-
-    <tr>
+  <tr>
     <td>$${\color{blue} CaTS}$$ </td>
     <td>$${\color{blue}  v2.0.4}$$</td>
   </tr>
-  
     <tr>
     <td>$${\color{blue} Opticks}$$ </td>
     <td>$${\color{blue} v0.2.7}$$ </td>
