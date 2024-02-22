@@ -24,7 +24,7 @@
   </tr>
     <tr>
     <td>$${\color{blue} Root}$$ </td>
-    <td>$${\color{blue} } \ 6 \_ 28 \_ 04 $$</td>
+    <td>$${\color{blue} \ 6 \_ 28 \_ 04} $$</td>
   </tr>
     <tr>
     <td>$${\color{blue} Opticks}$$ </td>
@@ -38,7 +38,7 @@
     </tr>
     <tr>
     <td>$${\color{blue} Opticks}$$ </td>
-    <td>$${\color{blue} v0.2.7}$$</td>
+    <td>$${\color{blue} v0.2.7}$$ </td>
   </tr>
     </tr>
  <tr>
