@@ -7,14 +7,15 @@
     <th>Second Header</th>
   </tr>
   <tr>
-    <td>Content from cell 1</td>
-    <td>Content from cell 2</td>
+    <td>$${\color{blue} Optix \ 7.5 }$$ </td>
+    <td>7.5</td>
   </tr>
   <tr>
     <td>Content in the first column</td>
     <td>Content in the second column</td>
   </tr>
 </table>
+
 
 <p align="left"> $${\color{blue} Optix \ 7.5 }$$ </p>
 
