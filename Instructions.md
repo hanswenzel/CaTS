@@ -35,15 +35,18 @@
   <tr>
     <td>$${\color{blue} CaTS}$$ </td>
     <td>$${\color{blue}  v2.0.4}$$</td>
-  </tr>
-    <tr>
-    <td>$${\color{blue} Opticks}$$ </td>
-    <td>$${\color{blue} v0.2.7}$$ </td>
-  </tr>
  <tr>
     <td>$${\color{blue} GPU}$$ </td>
     <td>$${\color{blue} NVIDIA \ GeForce \  RTX\   2070}$$</td>
+ </tr>
+<tr>
+    <td>$${\color{blue} NVDIA \ Driver}$$ </td>
+    <td>$${\color{blue} 515.43.04}$$ </td>
   </tr>
+ <tr>
+    <td>$${\color{blue} OS}$$ </td>
+    <td>$${\color{blue} \  Ubuntu \ 22.04.3 \ LTS }$$ </td>
+  </tr> 
 </table>
 
 
