@@ -4,15 +4,17 @@
 <table>
   <tr>
     <th>Product </th>
-    <th>Versio</th>
+    <th>Version</th>
   </tr>
+  
   <tr>
     <td>$${\color{blue} cuda}$$ </td>
     <td>$${\color{blue} 11.7}$$</td>
   </tr>
+  
   <tr>
     <td>$${\color{blue} Optix }$$ </td>
-    <td>7.5</td>
+    <td>$${\color{blue} 7.5 }$$</td>
   </tr>
   <tr>
     <td>$${\color{blue} Geant4}$$ </td>
