@@ -12,10 +12,10 @@ https://proj-clhep.web.cern.ch/proj-clhep/
 
 to build it from scratch using cmake (used cmake version > 3.22.0) 
 
-    cd to the directory where you want to build clhep (replace version)
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep- $${\color{blue} 2.4.5.1}$$ .tgz 
-    tar xzvf clhep-2.4.5.1.tgz
-    cd 2.4.5.1/
+    cd to the directory where you want to build clhep (replace version with the appropriate one e.g. 2.4.7.1)
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-version}$$ .tgz 
+    tar xzvf clhep-version.tgz
+    cd version/
     mkdir CLHEP-build
     cd  CLHEP-build
     cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../CLHEP-install -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
@@ -25,9 +25,9 @@ to build it from scratch using cmake (used cmake version > 3.22.0)
 **Note** the default install directory is /usr/local but one needs root privileges to install it there:
 
     cd to the directory where you want to build clhep
-    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-2.4.5.1.tgz 
-    tar xzvf clhep-2.4.5.1.tgz
-    cd 2.4.5.1/
+    wget https://proj-clhep.web.cern.ch/proj-clhep/dist1/clhep-version.tgz 
+    tar xzvf clhep-version.tgz
+    cd version/
     mkdir CLHEP-build
     cd  CLHEP-build
     cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCLHEP_BUILD_CXXSTD=-std=c++17 ../CLHEP
@@ -38,7 +38,7 @@ to build it from scratch using cmake (used cmake version > 3.22.0)
 
 Geant4 versions are available at:
 https://geant4.web.cern.ch/support/download
-
+(replace version with the appropriate one e.g. 2.4.7.1)
 
     cd to the directory where you want to install Geant4
     wget https://geant4-data.web.cern.ch/releases/geant4-v11.0.2.tar.gz
