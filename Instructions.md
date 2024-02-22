@@ -1,77 +1,3 @@
-# Opticks configurations
-## irago (Hans home machine)
-
-<table>
-  <tr>
-    <th>Product </th>
-    <th>Version</th>
-  </tr>
-  
-  <tr>
-    <td>$${\color{blue} cuda}$$ </td>
-    <td>$${\color{blue} 11.7}$$</td>
-  </tr>
-  
-  <tr>
-    <td>$${\color{blue} Optix }$$ </td>
-    <td>$${\color{blue} 7.5 }$$</td>
-  </tr>
-  <tr>
-    <td>$${\color{blue} Geant4}$$ </td>
-    <td>$${\color{blue} 11.1.p02}$$</td>
-  </tr>
-  <tr>
-    <td>$${\color{blue} CLHEP}$$ </td>
-    <td>$${\color{blue} 2.4.6.2}$$</td>
-  </tr>
-  <tr>
-    <td>$${\color{blue} Root}$$ </td>
-    <td>$${\color{blue} \ 6 \_ 28 \_ 04} $$</td>
-  </tr>
-  <tr>
-    <td>$${\color{blue} Opticks}$$ </td>
-    <td>$${\color{blue}  v0.2.7}$$</td>
-  </tr>
-  <tr>
-    <td>$${\color{blue} CaTS}$$ </td>
-    <td>$${\color{blue}  v2.0.4}$$</td>
- <tr>
-    <td>$${\color{blue} GPU}$$ </td>
-    <td>$${\color{blue} NVIDIA \ GeForce \  RTX\   2070}$$</td>
- </tr>
-<tr>
-    <td>$${\color{blue} NVDIA \ Driver}$$ </td>
-    <td>$${\color{blue} 515.43.04}$$ </td>
-  </tr>
- <tr>
-    <td>$${\color{blue} OS}$$ </td>
-    <td>$${\color{blue} \  Ubuntu \ 22.04.3 \ LTS }$$ </td>
-  </tr> 
-</table>
-
-
-<p align="left"> $${\color{blue} Optix \ 7.5 }$$ </p>
-
-$${\color{blue} cuda \ 11.7}$$ 
-
-$${\color{blue} Geant4 \  11.1.p02}$$
-
-$${\color{blue} CLHEP \ 2.4.6.2 }$$
-
-$${\color{blue} Root \ 6 \_ 28 \_ 04  }$$
-
-$${\color{blue} Opticks \  v0.2.7}$$ 
-
-$${\color{blue} CaTS  \ v2.0.4}$$  
-
-$${\color{blue} NVIDIA \ GeForce \  RTX\   2070.  }$$ 
-
-$${\color{blue} NVIDIA \ driver \ version \  515.43.04  }$$ 
-
-$${\color{blue} OS: \  Ubuntu \ 22.04.3 \ LTS  }$$ 
-to check version use the following command:  
-ubuntu: lsb_release -a   
-cuda: nvcc --version  
 
 # Prerequisites
 First of all make sure that all the necessary system tools and development libraries are available on the System. For Ubuntu we provide the script: [checkpr.sh](scripts/checkpr.sh) that ensures the system is ready. Opticks requires Geant4, nvidia cuda and nvidia Optix among other libraries. CaTS in addition will require ROOT. If all these libraries and development headers are available on your machine skip directly to  (**Building opticks vs. existing libraries**). On a 'blank' computing system it makes sense to build CLHEP, then Geant4 and finally ROOT in that order assuring that all the necessary development libraries and headers are installed.   
@@ -430,3 +356,60 @@ Also CaTS ( see instructions how to build and run CaTS below) rebuilds the geoca
 # Building CaTS
 
 Instructions for building and running CaTS can be found here: [README](README.md)
+
+# Opticks configurations
+## irago (Hans home machine)
+
+<table>
+  <tr>
+    <th>Product </th>
+    <th>Version</th>
+  </tr>
+  
+  <tr>
+    <td>$${\color{blue} cuda}$$ </td>
+    <td>$${\color{blue} 11.7}$$</td>
+  </tr>
+  
+  <tr>
+    <td>$${\color{blue} Optix }$$ </td>
+    <td>$${\color{blue} 7.5 }$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Geant4}$$ </td>
+    <td>$${\color{blue} 11.1.p02}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} CLHEP}$$ </td>
+    <td>$${\color{blue} 2.4.6.2}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Root}$$ </td>
+    <td>$${\color{blue} \ 6 \_ 28 \_ 04} $$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} Opticks}$$ </td>
+    <td>$${\color{blue}  v0.2.7}$$</td>
+  </tr>
+  <tr>
+    <td>$${\color{blue} CaTS}$$ </td>
+    <td>$${\color{blue}  v2.0.4}$$</td>
+ <tr>
+    <td>$${\color{blue} GPU}$$ </td>
+    <td>$${\color{blue} NVIDIA \ GeForce \  RTX\   2070}$$</td>
+ </tr>
+<tr>
+    <td>$${\color{blue} NVDIA \ Driver}$$ </td>
+    <td>$${\color{blue} 515.43.04}$$ </td>
+  </tr>
+ <tr>
+    <td>$${\color{blue} OS}$$ </td>
+    <td>$${\color{blue} \  Ubuntu \ 22.04.3 \ LTS }$$ </td>
+  </tr> 
+</table>
+
+
+to check version use the following command:  
+ubuntu: lsb_release -a   
+cuda: nvcc --version  
+
