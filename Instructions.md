@@ -4,7 +4,7 @@ $${\color{red}Red}$$
 - text in red
    <p align="right">text</p>
 <code style="color : aqua">text</code>
-$${\color{blue} Optix\- 7.5 }$$   
+<p align="right">$${\color{blue} Optix\- 7.5 }$$ </p>
 
 $${\color{blue} cuda 11.7}$$ 
 
