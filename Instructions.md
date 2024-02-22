@@ -404,3 +404,6 @@ the setup script setup_opticks.sh above also defines two useful functions which 
 oinfo-
 
 dinfo-
+
+Simon Blyth also maintains a page describing reference_versions
+https://bitbucket.org/simoncblyth/opticks/src/master/notes/reference_versions.rst
