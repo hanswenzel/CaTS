@@ -1,7 +1,7 @@
 # Opticks configurations
 ## irago (Hans home machine)
 
-<p align="left"> $${\color{blue} Optix \- 7.5 }$$ </p>
+<p align="left"> $${\color{blue} Optix - 7.5 }$$ </p>
 
 $${\color{blue} cuda 11.7}$$ 
 
