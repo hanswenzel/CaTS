@@ -9,7 +9,7 @@ $${\color{blue} Geant4 11.1.p02}$$
 
 $${\color{blue} CLHEP \ 2.4.6.2 }$$
 
-$${\color{blue} Root \ 6_28_04  }$$
+$${\color{blue} Root \ 6\_28\_04  }$$
 
 $${\color{blue} Opticks \  v0.2.7}$$ 
 
