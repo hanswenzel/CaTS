@@ -1,5 +1,6 @@
 # Opticks configurations
 ## irago (Hans home machine)
+$${\color{red}Red}$$
 - text in red
 <code style="color : aqua">text</code>
 $${\color{blue} Optix 7.5 }$$   
