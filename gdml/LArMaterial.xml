@@ -1,0 +1,16 @@
+<material name="liquidAr">
+    <D value="1.396" unit="g/cm3" />
+    <fraction n="1.0000" ref="G4_Ar" />
+    <property name="RINDEX" ref="RINDEXLAR" />
+    <property name="ABSLENGTH" ref="ABSLENGTHLAR" />
+    <property name="RAYLEIGH" ref="RAYLEIGHLAR" />
+    <property name="SCINTILLATIONYIELD" ref="SYLAR" />
+    <property name="SCINTILLATIONYIELD1" ref="RY1LAR" />
+    <property name="SCINTILLATIONYIELD2" ref="RY2LAR" />
+    <property name="SCINTILLATIONCOMPONENT1" ref="SCINTLAR" />
+    <property name="SCINTILLATIONCOMPONENT2" ref="SCINTLAR" />
+    <property name="RESOLUTIONSCALE" ref="RSLAR" />
+    <property name="SCINTILLATIONTIMECONSTANT1" ref="TC1LAR" />
+    <property name="SCINTILLATIONTIMECONSTANT2" ref="TC2LAR" />
+    <property name="REEMISSIONPROB" ref="SCINTLAR" />
+</material>
