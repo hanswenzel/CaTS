@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+	xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
+	<extension>
+		<color name="magenta" R="0.0" G="1.0" B="0.0" A="1.0" />
+		<color name="green" R="0.0" G="1.0" B="0.0" A="1.0" />
+		<color name="red" R="1.0" G="0.0" B="0.0" A="1.0" />
+		<color name="blue" R="0.0" G="0.0" B="1.0" A="1.0" />
+		<color name="yellow" R="1.0" G="1.0" B="0.0" A="1.0" />
+	</extension>
+	<define>
+		<constant name="num" value="1" />
+		<constant name="SiThickness" value="0.3" />
+		<constant name="BaseThickness" value="1." />
+		<constant name="CoatingThickness" value="0.002" />
+		<constant name="HousingRadius" value="10.1" />
+		<constant name="ActiveRadius" value="10." />
+		<constant name="EnvelopeThickness" value=".001" />
+		&LArProperties;
+		&TPBProperties;
+	</define>
+	&LArMaterial;
+	&TPBMaterial;
+	<materials>
+
+	</materials>
+	<solids>
+		<box name="WorldBox" lunit="cm" x="100" y="100" z="410" />
+		<tube name="Envelope" rmax="HousingRadius+EnvelopeThickness"
+			z="BaseThickness+SiThickness+CoatingThickness+EnvelopeThickness" deltaphi="360"
+			aunit="deg"
+			lunit="mm" />
+		<tube name="Housing" rmax="HousingRadius" z="BaseThickness+SiThickness+CoatingThickness"
+			deltaphi="360" aunit="deg" lunit="mm" />
+		<tube name="Coating" rmax="ActiveRadius" z="CoatingThickness" deltaphi="360" aunit="deg"
+			lunit="mm" />
+		<tube name="PhotoDetector" rmax="ActiveRadius" z="SiThickness" deltaphi="360" aunit="deg"
+			lunit="mm" />
+	</solids>
+	<structure>
+		<volume name="lvPhotoDetector">
+			<materialref ref="G4_Si" />
+			<solidref ref="PhotoDetector" />
+			<auxiliary auxtype="SensDet" auxvalue="PhotonDetector" />
+			<colorref ref="red" />
+			<auxiliary auxtype="Solid" auxvalue="True" />
+		</volume>
+		<volume name="lvCoating">
+			<materialref ref="TPB" />
+			<property name="RINDEX" ref="WLSRINDEX" />
+			<property name="WLSABSLENGTH2" ref="WLSAbsorption" />
+			<property name="WLSCOMPONENT2" ref="WLSEMISSION" />
+			<property name="WLSTIMECONSTANT2" ref="wlstc" />
+			<property name="WLSMEANNUMBERPHOTONS2" ref="wlsmnp" />
+			<solidref ref="Coating" />
+			<colorref ref="blue" />
+			<auxiliary auxtype="Solid" auxvalue="True" />
+		</volume>
+		<volume name="lvHousing">
+			<materialref ref="G4_TEFLON" />
+			<solidref ref="Housing" />
+			<colorref ref="green" />
+			<physvol name="pvPhotoDetector" copynumber="1">
+				<volumeref ref="lvPhotoDetector" />
+				<position name="PhotoDetectorpos" unit="mm" x="0" y="0"
+					z="0.5*CoatingThickness+0.5*BaseThickness" />
+			</physvol>
+			<physvol name="pvCoating" copynumber="1">
+				<volumeref ref="lvCoating" />
+				<position name="Coatingpos" unit="mm" x="0" y="0"
+					z=".5*CoatingThickness+0.5*BaseThickness" />
+			</physvol>
+		</volume>
+		<volume name="lvEnvelope">
+			<materialref ref="G4_lAr" />
+			<solidref ref="Envelope" />
+			<!--
+			<colorref ref="blue" />
+-->
+			<physvol name="pvHousing" copynumber="1">
+				<volumeref ref="lvHousing" />
+				<position name="Housingpos" unit="mm" x="0" y="0" z="0." />
+			</physvol>
+		</volume>
+		<volume name="TOP">
+			<materialref ref="G4_lAr" />
+			<solidref ref="WorldBox" />
+			<physvol name="pvEnvelope" copynumber="1">
+				<volumeref ref="lvEnvelope" />
+				<position name="Envelopepos" unit="mm" x="0" y="0" z="0." />
+			</physvol>
+		</volume>
+	</structure>
+	<setup version="1.0" name="Default">
+		<world ref="TOP" />
+	</setup>
+</gdml_simple_extension/>
