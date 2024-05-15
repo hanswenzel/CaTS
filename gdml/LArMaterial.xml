@@ -1,4 +1,4 @@
-<material name="liquidAr">
+<material name="liquidAr" state="liquid">
     <D value="1.396" unit="g/cm3" />
     <fraction n="1.0000" ref="G4_Ar" />
     <property name="RINDEX" ref="RINDEXLAR" />
