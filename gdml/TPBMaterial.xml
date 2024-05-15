@@ -1,0 +1,16 @@
+<element name="Hydrogen" formula="H" Z="1.">
+  <atom value="1.01" />
+</element>
+<element name="Carbon" formula="C" Z="6">
+  <atom value="12" />
+</element>
+<material name="TPB" formula="C28H22">
+  <D value="1.073" unit="g/cm3" />
+  <composite n="22" ref="Hydrogen" />
+  <composite n="28" ref="Carbon" />
+    <property name="RINDEX" ref="RINDEXTPB" />
+    <property name="WLSMEANNUMBEROFPHOTONS" ref="MNPTPB" />
+    <property name="WLSCOMPONENT2" ref="EMISSIONTPB" />
+    <property name="WLSTIMECONSTANT2" ref="TCTPB" />
+    <property name="WLSABSLENGTH2" ref="ABS2TPB" />
+</material>
