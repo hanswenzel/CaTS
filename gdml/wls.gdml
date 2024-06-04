@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
+<gdml_simple_extension xmlns:gdml_simple_extension="http://www.example.org"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+	xs:noNamespaceSchemaLocation="SimpleExtension.xsd">
 	<extension>
 		<color name="magenta" R="0.0" G="1.0" B="0.0" A="1.0" />
 		<color name="green" R="0.0" G="1.0" B="0.0" A="1.0" />
@@ -12,8 +14,16 @@
     http://www-geant4.kek.jp/lxr/source/examples/extended/optical/wls/src/WLSMaterials.cc
     -->
 	<define>
+		<matrix name="ActiveThickness" coldim="1" values="0.3" />
+		<matrix name="BaseThickness" coldim="1" values="1," />
+		<matrix name="CoatingThickness" coldim="1" values="0.002" />
+		<matrix name="Ringthickness" coldim="1" values="0.5" />
+		<matrix name="ActiveRadius" coldim="1" values="10." />
+
 		<matrix name="wlstc" coldim="1" values="0.5*ns" />
-		<matrix name="RINDEXAIR" coldim="2" values="2.00*eV 1. 
+		<matrix name="wlsmnp" coldim="1" values="1" />
+		<matrix name="RINDEXAIR" coldim="2"
+			values="2.00*eV 1. 
 						    2.03*eV 1. 
 						    2.06*eV 1. 
 						    2.09*eV 1. 
@@ -63,7 +73,8 @@
 						    3.41*eV 1. 
 						    3.44*eV 1. 
 						    3.47*eV 1." />
-		<matrix name="RINDEXWLS" coldim="2" values="2.00*eV 1.60 
+		<matrix name="RINDEXWLS" coldim="2"
+			values="2.00*eV 1.60 
 						    2.03*eV 1.60 
 						    2.06*eV 1.60 
 						    2.09*eV 1.60 
@@ -113,7 +124,8 @@
 						    3.41*eV 1.60 
 						    3.44*eV 1.60 
 						    3.47*eV 1.60" />
-		<matrix name="Absorption" coldim="2" values="2.00*eV 5.40*m 
+		<matrix name="Absorption" coldim="2"
+			values="2.00*eV 5.40*m 
 						    2.03*eV 5.40*m 
 						    2.06*eV 5.40*m 
 						    2.09*eV 5.40*m 
@@ -163,7 +175,8 @@
 						    3.41*eV 0.1*mm 
 						    3.44*eV 0.1*mm 
 						    3.47*eV 0.1*mm" />
-		<matrix name="EMISSION" coldim="2" values="2.22154*eV 4.59791e-05
+		<matrix name="EMISSION" coldim="2"
+			values="2.22154*eV 4.59791e-05
 							2.22913*eV 7.38462e-05
 							2.23677*eV 7.67246e-05
 							2.24446*eV 0.000107383
@@ -262,6 +275,8 @@
 							3.30008*eV 0.000264679
 							3.31686*eV 0.000157311
 							3.3338*eV 4.43111e-05" />
+		<matrix name="REFLECTIVITY" coldim="2" values="1e-09 1 1e-08 1" />
+		<matrix name="EFFICIENCY" coldim="2" values="1e-09 1 1e-08 1" />
 	</define>
 
 	<materials>
@@ -274,14 +289,18 @@
 		<element name="Nitrogen" formula="N" Z="7.">
 			<atom value="14.01" />
 		</element>
-		<material name="Water" formula="H20">
+		<element name="Carbon" formula="C" Z="6">
+			<atom value="12" />
+		</element>
+		<material name="TPB" formula="C28H22">
 			<property name="RINDEX" ref="RINDEXWLS" />
-			<property name="WLSABSLENGTH" ref="Absorption" />
-			<property name="WLSCOMPONENT" ref="EMISSION" />
-			<property name="WLSTIMECONSTANT" ref="wlstc" />
-			<D value="1.0" />
-			<composite n="2" ref="Hydrogen" />
-			<composite n="1" ref="Oxygen" />
+			<property name="WLSABSLENGTH2" ref="Absorption" />
+			<property name="WLSCOMPONENT2" ref="EMISSION" />
+			<property name="WLSTIMECONSTANT2" ref="wlstc" />
+			<property name="WLSMEANNUMBERPHOTONS2" ref="wlsmnp" />
+			<D value="1.073" unit="g/cm3" />
+			<composite n="22" ref="Hydrogen" />
+			<composite n="28" ref="Carbon" />
 		</material>
 		<material name="Air">
 			<property name="RINDEX" ref="RINDEXAIR" />
@@ -297,11 +316,20 @@
 	</materials>
 	<solids>
 		<box name="WorldBox" lunit="cm" x="100" y="100" z="410" />
-		<tube name="HousingEnv" rmax="10.3" z="1." deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="HousingRing" rmin="10.0" rmax="10.3" z="0.7" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="HousingBase" rmax="10.3" z="0.3" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="Coating" rmax="10.0" z="0.1" deltaphi="360" aunit="deg" lunit="mm" />
-		<tube name="PhotoDetector" rmax="10.0" z="0.3" deltaphi="360" aunit="deg" lunit="mm" />
+		<tube name="HousingBase" rmax="ActiveRadius+RingThickness" z="BaseThickness" deltaphi="360"
+			aunit="deg" lunit="mm" />
+		<tube name="HousingRing" rmin="ActiveRadius" rmax="ActiveRadius+RingThickness"
+			z="SiliconThickness+CoatingThickness" deltaphi="360" aunit="deg"
+			lunit="mm" />
+		<tube name="Coating" rmax="ActiveRadius" z="CoatingThickness" deltaphi="360" aunit="deg"
+			lunit="mm" />
+		<tube name="PhotoDetector" rmax="ActiveRadius" z="ActiveThickness" deltaphi="360"
+			aunit="deg" lunit="mm" />
+		<opticalsurface name="WLSSurface" model="glisur" finish="polished"
+			type="dielectric_dielectric" value="1">
+			<property name="REFLECTIVITY" ref="REFLECTIVITY" />
+			<property name="EFFICIENCY" ref="EFFICIENCY" />
+		</opticalsurface>
 	</solids>
 	<structure>
 		<volume name="lvCoating">
@@ -359,4 +387,4 @@
 	<setup version="1.0" name="Default">
 		<world ref="TOP" />
 	</setup>
-</gdml_simple_extension>
+</gdml_simple_extension/>
