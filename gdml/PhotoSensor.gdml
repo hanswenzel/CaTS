@@ -101,6 +101,7 @@
 	<colorref ref="blue" />
 	<auxiliary auxtype="Solid" auxvalue="True" />
       </volume>
+<!--      
       <volume name="lvHousing">
 	<materialref ref="G4_TEFLON" />
 	<solidref ref="Housing" />
@@ -119,22 +120,39 @@
       <volume name="lvEnvelope">
 	<materialref ref="liquidAr" />
 	<solidref ref="Envelope" />
-	<!--
+
 	    <colorref ref="blue" />
-	-->
+
 	<physvol name="pvHousing" copynumber="1">
 	  <volumeref ref="lvHousing" />
 	  <position name="Housingpos" unit="mm" x="0" y="0" z="0." />
 	</physvol>
       </volume>
+-->
       <volume name="TOP">
 	<materialref ref="liquidAr" />
 	<solidref ref="WorldBox" />
+		<physvol name="pvPhotoDetector" copynumber="1">
+	  <volumeref ref="lvPhotoDetector" />
+	  <position name="PhotoDetectorpos" unit="mm" x="0" y="0"
+		    z="0" />
+	</physvol>
+	<physvol name="pvCoating" copynumber="1">
+	  <volumeref ref="lvCoating" />
+	  <position name="Coatingpos" unit="mm" x="0" y="0"
+		    z=".5*CoatingThickness+0.5*SiThickness" />
+	</physvol>
+<!--
 	<physvol name="pvEnvelope" copynumber="1">
 	  <volumeref ref="lvEnvelope" />
 	  <position name="Envelopepos" unit="mm" x="0" y="0" z="0." />
 	</physvol>
+-->
       </volume>
+
+
+
+      
     </structure>
     <setup version="1.0" name="Default">
       <world ref="TOP" />
